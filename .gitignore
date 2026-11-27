@@ -21,3 +21,7 @@ vault/
 Thumbs.db
 .idea/
 .vscode/
+
+# generated at docs build time from CONTRIBUTING.md
+docs/contributing.md
+site/

@@ -99,7 +99,9 @@ gantt
 2. The gap report lists the JD skills with no evidence.
 3. Market phrase extraction from 20 fixture postings is deterministic given cached LLM output.
 
-## 🚀 M6: Polish and v1.0
+## 🚀 M6: Polish and v1.0 ✅
+
+> Done 2026-11-27: browser wizard (`init --web`), `import-linkedin` / `import-cv`, `cvprism demo`, MkDocs site with Pages deploy, generated CLI reference, CONTRIBUTING, CHANGELOG, tag-triggered PyPI and GitHub release workflow, version 1.0.0. Syncthing-daemon CI and `age` encryption deferred ([ADR-014](adr/ADR-014-v1-scope.md)).
 
 **Scope:** Syncthing adapter, browser-based wizard, optional `age` encryption, docs site (MkDocs Material), PyPI release, `cvprism import` (LinkedIn export, existing CV via markitdown), demo vault, contribution guides for roles, adapters and templates.
 

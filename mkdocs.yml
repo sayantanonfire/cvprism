@@ -1,0 +1,55 @@
+site_name: cvprism
+site_description: Work on many machines. Get many CVs. Write none of them by hand.
+site_url: https://sayantanonfire.github.io/cvprism/
+repo_url: https://github.com/sayantanonfire/cvprism
+repo_name: sayantanonfire/cvprism
+edit_uri: edit/main/docs/
+copyright: Apache-2.0
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: teal
+      toggle: {icon: material/weather-night, name: Dark mode}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: teal
+      toggle: {icon: material/weather-sunny, name: Light mode}
+
+markdown_extensions:
+  - admonition
+  - tables
+  - footnotes
+  - attr_list
+  - toc: {permalink: true}
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Home: index.md
+  - Guide:
+      - Getting started: guide/getting-started.md
+      - Many computers: guide/multi-device.md
+      - Building CVs: guide/building-cvs.md
+      - CLI reference: guide/cli.md
+  - Design:
+      - Architecture: ARCHITECTURE.md
+      - File formats: SCHEMA.md
+      - Sync protocol: SYNC.md
+      - Security & privacy: SECURITY_PRIVACY.md
+      - Roadmap: ROADMAP.md
+      - Decision records: adr/README.md
+  - Contributing: contributing.md

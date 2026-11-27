@@ -4,7 +4,7 @@
 
 cvprism quietly records the skills, methods and results that show up in your everyday work: Claude Code sessions, git commits, new dependencies, plus one-line notes you add. It deduplicates what it already knows, syncs everything from all your computers to one hub, and compiles CVs tailored to a role or a job description. Every bullet cites the evidence behind it.
 
-> 🚧 **Status: M5 (JD tailoring + market intel).** Capture, multi-device sync, evidence-cited CV builds (PDF, DOCX, Markdown), job-description tailoring with gap reports, and market-phrase intel work today. M6 (polish, docs site, PyPI) is next on the [roadmap](docs/ROADMAP.md).
+> **v1.0.** Capture, multi-device sync, evidence-cited CV builds (PDF, DOCX, Markdown), job-description tailoring and market intel. Documentation: **[sayantanonfire.github.io/cvprism](https://sayantanonfire.github.io/cvprism/)**. Try it in 30 seconds with `cvprism demo`.
 
 ## 🔍 The problem
 
@@ -108,13 +108,16 @@ cvprism sync          # the background agent also does this every 15 min and whe
 
 ## 🤝 Contributing
 
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+
 cvprism is designed to be extended without touching the core:
 
 - **Add a role:** copy a YAML file in [`roles/`](roles/).
 - **Add a sync adapter:** one Python module implementing `push`, `pull` and `status` ([ADR-005](docs/adr/ADR-005-adapter-interface.md)).
 - **Add a CV template:** see [`templates/`](templates/).
 
-During Phase 0 the most valuable contribution is critique: open an issue against any ADR. Your vault (your career data) always lives in a **separate private location** and never in a fork of this repository.
+Design critique is welcome too: open an issue against any ADR. Your vault (your career data) always lives in a **separate private location** and never in a fork of this repository.
 
 ## 📜 License
 

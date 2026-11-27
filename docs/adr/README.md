@@ -17,5 +17,6 @@ Each ADR records one non-obvious choice: its context, the decision, the alternat
 | [011](ADR-011-depth-ladder-novelty.md) | Five-level depth ladder and novelty rules | Proposed |
 | [012](ADR-012-hub-epoch.md) | Hub identity and promotion via epochs | Proposed |
 | [013](ADR-013-install-and-service.md) | Venv in the user data dir; OS-native login services | Proposed |
+| [014](ADR-014-v1-scope.md) | What v1.0 deliberately leaves out | Accepted |
 
 Template: Context → Decision → Alternatives considered → Consequences.
