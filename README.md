@@ -4,7 +4,7 @@
 
 cvprism quietly records the skills, methods and results that show up in your everyday work: Claude Code sessions, git commits, new dependencies, plus one-line notes you add. It deduplicates what it already knows, syncs everything from all your computers to one hub, and compiles CVs tailored to a role or a job description. Every bullet cites the evidence behind it.
 
-> 🚧 **Status: M4 (compile).** Capture, multi-device sync and evidence-cited CV builds (PDF, DOCX, Markdown) work today. Job-description tailoring is M5 on the [roadmap](docs/ROADMAP.md).
+> 🚧 **Status: M5 (JD tailoring + market intel).** Capture, multi-device sync, evidence-cited CV builds (PDF, DOCX, Markdown), job-description tailoring with gap reports, and market-phrase intel work today. M6 (polish, docs site, PyPI) is next on the [roadmap](docs/ROADMAP.md).
 
 ## 🔍 The problem
 
@@ -77,6 +77,9 @@ cvprism roles                                   # academic, industry-ds, applied
 cvprism build --role applied-ai                 # → vault/build/applied-ai/<timestamp>/cv.pdf, cv.docx, cv.md
 cvprism build --role academic --no-llm          # card text only, no Claude call
 cvprism import-orcid 0000-0002-1825-0097        # pull publications into pubs.bib
+cvprism build --jd posting.txt                  # tailored to a job posting (file or URL) + gaps.md
+cvprism market add applied-ai posting.txt       # save postings you care about...
+cvprism market extract applied-ai               # ...and mirror their recurring phrases in future builds
 ```
 
 Every build also writes `evidence.md` (each bullet → the cards it cites) and `rejected.md` (drafted claims the honesty gate removed because no evidence supported them).

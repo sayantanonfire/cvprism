@@ -66,7 +66,9 @@ def skills_section(cards: list[dict], registry: dict, role: dict) -> list[dict]:
             weight[s] += 1 + int(c["d"]) / 5
     groups: dict[str, list[str]] = defaultdict(list)
     limit = int((role.get("limits") or {}).get("skills_max", 24))
-    for s, _ in weight.most_common(limit):
+    priority = [s for s in role.get("x_priority_skills") or [] if s in reg]  # JD skills with evidence first
+    ordered = priority + [s for s, _ in weight.most_common() if s not in priority]
+    for s in ordered[:max(limit, len(priority))]:
         meta = reg.get(s) or sd.get(s) or {}
         cat = meta.get("cat", "other")
         label = dict(CAT_LABELS).get(cat, "Other")

@@ -402,6 +402,38 @@ def import_orcid(orcid: str = typer.Argument(..., help="Your ORCID iD, e.g. 0000
         typer.echo(f"Add `publications: {{bibtex: {bib_name}, orcid: \"{orcid}\"}}` to profile.yaml to use them.")
 
 
+market_app = typer.Typer(help="Market intel: recurring phrases from job postings you saved (hub only).",
+                         no_args_is_help=True)
+app.add_typer(market_app, name="market")
+
+
+@market_app.command("add")
+def market_add(role: str = typer.Argument(..., help="Role id, e.g. applied-ai."),
+               src: str = typer.Argument(..., help="Posting file or URL.")) -> None:
+    """Save a job posting under vault/market/raw/<role>/."""
+    from .compile.market import add_posting
+
+    cfg = _hub_cfg()
+    try:
+        dest = add_posting(Path(cfg["vault_path"]), role, src)
+    except (OSError, ValueError) as e:
+        _fail(str(e))
+    typer.echo(f"saved {dest}")
+
+
+@market_app.command("extract")
+def market_extract(role: str = typer.Argument(..., help="Role id."),
+                   no_llm: bool = typer.Option(False, "--no-llm", help="Keyword matching only.")) -> None:
+    """Aggregate recurring phrases into vault/market/<role>.json (used as role vocabulary in builds)."""
+    from .compile.market import extract
+
+    cfg = _hub_cfg()
+    out = extract(Path(cfg["vault_path"]), role, use_llm=not no_llm)
+    typer.echo(f"{out['postings']} posting(s), {len(out['phrases'])} phrase(s)")
+    for p in out["phrases"][:15]:
+        typer.echo(f"  {p['share']:>5.0%}  {p['phrase']}")
+
+
 @app.command("roles")
 def roles_cmd() -> None:
     """List starter roles and the roles in your vault."""

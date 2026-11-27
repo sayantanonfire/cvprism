@@ -163,6 +163,11 @@ def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[s
     vault = Path(cfg["vault_path"])
     profile = load_profile(vault)
     role = role_override or load_role(role_name, vault)
+    from .market import vocabulary_for
+
+    market_vocab = vocabulary_for(role["id"], vault)
+    if market_vocab:
+        role = dict(role, vocabulary=list(dict.fromkeys(list(role.get("vocabulary") or []) + market_vocab)))
     hidden = _ids(vault / "suppressed.txt") | _ids(vault / "purged.txt")
     cards = [c for c in read_cards(vault) if c["id"] not in hidden]
     cards_by_id = {c["id"]: c for c in cards}

@@ -87,7 +87,9 @@ gantt
 5. Publications render from a `.bib` file, with the user's name highlighted.
 6. Confidential projects show only `display` names.
 
-## 📈 M5: Market intel and JD tailoring
+## 📈 M5: Market intel and JD tailoring ✅
+
+> Done 2026-11-27. `cvprism build --jd <file|url>` with `gaps.md`; `cvprism market add|extract` with a hash-keyed LLM cache, so re-runs are deterministic. Market phrases feed role vocabulary automatically. Postings are user-supplied, with no scraping (Open question 7 default).
 
 **Scope:** `cvprism build --jd <file|url>`, ad-hoc role from JD, `vault/market/<role>.json` phrase extraction from user-supplied postings, gap report ("JD asks for X; you have no evidence").
 
