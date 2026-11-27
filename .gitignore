@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Personal data must never enter the public code repo
+vault/
+*.jsonl
+!tests/fixtures/**/*.jsonl
+.cvprism/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
