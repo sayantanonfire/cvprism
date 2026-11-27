@@ -294,6 +294,8 @@ stateDiagram-v2
 
 These need your decision before or during M1/M2. Each one names the default I would pick.
 
+> **2026-11-27:** M1 started with every default below adopted provisionally (owner said "go ahead"). Any of them can still be overturned. Each is isolated behind config or a single module.
+
 1. **Counters on the hub.** Should per-skill usage counters (`count`, `last_seen`) reach the hub? They make good evidence ("used daily for 14 months") but are mutable. *Default:* each device appends a monthly rollup line `{"k":"usage", …}` to its inbox, which keeps it append-only.
 2. **Review before write.** Should auto-captured cards go straight to the outbox, or wait in `pending/` until approved? *Default:* straight through, with `review_mode: true` available. Weekly `cvprism review` digest.
 3. **Extraction model and cost.** `claude -p` uses whichever account is logged in on each device. Should we pin a cheaper model (e.g. Haiku) for extraction via `--model`? *Default:* yes, with `extraction.model` configurable.
