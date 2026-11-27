@@ -14,6 +14,7 @@ dist/
 vault/
 *.jsonl
 !tests/fixtures/**/*.jsonl
+!cvprism/data/demo/cards.jsonl
 .cvprism/
 
 # OS / editor
