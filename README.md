@@ -4,7 +4,7 @@
 
 cvprism quietly records the skills, methods and results that show up in your everyday work: Claude Code sessions, git commits, new dependencies, plus one-line notes you add. It deduplicates what it already knows, syncs everything from all your computers to one hub, and compiles CVs tailored to a role or a job description. Every bullet cites the evidence behind it.
 
-> 🚧 **Status: M3 (multi-device sync).** Capture (manual, Claude Code sessions, git, watched folders) and sync over git, Drive/OneDrive/Dropbox folders, USB sticks and Syncthing work today. CV builds are M4 on the [roadmap](docs/ROADMAP.md).
+> 🚧 **Status: M4 (compile).** Capture, multi-device sync and evidence-cited CV builds (PDF, DOCX, Markdown) work today. Job-description tailoring is M5 on the [roadmap](docs/ROADMAP.md).
 
 ## 🔍 The problem
 
@@ -70,12 +70,16 @@ cvprism install --dry-run   # see every change first; `cvprism uninstall` revert
 
 Logging the same thing twice creates no new card, only a usage count. A higher depth or a new result creates a new card. Metrics you didn't state are never kept.
 
-Coming next (M2–M5):
+Build CVs on the hub:
 
 ```bash
-cvprism build --role applied-ai     # on the hub → PDF + DOCX + MD
-cvprism build --jd job.txt          # tailored to a posting, with a gap report
+cvprism roles                                   # academic, industry-ds, applied-ai, hydrodynamics, geospatial + yours
+cvprism build --role applied-ai                 # → vault/build/applied-ai/<timestamp>/cv.pdf, cv.docx, cv.md
+cvprism build --role academic --no-llm          # card text only, no Claude call
+cvprism import-orcid 0000-0002-1825-0097        # pull publications into pubs.bib
 ```
+
+Every build also writes `evidence.md` (each bullet → the cards it cites) and `rejected.md` (drafted claims the honesty gate removed because no evidence supported them).
 
 Adding another computer means running `start.sh` there and choosing **spoke**:
 

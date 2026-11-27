@@ -41,10 +41,11 @@ fi
 
 echo "Installing cvprism from $HERE"
 if [ -d "$HERE/wheelhouse" ]; then
-  "$VENV/bin/python" -m pip install -q --no-index --find-links "$HERE/wheelhouse" "$HERE"
+  "$VENV/bin/python" -m pip install -q --no-index --find-links "$HERE/wheelhouse" "$HERE[all]"     || "$VENV/bin/python" -m pip install -q --no-index --find-links "$HERE/wheelhouse" "$HERE"
 else
   "$VENV/bin/python" -m pip install -q --upgrade pip >/dev/null 2>&1 || true
-  "$VENV/bin/python" -m pip install -q "$HERE"
+  # PDF/DOCX renderers are optional extras; fall back to the core if they cannot be installed
+  "$VENV/bin/python" -m pip install -q "$HERE[all]" || "$VENV/bin/python" -m pip install -q "$HERE"
 fi
 
 CVPRISM="$VENV/bin/cvprism"

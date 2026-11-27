@@ -1,0 +1,12 @@
+# GIS / remote sensing / Earth observation roles.
+v: 1
+id: geospatial
+title: Geospatial Data Scientist
+sections: [summary, experience, projects, publications, skills, education, certifications]
+include: {dom: [geospatial, remote-sensing, gis, applied-ai, hydrodynamics], min_depth: 2}
+weights: {delivery: 0.8, results: 1.0, publications: 0.5, research: 0.5, recency: 0.7, depth: 0.8}
+vocabulary: [remote sensing, SAR, Sentinel-1, Google Earth Engine, GIS, spatial analysis, PostGIS, deep learning]
+limits: {pages: 2, bullets_per_position: 5, skills_max: 24, cards_to_llm: 60}
+template: engineeringclassic
+outputs: [pdf, docx, md]
+tone: technical, data and outcome focused

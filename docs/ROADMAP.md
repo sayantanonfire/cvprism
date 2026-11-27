@@ -72,7 +72,9 @@ gantt
 5. `cvprism hub rebuild` from inboxes alone reproduces `cards.jsonl` byte-for-byte (after sorting).
 6. USB mount detection triggers a flush within 15 s on each OS. *(manual)*
 
-## 🧾 M4: Compile
+## 🧾 M4: Compile ✅
+
+> Done 2026-11-27. The deterministic honesty gate, citation trace (`evidence.md`), `rejected.md`, RenderCV PDF with page-limit fitting, python-docx DOCX, Markdown, BibTeX and ORCID import, and five starter roles are all covered by tests. A real build with Claude ran in about 18 s and produced a 1-page CV.
 
 **Scope:** Role profiles plus starter roles (`academic`, `industry-ds`, `applied-ai`, `hydrodynamics`, `geospatial`), scoring, `claude -p` drafting, honesty gate, RenderCV PDF, Pandoc DOCX/MD, `evidence.md` trace, BibTeX/ORCID import.
 

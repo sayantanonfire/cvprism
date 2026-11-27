@@ -13,8 +13,31 @@ def seed() -> dict:
     return json.loads(resources.files("cvprism.data").joinpath("seed_skills.json").read_text(encoding="utf-8"))
 
 
-def _title(slug: str) -> str:
-    return " ".join(w if len(w) <= 3 and w.isupper() else w.capitalize() for w in slug.split("-"))
+ACRONYMS = {"adcp", "ai", "api", "aws", "cfd", "cnn", "cv", "dem", "eo", "gis", "gpu", "hpc", "json", "llm", "ml",
+            "mcp", "nlp", "ocr", "rag", "rest", "rnn", "sar", "sql", "uav", "gcp", "etl", "ci", "cd", "iot", "qa",
+            "ui", "ux", "lidar", "insar", "ndvi", "swat", "hec", "ras", "dvc", "orcid"}
+PROPER = {"bayesian", "python", "fourier", "monte", "carlo", "markov", "gaussian", "kalman", "sentinel", "landsat",
+          "docker", "kubernetes", "linux", "windows", "excel", "matlab", "fortran", "julia", "rust", "java",
+          "javascript", "typescript", "google", "azure", "github", "claude", "pytorch", "tensorflow", "keras"}
+
+
+def display_name(slug: str) -> str:
+    """Readable name for a slug with no seed entry: 'sentinel-1-sar' -> 'Sentinel-1 SAR'."""
+    out: list[str] = []
+    for i, w in enumerate(slug.split("-")):
+        if w.isdigit() and out:
+            out[-1] += "-" + w
+            continue
+        if w in ACRONYMS:
+            out.append(w.upper())
+        elif w in PROPER or (i == 0 and not out):
+            out.append(w.capitalize())
+        else:
+            out.append(w)
+    return " ".join(out)
+
+
+_title = display_name
 
 
 def build_registry(cards: list[dict], *, vault_id: str, epoch: int, rev: int, generated: str,

@@ -1,0 +1,13 @@
+# Applied AI / ML engineering roles in industry. Copy into your vault's roles/ folder to customise.
+v: 1
+id: applied-ai
+title: Applied AI Scientist
+sections: [summary, experience, projects, skills, publications, education, certifications]
+include: {dom: [applied-ai, ml, llm, data-science, devops, hydrodynamics, geospatial], min_depth: 2}
+exclude: {dom: [teaching]}
+weights: {delivery: 0.9, results: 1.0, publications: 0.4, research: 0.4, recency: 0.7, depth: 0.8}
+vocabulary: [LLM agents, retrieval-augmented generation, MCP, evaluation, MLOps, tool use, Python, deep learning]
+limits: {pages: 2, bullets_per_position: 5, skills_max: 24, cards_to_llm: 60}
+template: engineeringresumes
+outputs: [pdf, docx, md]
+tone: impact-first, past tense, quantified only where evidence exists

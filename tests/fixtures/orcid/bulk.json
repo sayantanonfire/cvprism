@@ -1,0 +1,86 @@
+{
+ "bulk": [
+  {
+   "work": {
+    "put-code": 1,
+    "type": "journal-article",
+    "title": {
+     "title": {
+      "value": "Coupled 1D-2D hydrodynamic modelling of urban floods"
+     }
+    },
+    "journal-title": {
+     "value": "Journal of Hydrology"
+    },
+    "publication-date": {
+     "year": {
+      "value": "2023"
+     }
+    },
+    "external-ids": {
+     "external-id": [
+      {
+       "external-id-type": "doi",
+       "external-id-value": "10.1016/j.jhydrol.2023.000001"
+      }
+     ]
+    },
+    "contributors": {
+     "contributor": [
+      {
+       "credit-name": {
+        "value": "Asha Verma"
+       }
+      },
+      {
+       "credit-name": {
+        "value": "R. Sen"
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "work": {
+    "put-code": 2,
+    "type": "conference-paper",
+    "title": {
+     "title": {
+      "value": "A brand-new SAR paper"
+     }
+    },
+    "journal-title": {
+     "value": "IGARSS 2024"
+    },
+    "publication-date": {
+     "year": {
+      "value": "2024"
+     }
+    },
+    "external-ids": {
+     "external-id": [
+      {
+       "external-id-type": "doi",
+       "external-id-value": "10.1109/igarss.2024.42"
+      }
+     ]
+    },
+    "contributors": {
+     "contributor": [
+      {
+       "credit-name": {
+        "value": "Asha Verma"
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "error": {
+    "response-code": 404
+   }
+  }
+ ]
+}

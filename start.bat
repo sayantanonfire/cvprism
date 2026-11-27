@@ -34,7 +34,8 @@ if exist "%HERE%\wheelhouse" (
   "%VENV%\Scripts\python.exe" -m pip install -q --no-index --find-links "%HERE%\wheelhouse" "%HERE%" || exit /b 1
 ) else (
   "%VENV%\Scripts\python.exe" -m pip install -q --upgrade pip >nul 2>&1
-  "%VENV%\Scripts\python.exe" -m pip install -q "%HERE%" || exit /b 1
+  "%VENV%\Scripts\python.exe" -m pip install -q "%HERE%[all]"
+  if errorlevel 1 "%VENV%\Scripts\python.exe" -m pip install -q "%HERE%" || exit /b 1
 )
 
 set "CVPRISM=%VENV%\Scripts\cvprism.exe"

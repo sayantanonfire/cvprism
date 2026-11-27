@@ -11,7 +11,7 @@ from typing import List, Optional
 
 import typer
 
-from . import __version__, config, llm, paths, vault
+from . import __version__, config, llm, paths, vault, yamlio
 from .capture.manual import LogError, log_entry
 from .novelty.counters import Counters
 from .setup import wizard
@@ -347,6 +347,71 @@ def show(n: int = typer.Option(10, help="How many recent cards.")) -> None:
         r = c.get("r")
         rtxt = f"  [{r['m']}: {r['val']}{r['unit']}]" if r else ""
         typer.echo(f"{c['t'][:10]}  {c['id']}  d{c['d']}  {','.join(c['s'])}{rtxt}\n    {c['txt']}")
+
+
+@app.command()
+def build(
+    role: Optional[str] = typer.Option(None, "--role", "-r", help="Role profile id (vault/roles or a starter)."),
+    jd: Optional[str] = typer.Option(None, "--jd", help="Job description file or URL to tailor to."),
+    no_llm: bool = typer.Option(False, "--no-llm", help="Use card text directly; no Claude call."),
+    fmt: Optional[str] = typer.Option(None, "--format", "-f", help="Comma list: pdf,docx,md (default: role outputs)."),
+    out: Optional[Path] = typer.Option(None, "--out", help="Output root (default: vault/build/<role>/)."),
+) -> None:
+    """Build a tailored CV on the hub. Every bullet cites evidence; unsupported numbers are rejected."""
+    from .compile.build import BuildError, build_cv
+    from .compile.roles import RoleError, starter_roles
+
+    cfg = _cfg()
+    formats = [f.strip() for f in fmt.split(",")] if fmt else None
+    try:
+        if jd:
+            from .compile.jd import build_for_jd
+
+            res = build_for_jd(cfg, jd, use_llm=not no_llm, formats=formats, out_root=out, base_role=role)
+        else:
+            if not role:
+                _fail("Pass --role <id> or --jd <file-or-url>. Starter roles: " + ", ".join(starter_roles()))
+            res = build_cv(cfg, role, use_llm=not no_llm, formats=formats, out_root=out)
+    except (BuildError, RoleError) as e:
+        _fail(str(e))
+    for line in res.log:
+        typer.echo(line)
+    typer.echo(f"formats: {', '.join(res.meta['formats'])}")
+    typer.echo(f"output: {res.out_dir}")
+
+
+@app.command("import-orcid")
+def import_orcid(orcid: str = typer.Argument(..., help="Your ORCID iD, e.g. 0000-0002-1825-0097.")) -> None:
+    """Fetch your public ORCID works and add new ones to the vault's BibTeX file (hub only)."""
+    from .compile.orcid import fetch_bulk, merge_into_bib, works_to_entries
+
+    cfg = _hub_cfg()
+    vault_dir = Path(cfg["vault_path"])
+    prof_file = vault_dir / "profile.yaml"
+    prof = yamlio.load(prof_file) if prof_file.is_file() else {}
+    bib_name = ((prof or {}).get("publications") or {}).get("bibtex") or "pubs.bib"
+    bib = vault_dir / bib_name
+    try:
+        entries = works_to_entries(fetch_bulk(orcid))
+    except Exception as e:  # noqa: BLE001
+        _fail(f"ORCID import failed: {e}")
+    text, added = merge_into_bib(bib.read_text(encoding="utf-8") if bib.is_file() else "", entries)
+    bib.write_text(text, encoding="utf-8")
+    typer.echo(f"{added} new publication(s) added to {bib} ({len(entries)} found on ORCID)")
+    if not ((prof or {}).get("publications") or {}).get("bibtex"):
+        typer.echo(f"Add `publications: {{bibtex: {bib_name}, orcid: \"{orcid}\"}}` to profile.yaml to use them.")
+
+
+@app.command("roles")
+def roles_cmd() -> None:
+    """List starter roles and the roles in your vault."""
+    from .compile.roles import starter_roles
+
+    cfg = _cfg()
+    typer.echo("starter roles: " + ", ".join(starter_roles()))
+    if cfg.get("vault_path"):
+        mine = sorted(p.stem for p in (Path(cfg["vault_path"]) / "roles").glob("*.yaml"))
+        typer.echo("vault roles:   " + (", ".join(mine) or "(none; copy a starter from the cvprism repo roles/)"))
 
 
 @app.command("sync")

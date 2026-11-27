@@ -1,3 +1,16 @@
 # roles
 
-Starter role profiles (YAML, schema in [docs/SCHEMA.md](../docs/SCHEMA.md#-role-profile)). Planned for M4: `academic`, `industry-ds`, `applied-ai`, `hydrodynamics`, `geospatial`. To add a role, copy one into your vault's `roles/` folder and edit it. Use `extends:` to inherit from a starter. No code needed.
+Starter role profiles ship inside the package at [`cvprism/data/roles/`](../cvprism/data/roles/): `academic`, `industry-ds`, `applied-ai`, `hydrodynamics`, `geospatial`. Schema: [docs/SCHEMA.md](../docs/SCHEMA.md#-role-profile).
+
+To customise one, create `roles/<id>.yaml` **in your vault**. A vault role overrides a starter of the same id. Use `extends:` to inherit everything and change only what differs:
+
+```yaml
+v: 1
+id: ml-engineer
+title: Machine Learning Engineer
+extends: applied-ai
+vocabulary: [PyTorch, distributed training, inference optimisation, Kubernetes]
+limits: {pages: 1}
+```
+
+Then run `cvprism build --role ml-engineer`. No code needed.
