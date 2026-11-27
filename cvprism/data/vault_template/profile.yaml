@@ -1,0 +1,20 @@
+# Your profile: facts cvprism never infers. Schema: docs/SCHEMA.md#-profile
+v: 1
+person:
+  name: Your Name
+  # email: you@example.org
+  # location: City, Country
+  # links:
+  #   - {label: GitHub, url: "https://github.com/you"}
+positions: []
+#  - {id: acme-ds, title: Data Scientist, org: Acme, start: "2024-03", end: null, dom: [applied-ai]}
+projects: []
+#  - {ctx: flood-copilot, display: "LLM copilot for flood forecasting", position: acme-ds}
+education: []
+#  - {degree: PhD, field: Civil Engineering, institution: Example University, end: "2023"}
+publications: {}
+#  bibtex: pubs.bib
+#  orcid: "0000-0000-0000-0000"
+certifications: []
+facts: []
+#  - {id: f_team, text: "Mentored 4 junior engineers"}

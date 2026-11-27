@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cvprism.dev/schemas/device.v1.json",
+  "title": "cvprism device config v1",
+  "type": "object",
+  "required": [
+    "v",
+    "device_id",
+    "name",
+    "role",
+    "vault_id",
+    "adapters"
+  ],
+  "properties": {
+    "v": {
+      "const": 1
+    },
+    "device_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*-[0-9a-f]{4}$"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 40
+    },
+    "role": {
+      "enum": [
+        "hub",
+        "spoke"
+      ]
+    },
+    "vault_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "vault_path": {
+      "type": "string",
+      "description": "hub only: absolute path to the vault directory"
+    },
+    "capture": {
+      "type": "object",
+      "properties": {
+        "claude_session": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "git": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "exclude_repos": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "globs on repo path"
+            }
+          }
+        },
+        "watcher": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "paths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "ignore": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "debounce_s": {
+              "type": "integer",
+              "minimum": 5,
+              "default": 60
+            }
+          }
+        },
+        "manual": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "passed to claude -p --model; null = account default"
+        },
+        "max_input_tokens": {
+          "type": "integer",
+          "default": 6000
+        },
+        "timeout_s": {
+          "type": "integer",
+          "default": 120
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "properties": {
+        "review_mode": {
+          "type": "boolean",
+          "default": false
+        },
+        "exclude_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "redact_file": {
+          "type": "string",
+          "default": "~/.cvprism/redact.yaml"
+        }
+      }
+    },
+    "adapters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "enabled"
+        ],
+        "properties": {
+          "type": {
+            "enum": [
+              "git",
+              "gdrive",
+              "usb",
+              "syncthing",
+              "local"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "remote": {
+            "type": "string",
+            "description": "git: remote URL"
+          },
+          "branch": {
+            "type": "string",
+            "default": "main"
+          },
+          "path": {
+            "type": "string",
+            "description": "gdrive/local/syncthing: folder path"
+          },
+          "volume_marker": {
+            "type": "string",
+            "default": "cvprism-dropbox",
+            "description": "usb: folder name searched on mounted volumes"
+          },
+          "interval_s": {
+            "type": "integer",
+            "minimum": 30,
+            "default": 900
+          }
+        }
+      }
+    }
+  }
+}

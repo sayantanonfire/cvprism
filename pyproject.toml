@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cvprism"
+version = "0.1.0.dev0"
+description = "Turn everyday work across many computers into evidence-backed, role-specific CVs."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+authors = [{ name = "cvprism contributors" }]
+dependencies = [
+  "typer>=0.12",
+  "ruamel.yaml>=0.18",
+  "jsonschema>=4.20",
+  "platformdirs>=4.0",
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Topic :: Office/Business",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pyyaml>=6"]
+
+[project.scripts]
+cvprism = "cvprism.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/sayantanonfire/cvprism"
+
+[tool.setuptools.packages.find]
+include = ["cvprism*"]
+exclude = ["*__pycache__*"]
+
+[tool.setuptools.package-data]
+"cvprism.schemas" = ["*.json"]
+"cvprism.data" = ["**/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

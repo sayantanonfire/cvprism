@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cvprism.dev/schemas/registry.v1.json",
+  "title": "cvprism skill registry v1",
+  "type": "object",
+  "required": [
+    "v",
+    "vault_id",
+    "epoch",
+    "rev",
+    "generated",
+    "skills"
+  ],
+  "properties": {
+    "v": {
+      "const": 1
+    },
+    "vault_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "hub epoch from hub.json"
+    },
+    "rev": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "monotonic within epoch"
+    },
+    "generated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "skills": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": [
+        "name",
+        "max_d",
+        "first",
+        "last",
+        "n"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "display / market name"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "lower-cased surface forms mapped to this slug"
+        },
+        "cat": {
+          "enum": [
+            "language",
+            "framework",
+            "library",
+            "tool",
+            "platform",
+            "method",
+            "domain",
+            "soft",
+            "standard",
+            "other"
+          ]
+        },
+        "dom": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "max_d": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "first": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "number of cards citing this skill"
+        },
+        "rh": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{12}$"
+          },
+          "description": "fingerprints of known results: sha256(m|val|unit|dir)[:12]"
+        },
+        "parent": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "broader skill slug, e.g. mcp-server-development -> llm-tooling"
+        }
+      }
+    }
+  }
+}

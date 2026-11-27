@@ -1,0 +1,917 @@
+[
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "python"
+   ],
+   "d": 1,
+   "r": null,
+   "ctx": "proj-0",
+   "txt": "case 0",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-0\",\"d\":1,\"k\":\"skill\",\"r\":null,\"s\":[\"python\"]}",
+  "id": "c_5d482590d9d32988"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "pytorch",
+    "mcp-server-development"
+   ],
+   "d": 2,
+   "r": {
+    "m": "Latency",
+    "val": 40.0,
+    "unit": "MS",
+    "dir": "down"
+   },
+   "ctx": null,
+   "txt": "case 1",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":2,\"k\":\"result\",\"r\":{\"dir\":\"down\",\"m\":\"latency\",\"unit\":\"ms\",\"val\":\"40\"},\"s\":[\"mcp-server-development\",\"pytorch\"]}",
+  "id": "c_12b78123972bda73"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "hec-ras",
+    "docker"
+   ],
+   "d": 3,
+   "r": null,
+   "ctx": "proj-2",
+   "txt": "case 2",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-2\",\"d\":3,\"k\":\"work\",\"r\":null,\"s\":[\"docker\",\"hec-ras\"]}",
+  "id": "c_44023b187ea2abd8"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "rag",
+    "mcp-server-development"
+   ],
+   "d": 4,
+   "r": null,
+   "ctx": null,
+   "txt": "case 3",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":4,\"k\":\"skill\",\"r\":null,\"s\":[\"mcp-server-development\",\"rag\"]}",
+  "id": "c_f4dff80d98382738"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "geopandas"
+   ],
+   "d": 5,
+   "r": {
+    "m": "Area Mapped",
+    "val": 1200.0,
+    "unit": "KM2",
+    "dir": "abs"
+   },
+   "ctx": "proj-4",
+   "txt": "case 4",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-4\",\"d\":5,\"k\":\"result\",\"r\":{\"dir\":\"abs\",\"m\":\"area-mapped\",\"unit\":\"km2\",\"val\":\"1200\"},\"s\":[\"geopandas\"]}",
+  "id": "c_653365a444694b20"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "fastapi"
+   ],
+   "d": 1,
+   "r": null,
+   "ctx": null,
+   "txt": "case 5",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":1,\"k\":\"work\",\"r\":null,\"s\":[\"fastapi\"]}",
+  "id": "c_176056357fbe0bf4"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "sentinel-1-sar",
+    "docker"
+   ],
+   "d": 2,
+   "r": null,
+   "ctx": "proj-6",
+   "txt": "case 6",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-6\",\"d\":2,\"k\":\"skill\",\"r\":null,\"s\":[\"docker\",\"sentinel-1-sar\"]}",
+  "id": "c_28d9e9bbef2337f6"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "pytorch",
+    "bayesian-calibration"
+   ],
+   "d": 3,
+   "r": {
+    "m": "Accuracy",
+    "val": 0.93,
+    "unit": "",
+    "dir": "abs"
+   },
+   "ctx": null,
+   "txt": "case 7",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":3,\"k\":\"result\",\"r\":{\"dir\":\"abs\",\"m\":\"accuracy\",\"unit\":\"\",\"val\":\"0.93\"},\"s\":[\"bayesian-calibration\",\"pytorch\"]}",
+  "id": "c_56d25db062c40d6f"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "sentinel-1-sar"
+   ],
+   "d": 4,
+   "r": null,
+   "ctx": "proj-1",
+   "txt": "case 8",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-1\",\"d\":4,\"k\":\"work\",\"r\":null,\"s\":[\"sentinel-1-sar\"]}",
+  "id": "c_caded3296cbb189a"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "rag",
+    "bayesian-calibration"
+   ],
+   "d": 5,
+   "r": null,
+   "ctx": null,
+   "txt": "case 9",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":5,\"k\":\"skill\",\"r\":null,\"s\":[\"bayesian-calibration\",\"rag\"]}",
+  "id": "c_e131a29cb2a86c76"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "python"
+   ],
+   "d": 1,
+   "r": {
+    "m": "Latency",
+    "val": 40.0,
+    "unit": "MS",
+    "dir": "down"
+   },
+   "ctx": "proj-3",
+   "txt": "case 10",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-3\",\"d\":1,\"k\":\"result\",\"r\":{\"dir\":\"down\",\"m\":\"latency\",\"unit\":\"ms\",\"val\":\"40\"},\"s\":[\"python\"]}",
+  "id": "c_99333eed60e84c5e"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "pytorch",
+    "mcp-server-development"
+   ],
+   "d": 2,
+   "r": null,
+   "ctx": null,
+   "txt": "case 11",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":2,\"k\":\"work\",\"r\":null,\"s\":[\"mcp-server-development\",\"pytorch\"]}",
+  "id": "c_2f720a93c5472dc1"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "hec-ras"
+   ],
+   "d": 3,
+   "r": null,
+   "ctx": "proj-5",
+   "txt": "case 12",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-5\",\"d\":3,\"k\":\"skill\",\"r\":null,\"s\":[\"hec-ras\"]}",
+  "id": "c_93dd7747a4577f66"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "rag",
+    "mcp-server-development"
+   ],
+   "d": 4,
+   "r": {
+    "m": "Runtime",
+    "val": 12.5,
+    "unit": "X",
+    "dir": "up"
+   },
+   "ctx": null,
+   "txt": "case 13",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":4,\"k\":\"result\",\"r\":{\"dir\":\"up\",\"m\":\"runtime\",\"unit\":\"x\",\"val\":\"12.5\"},\"s\":[\"mcp-server-development\",\"rag\"]}",
+  "id": "c_dadffe3ac674b97e"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "hec-ras",
+    "geopandas"
+   ],
+   "d": 5,
+   "r": null,
+   "ctx": "proj-0",
+   "txt": "case 14",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-0\",\"d\":5,\"k\":\"work\",\"r\":null,\"s\":[\"geopandas\",\"hec-ras\"]}",
+  "id": "c_2b0f6854451b86ef"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "fastapi"
+   ],
+   "d": 1,
+   "r": null,
+   "ctx": null,
+   "txt": "case 15",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":1,\"k\":\"skill\",\"r\":null,\"s\":[\"fastapi\"]}",
+  "id": "c_08824d7328b666a2"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "docker"
+   ],
+   "d": 2,
+   "r": {
+    "m": "Latency",
+    "val": 40.0,
+    "unit": "MS",
+    "dir": "down"
+   },
+   "ctx": "proj-2",
+   "txt": "case 16",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-2\",\"d\":2,\"k\":\"result\",\"r\":{\"dir\":\"down\",\"m\":\"latency\",\"unit\":\"ms\",\"val\":\"40\"},\"s\":[\"docker\"]}",
+  "id": "c_f739bd062d745724"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "pytorch",
+    "bayesian-calibration"
+   ],
+   "d": 3,
+   "r": null,
+   "ctx": null,
+   "txt": "case 17",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":3,\"k\":\"work\",\"r\":null,\"s\":[\"bayesian-calibration\",\"pytorch\"]}",
+  "id": "c_58a37e6a4af9e295"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "sentinel-1-sar",
+    "geopandas"
+   ],
+   "d": 4,
+   "r": null,
+   "ctx": "proj-4",
+   "txt": "case 18",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-4\",\"d\":4,\"k\":\"skill\",\"r\":null,\"s\":[\"geopandas\",\"sentinel-1-sar\"]}",
+  "id": "c_4be1cdb07b493f09"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "rag",
+    "bayesian-calibration"
+   ],
+   "d": 5,
+   "r": {
+    "m": "Area Mapped",
+    "val": 1200.0,
+    "unit": "KM2",
+    "dir": "abs"
+   },
+   "ctx": null,
+   "txt": "case 19",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":5,\"k\":\"result\",\"r\":{\"dir\":\"abs\",\"m\":\"area-mapped\",\"unit\":\"km2\",\"val\":\"1200\"},\"s\":[\"bayesian-calibration\",\"rag\"]}",
+  "id": "c_368fd10afd08ab85"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "python"
+   ],
+   "d": 1,
+   "r": null,
+   "ctx": "proj-6",
+   "txt": "case 20",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-6\",\"d\":1,\"k\":\"work\",\"r\":null,\"s\":[\"python\"]}",
+  "id": "c_1ba8387fd9ab526b"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "pytorch",
+    "mcp-server-development"
+   ],
+   "d": 2,
+   "r": null,
+   "ctx": null,
+   "txt": "case 21",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":2,\"k\":\"skill\",\"r\":null,\"s\":[\"mcp-server-development\",\"pytorch\"]}",
+  "id": "c_5ee0a771fdaab358"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "hec-ras",
+    "docker"
+   ],
+   "d": 3,
+   "r": {
+    "m": "Accuracy",
+    "val": 0.93,
+    "unit": "",
+    "dir": "abs"
+   },
+   "ctx": "proj-1",
+   "txt": "case 22",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-1\",\"d\":3,\"k\":\"result\",\"r\":{\"dir\":\"abs\",\"m\":\"accuracy\",\"unit\":\"\",\"val\":\"0.93\"},\"s\":[\"docker\",\"hec-ras\"]}",
+  "id": "c_047f8b773e57493c"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "rag",
+    "mcp-server-development"
+   ],
+   "d": 4,
+   "r": null,
+   "ctx": null,
+   "txt": "case 23",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":4,\"k\":\"work\",\"r\":null,\"s\":[\"mcp-server-development\",\"rag\"]}",
+  "id": "c_6eb61f5a4f444ce6"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "geopandas"
+   ],
+   "d": 5,
+   "r": null,
+   "ctx": "proj-3",
+   "txt": "case 24",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-3\",\"d\":5,\"k\":\"skill\",\"r\":null,\"s\":[\"geopandas\"]}",
+  "id": "c_301036893b20fd7c"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "fastapi"
+   ],
+   "d": 1,
+   "r": {
+    "m": "Latency",
+    "val": 40.0,
+    "unit": "MS",
+    "dir": "down"
+   },
+   "ctx": null,
+   "txt": "case 25",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":1,\"k\":\"result\",\"r\":{\"dir\":\"down\",\"m\":\"latency\",\"unit\":\"ms\",\"val\":\"40\"},\"s\":[\"fastapi\"]}",
+  "id": "c_570fafd08c900161"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "sentinel-1-sar",
+    "docker"
+   ],
+   "d": 2,
+   "r": null,
+   "ctx": "proj-5",
+   "txt": "case 26",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-5\",\"d\":2,\"k\":\"work\",\"r\":null,\"s\":[\"docker\",\"sentinel-1-sar\"]}",
+  "id": "c_a2688fa9e448806d"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "pytorch",
+    "bayesian-calibration"
+   ],
+   "d": 3,
+   "r": null,
+   "ctx": null,
+   "txt": "case 27",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":3,\"k\":\"skill\",\"r\":null,\"s\":[\"bayesian-calibration\",\"pytorch\"]}",
+  "id": "c_db4d63a4a208d900"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "sentinel-1-sar"
+   ],
+   "d": 4,
+   "r": {
+    "m": "Runtime",
+    "val": 12.5,
+    "unit": "X",
+    "dir": "up"
+   },
+   "ctx": "proj-0",
+   "txt": "case 28",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-0\",\"d\":4,\"k\":\"result\",\"r\":{\"dir\":\"up\",\"m\":\"runtime\",\"unit\":\"x\",\"val\":\"12.5\"},\"s\":[\"sentinel-1-sar\"]}",
+  "id": "c_db206c53542f8866"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "rag",
+    "bayesian-calibration"
+   ],
+   "d": 5,
+   "r": null,
+   "ctx": null,
+   "txt": "case 29",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":5,\"k\":\"work\",\"r\":null,\"s\":[\"bayesian-calibration\",\"rag\"]}",
+  "id": "c_53c3636d3682d616"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "python"
+   ],
+   "d": 1,
+   "r": null,
+   "ctx": "proj-2",
+   "txt": "case 30",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-2\",\"d\":1,\"k\":\"skill\",\"r\":null,\"s\":[\"python\"]}",
+  "id": "c_64e02554686ea5a4"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "pytorch",
+    "mcp-server-development"
+   ],
+   "d": 2,
+   "r": {
+    "m": "Latency",
+    "val": 40.0,
+    "unit": "MS",
+    "dir": "down"
+   },
+   "ctx": null,
+   "txt": "case 31",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":2,\"k\":\"result\",\"r\":{\"dir\":\"down\",\"m\":\"latency\",\"unit\":\"ms\",\"val\":\"40\"},\"s\":[\"mcp-server-development\",\"pytorch\"]}",
+  "id": "c_12b78123972bda73"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "hec-ras"
+   ],
+   "d": 3,
+   "r": null,
+   "ctx": "proj-4",
+   "txt": "case 32",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-4\",\"d\":3,\"k\":\"work\",\"r\":null,\"s\":[\"hec-ras\"]}",
+  "id": "c_b85c0e82c24de8ac"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "rag",
+    "mcp-server-development"
+   ],
+   "d": 4,
+   "r": null,
+   "ctx": null,
+   "txt": "case 33",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":4,\"k\":\"skill\",\"r\":null,\"s\":[\"mcp-server-development\",\"rag\"]}",
+  "id": "c_f4dff80d98382738"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "hec-ras",
+    "geopandas"
+   ],
+   "d": 5,
+   "r": {
+    "m": "Area Mapped",
+    "val": 1200.0,
+    "unit": "KM2",
+    "dir": "abs"
+   },
+   "ctx": "proj-6",
+   "txt": "case 34",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-6\",\"d\":5,\"k\":\"result\",\"r\":{\"dir\":\"abs\",\"m\":\"area-mapped\",\"unit\":\"km2\",\"val\":\"1200\"},\"s\":[\"geopandas\",\"hec-ras\"]}",
+  "id": "c_222d1fa4f9c68c0d"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "fastapi"
+   ],
+   "d": 1,
+   "r": null,
+   "ctx": null,
+   "txt": "case 35",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":1,\"k\":\"work\",\"r\":null,\"s\":[\"fastapi\"]}",
+  "id": "c_176056357fbe0bf4"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "docker"
+   ],
+   "d": 2,
+   "r": null,
+   "ctx": "proj-1",
+   "txt": "case 36",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-1\",\"d\":2,\"k\":\"skill\",\"r\":null,\"s\":[\"docker\"]}",
+  "id": "c_8c63690ac616d62e"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "pytorch",
+    "bayesian-calibration"
+   ],
+   "d": 3,
+   "r": {
+    "m": "Accuracy",
+    "val": 0.93,
+    "unit": "",
+    "dir": "abs"
+   },
+   "ctx": null,
+   "txt": "case 37",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":3,\"k\":\"result\",\"r\":{\"dir\":\"abs\",\"m\":\"accuracy\",\"unit\":\"\",\"val\":\"0.93\"},\"s\":[\"bayesian-calibration\",\"pytorch\"]}",
+  "id": "c_56d25db062c40d6f"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "sentinel-1-sar",
+    "geopandas"
+   ],
+   "d": 4,
+   "r": null,
+   "ctx": "proj-3",
+   "txt": "case 38",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-3\",\"d\":4,\"k\":\"work\",\"r\":null,\"s\":[\"geopandas\",\"sentinel-1-sar\"]}",
+  "id": "c_0f56abf324bc83f4"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "rag",
+    "bayesian-calibration"
+   ],
+   "d": 5,
+   "r": null,
+   "ctx": null,
+   "txt": "case 39",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":5,\"k\":\"skill\",\"r\":null,\"s\":[\"bayesian-calibration\",\"rag\"]}",
+  "id": "c_e131a29cb2a86c76"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "python"
+   ],
+   "d": 1,
+   "r": {
+    "m": "Latency",
+    "val": 40.0,
+    "unit": "MS",
+    "dir": "down"
+   },
+   "ctx": "proj-5",
+   "txt": "case 40",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-5\",\"d\":1,\"k\":\"result\",\"r\":{\"dir\":\"down\",\"m\":\"latency\",\"unit\":\"ms\",\"val\":\"40\"},\"s\":[\"python\"]}",
+  "id": "c_dcd639e6f17db6da"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "pytorch",
+    "mcp-server-development"
+   ],
+   "d": 2,
+   "r": null,
+   "ctx": null,
+   "txt": "case 41",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":2,\"k\":\"work\",\"r\":null,\"s\":[\"mcp-server-development\",\"pytorch\"]}",
+  "id": "c_2f720a93c5472dc1"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "hec-ras",
+    "docker"
+   ],
+   "d": 3,
+   "r": null,
+   "ctx": "proj-0",
+   "txt": "case 42",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-0\",\"d\":3,\"k\":\"skill\",\"r\":null,\"s\":[\"docker\",\"hec-ras\"]}",
+  "id": "c_840739049e1dd156"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "rag",
+    "mcp-server-development"
+   ],
+   "d": 4,
+   "r": {
+    "m": "Runtime",
+    "val": 12.5,
+    "unit": "X",
+    "dir": "up"
+   },
+   "ctx": null,
+   "txt": "case 43",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":4,\"k\":\"result\",\"r\":{\"dir\":\"up\",\"m\":\"runtime\",\"unit\":\"x\",\"val\":\"12.5\"},\"s\":[\"mcp-server-development\",\"rag\"]}",
+  "id": "c_dadffe3ac674b97e"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "geopandas"
+   ],
+   "d": 5,
+   "r": null,
+   "ctx": "proj-2",
+   "txt": "case 44",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-2\",\"d\":5,\"k\":\"work\",\"r\":null,\"s\":[\"geopandas\"]}",
+  "id": "c_c8372bd1bdfaf8bc"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "fastapi"
+   ],
+   "d": 1,
+   "r": null,
+   "ctx": null,
+   "txt": "case 45",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":1,\"k\":\"skill\",\"r\":null,\"s\":[\"fastapi\"]}",
+  "id": "c_08824d7328b666a2"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "sentinel-1-sar",
+    "docker"
+   ],
+   "d": 2,
+   "r": {
+    "m": "Latency",
+    "val": 40.0,
+    "unit": "MS",
+    "dir": "down"
+   },
+   "ctx": "proj-4",
+   "txt": "case 46",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-4\",\"d\":2,\"k\":\"result\",\"r\":{\"dir\":\"down\",\"m\":\"latency\",\"unit\":\"ms\",\"val\":\"40\"},\"s\":[\"docker\",\"sentinel-1-sar\"]}",
+  "id": "c_bd04e96a9c64c00d"
+ },
+ {
+  "card": {
+   "k": "work",
+   "s": [
+    "pytorch",
+    "bayesian-calibration"
+   ],
+   "d": 3,
+   "r": null,
+   "ctx": null,
+   "txt": "case 47",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":3,\"k\":\"work\",\"r\":null,\"s\":[\"bayesian-calibration\",\"pytorch\"]}",
+  "id": "c_58a37e6a4af9e295"
+ },
+ {
+  "card": {
+   "k": "skill",
+   "s": [
+    "sentinel-1-sar"
+   ],
+   "d": 4,
+   "r": null,
+   "ctx": "proj-6",
+   "txt": "case 48",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":\"proj-6\",\"d\":4,\"k\":\"skill\",\"r\":null,\"s\":[\"sentinel-1-sar\"]}",
+  "id": "c_60d4c77da5914793"
+ },
+ {
+  "card": {
+   "k": "result",
+   "s": [
+    "rag",
+    "bayesian-calibration"
+   ],
+   "d": 5,
+   "r": {
+    "m": "Area Mapped",
+    "val": 1200.0,
+    "unit": "KM2",
+    "dir": "abs"
+   },
+   "ctx": null,
+   "txt": "case 49",
+   "dev": "golden-0000",
+   "t": "2026-01-01T00:00:00Z"
+  },
+  "canonical": "{\"ctx\":null,\"d\":5,\"k\":\"result\",\"r\":{\"dir\":\"abs\",\"m\":\"area-mapped\",\"unit\":\"km2\",\"val\":\"1200\"},\"s\":[\"bayesian-calibration\",\"rag\"]}",
+  "id": "c_368fd10afd08ab85"
+ }
+]

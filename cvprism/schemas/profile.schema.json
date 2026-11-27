@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cvprism.dev/schemas/profile.v1.json",
+  "title": "cvprism profile v1",
+  "type": "object",
+  "required": [
+    "v",
+    "person"
+  ],
+  "properties": {
+    "v": {
+      "const": 1
+    },
+    "person": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "label",
+              "url"
+            ],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        }
+      }
+    },
+    "positions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "org",
+          "start"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "org": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string",
+            "pattern": "^\\d{4}(-\\d{2})?$"
+          },
+          "end": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}(-\\d{2})?$"
+          },
+          "dom": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "ctx",
+          "display"
+        ],
+        "properties": {
+          "ctx": {
+            "type": "string",
+            "description": "slug used in cards"
+          },
+          "display": {
+            "type": "string",
+            "description": "public-safe name shown on CVs"
+          },
+          "position": {
+            "type": "string",
+            "description": "positions[].id"
+          },
+          "confidential": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "degree",
+          "institution",
+          "end"
+        ],
+        "properties": {
+          "degree": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string"
+          },
+          "thesis": {
+            "type": "string"
+          },
+          "grade": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "publications": {
+      "type": "object",
+      "properties": {
+        "bibtex": {
+          "type": "string",
+          "description": "path relative to vault, e.g. pubs.bib"
+        },
+        "orcid": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{4}-\\d{4}-\\d{3}[\\dX]$"
+        },
+        "highlight_name": {
+          "type": "string",
+          "description": "author name to bold"
+        }
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "issuer",
+          "date"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "issuer": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "awards": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "facts": {
+      "type": "array",
+      "description": "user-asserted metrics usable by the honesty gate",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
