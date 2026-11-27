@@ -57,7 +57,9 @@ gantt
 6. No recursion: an extraction run produces zero new queue jobs.
 7. *(manual)* A real 30-min Claude Code session yields a sensible card with no user action, and the background service survives a reboot.
 
-## 🔁 M3: Multi-device sync
+## 🔁 M3: Multi-device sync ✅
+
+> Done 2026-11-27. Five adapters (local, gdrive, usb, syncthing, git) pass one shared conformance suite. The two-spoke/two-adapter headline test passes. USB flush on mount is wired into the agent; criterion 6 (real hardware) is manual.
 
 **Scope:** Outbox cursors, adapters `local`, `git`, `gdrive`, `usb`; hub merge, quarantine, registry rebuild and publish; `hub.json` epochs; `cvprism sync`, `cvprism hub merge|promote|rebuild`; `suppress`, `purge`.
 

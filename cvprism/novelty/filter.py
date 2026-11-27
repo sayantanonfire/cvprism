@@ -24,6 +24,10 @@ class Knowledge:
     @classmethod
     def from_registry(cls, registry: dict | None) -> "Knowledge":
         k = cls()
+        from ..hub.registry import seed_knowledge_aliases
+
+        for alias, slug in seed_knowledge_aliases().items():
+            k.aliases[slugify(alias)] = slug
         for slug, e in ((registry or {}).get("skills") or {}).items():
             k.skills[slug] = _Skill(max_d=int(e.get("max_d", 0)), rh=set(e.get("rh", [])))
             for a in e.get("aliases", []) + [e.get("name", "")]:

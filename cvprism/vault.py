@@ -50,14 +50,14 @@ def _write_json(path: Path, obj: dict) -> None:
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
-def init_vault(path: Path) -> str:
+def init_vault(path: Path, vault_id: str | None = None) -> str:
     """Create a new vault from the packaged template. Returns its vault_id."""
     path = Path(path).expanduser()
     check_vault_location(path)
     if read_vault_id(path):
         raise VaultError(f"{path} already contains a vault")
     path.mkdir(parents=True, exist_ok=True)
-    vid = str(uuid.uuid4())
+    vid = vault_id or str(uuid.uuid4())
     now = utcnow()
     tpl = resources.files("cvprism.data").joinpath("vault_template")
     for item in tpl.iterdir():

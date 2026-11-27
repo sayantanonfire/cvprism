@@ -52,3 +52,18 @@ def test_status_shows_queue_and_hooks(home, device):
 def test_agent_single_iteration(home, device):
     res = runner.invoke(app, ["agent", "--iterations", "1", "--interval", "0"])
     assert res.exit_code == 0, res.output
+
+
+def test_agent_syncs_when_usb_appears(home, tmp_path, monkeypatch):
+    from cvprism.cli import _usb_mount_events
+
+    drive = tmp_path / "STICK"
+    monkeypatch.setenv("CVPRISM_USB_ROOTS", str(drive))
+    cfg = {"device_id": "d-0001", "vault_id": "2b7c6f0e-8a8d-4f6a-9a51-0f3e5c8b1d22",
+           "adapters": [{"type": "usb", "enabled": True, "name": "usb"}]}
+    seen: dict = {}
+    assert _usb_mount_events(cfg, seen) is False                 # nothing mounted
+    (drive / "cvprism-dropbox").mkdir(parents=True)
+    (drive / "cvprism-dropbox" / "vault.json").write_text(json.dumps({"v": 1, "vault_id": cfg["vault_id"]}))
+    assert _usb_mount_events(cfg, seen) is True                  # just mounted -> sync now
+    assert _usb_mount_events(cfg, seen) is False                 # still mounted -> no repeat

@@ -48,6 +48,9 @@ def init(
     name: Optional[str] = typer.Option(None, help="Device name, e.g. office-01."),
     role: Optional[str] = typer.Option(None, help="hub or spoke."),
     vault_path: Optional[Path] = typer.Option(None, "--vault", help="Vault folder (hub) or synced vault folder (spoke)."),
+    adapter: List[str] = typer.Option([], "--adapter", "-a",
+                                      help="Sync transport (repeatable): git:<url>, gdrive:<folder>, usb, "
+                                           "syncthing:<folder>, local:<folder>."),
     watch: List[str] = typer.Option([], "--watch", help="Project folder to watch (repeatable)."),
     no_claude: bool = typer.Option(False, "--no-claude-capture", help="Disable Claude Code session capture."),
     yes: bool = typer.Option(False, "--yes", "-y", help="Non-interactive; requires --name, --role, --vault."),
@@ -55,10 +58,10 @@ def init(
 ) -> None:
     """First-run setup: device name, hub or spoke, vault location, watch paths."""
     try:
-        if yes or (name and role and vault_path):
-            if not (name and role and vault_path):
-                _fail("--yes needs --name, --role and --vault")
-            cfg = wizard.configure(name=name, role=role, vault_path=vault_path, watch_paths=watch,
+        if yes:
+            if not (name and role and (vault_path or adapter)):
+                _fail("--yes needs --name, --role and --vault (hub) or --adapter (spoke)")
+            cfg = wizard.configure(name=name, role=role, vault_path=vault_path, adapters=adapter, watch_paths=watch,
                                    claude_session=not no_claude, force=force)
         else:
             if paths.device_file().exists() and not force:
@@ -113,9 +116,17 @@ def status() -> None:
     if counters:
         top = sorted(counters.items(), key=lambda kv: -kv[1]["n"])[:5]
         typer.echo("top repeats:     " + ", ".join(f"{k}×{v['n']}" for k, v in top))
-    for a in cfg["adapters"]:
-        state = "on" if a.get("enabled") else "off"
-        typer.echo(f"adapter:         {a['type']} [{state}] {a.get('path') or a.get('remote') or ''}")
+    from .sync.engine import adapters_for
+
+    for a in adapters_for(cfg, include_disabled=True):
+        on = next((s.get("enabled") for s in cfg["adapters"] if (s.get("name") or s["type"]) == a.name), False)
+        try:
+            reach = "reachable" if a.available() else "unreachable"
+        except Exception:  # noqa: BLE001
+            reach = "unreachable"
+        backlog = a.backlog(ob)
+        where = a.spec.get("path") or a.spec.get("remote") or a.spec.get("volume_marker") or ""
+        typer.echo(f"adapter:         {a.name} [{'on' if on else 'off'}, {reach}, backlog {backlog} file(s)] {where}")
     from .capture.queue import Queue
     from .install import claude as cc
     from .install import githooks
@@ -216,6 +227,26 @@ def worker() -> None:
     typer.echo(" ".join(f"{k}={v}" for k, v in stats.items()))
 
 
+def _usb_mount_events(cfg: dict, seen: dict) -> bool:
+    """True when a configured USB drop-box has just appeared (SYNC.md scheduling: flush on mount)."""
+    from .sync.adapters import make_adapter
+
+    fired = False
+    for spec in cfg.get("adapters", []):
+        if spec["type"] != "usb" or not spec.get("enabled"):
+            continue
+        a = make_adapter(spec, device_id=cfg["device_id"], vault_id=cfg["vault_id"],
+                         state_dir=paths.home() / "state" / "transports")
+        try:
+            now = a.available()
+        except Exception:  # noqa: BLE001
+            now = False
+        if now and not seen.get(a.name):
+            fired = True
+        seen[a.name] = now
+    return fired
+
+
 @app.command()
 def agent(
     interval: int = typer.Option(30, help="Seconds between queue drains."),
@@ -241,11 +272,22 @@ def agent(
                 t = threading.Thread(target=run_observer, args=(scanner, int(w.get("debounce_s", 60)), stop),
                                      daemon=True)
                 t.start()
+            import time as _time
+
+            from .sync.engine import sync as _sync
+
             n = 0
+            usb_seen: dict = {}
+            last_sync = 0.0
             try:
                 while True:
                     try:
-                        run_once(config.load_device())
+                        cur = config.load_device()
+                        run_once(cur)
+                        every = min([int(a.get("interval_s", 900)) for a in cur["adapters"]] or [900])
+                        if _usb_mount_events(cur, usb_seen) or _time.monotonic() - last_sync >= every:
+                            _sync(cur)
+                            last_sync = _time.monotonic()
                     except Exception as e:  # noqa: BLE001 - the agent must survive bad jobs
                         paths.logs_dir().mkdir(parents=True, exist_ok=True)
                         with (paths.logs_dir() / "agent.log").open("a", encoding="utf-8") as f:
@@ -283,11 +325,15 @@ def doctor() -> None:
     except Exception as e:  # noqa: BLE001 - doctor reports everything
         line(False, "device config", str(e))
         raise typer.Exit(1)
-    for a in cfg["adapters"]:
-        if a["type"] == "local":
-            vid = vault.read_vault_id(Path(a["path"]))
-            line(vid == cfg["vault_id"], f"adapter local:{a['path']}",
-                 "vault reachable" if vid == cfg["vault_id"] else "vault missing or different vault_id")
+    from .sync.engine import adapters_for
+
+    for a in adapters_for(cfg):
+        try:
+            ok_a = a.available()
+            detail = "reachable, vault matches" if ok_a else "not reachable now (cards wait in the outbox)"
+        except Exception as e:  # noqa: BLE001
+            ok_a, detail = False, str(e)
+        line(ok_a, f"adapter {a.name} ({a.kind})", detail)
     if not ok:
         raise typer.Exit(1)
 
@@ -301,6 +347,110 @@ def show(n: int = typer.Option(10, help="How many recent cards.")) -> None:
         r = c.get("r")
         rtxt = f"  [{r['m']}: {r['val']}{r['unit']}]" if r else ""
         typer.echo(f"{c['t'][:10]}  {c['id']}  d{c['d']}  {','.join(c['s'])}{rtxt}\n    {c['txt']}")
+
+
+@app.command("sync")
+def sync_cmd() -> None:
+    """Push this device's cards to every transport; on the hub, merge and publish the registry."""
+    from .sync.engine import sync
+
+    for line in sync(_cfg()).lines:
+        typer.echo(line)
+
+
+hub_app = typer.Typer(help="Hub-only operations: merge, rebuild, promote.", no_args_is_help=True)
+app.add_typer(hub_app, name="hub")
+
+
+def _hub_cfg() -> dict:
+    cfg = _cfg()
+    if cfg.get("role") != "hub":
+        _fail("This device is a spoke. Run this on the hub, or use `cvprism hub promote`.")
+    return cfg
+
+
+@hub_app.command("merge")
+def hub_merge() -> None:
+    """Pull every inbox from every transport and merge into cards.jsonl."""
+    from .sync.engine import sync
+
+    for line in sync(_hub_cfg()).lines:
+        typer.echo(line)
+
+
+@hub_app.command("rebuild")
+def hub_rebuild() -> None:
+    """Recreate cards.jsonl and registry.json from inboxes alone."""
+    from .hub.merge import merge
+    from .sync.engine import adapters_for
+
+    cfg = _hub_cfg()
+    rep = merge(cfg, [a for a in adapters_for(cfg) if a.available()], rebuild=True)
+    typer.echo(f"rebuilt: {rep.new_cards} card(s), quarantined {rep.quarantined}, registry rev {rep.rev}")
+
+
+@hub_app.command("promote")
+def hub_promote(vault_path: Path = typer.Option(..., "--vault", help="Folder for this device's new hub vault.")) -> None:
+    """Make this device the hub (epoch+1) and rebuild the vault from every transport's inboxes."""
+    import json as _json
+
+    from .hub.merge import merge
+    from .sync.engine import adapters_for, highest_hub
+
+    cfg = _cfg()
+    if cfg.get("role") == "hub":
+        _fail("This device is already the hub.")
+    adapters = adapters_for(cfg)
+    current = highest_hub(adapters) or {"epoch": 0}
+    vault_path = vault_path.expanduser().resolve()
+    try:
+        vault.check_vault_location(vault_path)
+        if not vault.read_vault_id(vault_path):
+            vault.init_vault(vault_path, vault_id=cfg["vault_id"])
+    except vault.VaultError as e:
+        _fail(str(e))
+    hub = {"v": 1, "hub_device_id": cfg["device_id"], "epoch": int(current.get("epoch", 0)) + 1}
+    (vault_path / "hub.json").write_text(_json.dumps(hub, indent=2) + "\n", encoding="utf-8")
+    cfg["role"] = "hub"
+    cfg["vault_path"] = str(vault_path)
+    cfg["adapters"] = [{"type": "local", "enabled": True, "name": "local-vault", "path": str(vault_path)}] + [
+        a for a in cfg["adapters"] if not (a["type"] == "local" and a.get("path") == str(vault_path))]
+    config.save_device(cfg)
+    rep = merge(cfg, [a for a in adapters if a.available()], rebuild=True)
+    from .sync.engine import sync
+
+    lines = sync(cfg).lines
+    typer.echo(f"promoted to hub at epoch {hub['epoch']}; rebuilt {rep.new_cards} card(s)")
+    for line in lines:
+        typer.echo(line)
+
+
+@app.command()
+def suppress(card_id: str = typer.Argument(..., help="Card ID to hide from CVs (history kept).")) -> None:
+    """Hide a card from merge and compile without deleting it (hub only)."""
+    from .hub.merge import merge
+
+    cfg = _hub_cfg()
+    f = Path(cfg["vault_path"]) / "suppressed.txt"
+    have = set(f.read_text(encoding="utf-8").split()) if f.is_file() else set()
+    f.write_text("".join(i + "\n" for i in sorted(have | {card_id})), encoding="utf-8")
+    merge(cfg)
+    typer.echo(f"suppressed {card_id}")
+
+
+@app.command()
+def purge(
+    card_id: str = typer.Argument(..., help="Card ID to erase."),
+    yes: bool = typer.Option(False, "--yes", help="Confirm the rewrite."),
+) -> None:
+    """Erase a card everywhere this device can reach (the one deliberate exception to append-only)."""
+    from .sync.engine import purge_local
+
+    if not yes:
+        typer.confirm(f"Permanently rewrite files to remove {card_id} from this device and its transports?",
+                      abort=True)
+    for line in purge_local(_cfg(), {card_id}):
+        typer.echo(line)
 
 
 if __name__ == "__main__":  # pragma: no cover

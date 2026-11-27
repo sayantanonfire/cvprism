@@ -4,7 +4,7 @@
 
 cvprism quietly records the skills, methods and results that show up in your everyday work: Claude Code sessions, git commits, new dependencies, plus one-line notes you add. It deduplicates what it already knows, syncs everything from all your computers to one hub, and compiles CVs tailored to a role or a job description. Every bullet cites the evidence behind it.
 
-> 🚧 **Status: M2 (auto-capture).** Manual logging, Claude Code session capture, git commit capture, folder watching and the background agent work today (`cvprism install`). Multi-device sync and CV builds are M3–M4 on the [roadmap](docs/ROADMAP.md).
+> 🚧 **Status: M3 (multi-device sync).** Capture (manual, Claude Code sessions, git, watched folders) and sync over git, Drive/OneDrive/Dropbox folders, USB sticks and Syncthing work today. CV builds are M4 on the [roadmap](docs/ROADMAP.md).
 
 ## 🔍 The problem
 
@@ -77,7 +77,16 @@ cvprism build --role applied-ai     # on the hub → PDF + DOCX + MD
 cvprism build --jd job.txt          # tailored to a posting, with a gap report
 ```
 
-Adding another computer means running `start.sh` there and choosing **spoke**.
+Adding another computer means running `start.sh` there and choosing **spoke**:
+
+```bash
+# hub (your main machine)
+cvprism init --name home-pc --role hub --vault ~/cvprism-vault --adapter git:git@github.com:me/cvprism-vault.git --yes
+cvprism sync
+# every other machine
+cvprism init --name office-01 --role spoke --adapter git:git@github.com:me/cvprism-vault.git --yes
+cvprism sync          # the background agent also does this every 15 min and when a USB drop-box is plugged in
+```
 
 ## 🗺️ Documentation
 

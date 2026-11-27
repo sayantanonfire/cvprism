@@ -1,0 +1,624 @@
+{
+ "python": {
+  "name": "Python",
+  "cat": "language",
+  "aliases": [
+   "py",
+   "python3"
+  ],
+  "parent": null
+ },
+ "r": {
+  "name": "R",
+  "cat": "language",
+  "aliases": [
+   "r-lang",
+   "rstats"
+  ],
+  "parent": null
+ },
+ "julia": {
+  "name": "Julia",
+  "cat": "language",
+  "aliases": [],
+  "parent": null
+ },
+ "javascript": {
+  "name": "JavaScript",
+  "cat": "language",
+  "aliases": [
+   "js",
+   "node",
+   "node-js",
+   "nodejs"
+  ],
+  "parent": null
+ },
+ "typescript": {
+  "name": "TypeScript",
+  "cat": "language",
+  "aliases": [
+   "ts"
+  ],
+  "parent": null
+ },
+ "rust": {
+  "name": "Rust",
+  "cat": "language",
+  "aliases": [],
+  "parent": null
+ },
+ "go": {
+  "name": "Go",
+  "cat": "language",
+  "aliases": [
+   "golang"
+  ],
+  "parent": null
+ },
+ "c-plus-plus": {
+  "name": "C++",
+  "cat": "language",
+  "aliases": [
+   "cpp"
+  ],
+  "parent": null
+ },
+ "fortran": {
+  "name": "Fortran",
+  "cat": "language",
+  "aliases": [],
+  "parent": null
+ },
+ "sql": {
+  "name": "SQL",
+  "cat": "language",
+  "aliases": [],
+  "parent": null
+ },
+ "bash": {
+  "name": "Bash scripting",
+  "cat": "language",
+  "aliases": [
+   "shell",
+   "shell-scripting"
+  ],
+  "parent": null
+ },
+ "matlab": {
+  "name": "MATLAB",
+  "cat": "language",
+  "aliases": [],
+  "parent": null
+ },
+ "pytorch": {
+  "name": "PyTorch",
+  "cat": "library",
+  "aliases": [
+   "torch"
+  ],
+  "parent": "deep-learning"
+ },
+ "tensorflow": {
+  "name": "TensorFlow",
+  "cat": "library",
+  "aliases": [
+   "keras",
+   "tf"
+  ],
+  "parent": "deep-learning"
+ },
+ "jax": {
+  "name": "JAX",
+  "cat": "library",
+  "aliases": [],
+  "parent": "deep-learning"
+ },
+ "scikit-learn": {
+  "name": "scikit-learn",
+  "cat": "library",
+  "aliases": [
+   "sklearn"
+  ],
+  "parent": "machine-learning"
+ },
+ "xgboost": {
+  "name": "XGBoost",
+  "cat": "library",
+  "aliases": [],
+  "parent": "machine-learning"
+ },
+ "pandas": {
+  "name": "pandas",
+  "cat": "library",
+  "aliases": [],
+  "parent": "data-analysis"
+ },
+ "numpy": {
+  "name": "NumPy",
+  "cat": "library",
+  "aliases": [],
+  "parent": null
+ },
+ "polars": {
+  "name": "Polars",
+  "cat": "library",
+  "aliases": [],
+  "parent": "data-analysis"
+ },
+ "dask": {
+  "name": "Dask",
+  "cat": "library",
+  "aliases": [],
+  "parent": "distributed-computing"
+ },
+ "fastapi": {
+  "name": "FastAPI",
+  "cat": "library",
+  "aliases": [],
+  "parent": "api-development"
+ },
+ "django": {
+  "name": "Django",
+  "cat": "library",
+  "aliases": [],
+  "parent": "web-development"
+ },
+ "flask": {
+  "name": "Flask",
+  "cat": "library",
+  "aliases": [],
+  "parent": "web-development"
+ },
+ "react": {
+  "name": "React",
+  "cat": "library",
+  "aliases": [
+   "reactjs"
+  ],
+  "parent": "web-development"
+ },
+ "huggingface-transformers": {
+  "name": "Hugging Face Transformers",
+  "cat": "library",
+  "aliases": [
+   "hugging-face",
+   "transformers"
+  ],
+  "parent": "llm-engineering"
+ },
+ "langchain": {
+  "name": "LangChain",
+  "cat": "library",
+  "aliases": [],
+  "parent": "llm-engineering"
+ },
+ "geopandas": {
+  "name": "GeoPandas",
+  "cat": "library",
+  "aliases": [],
+  "parent": "gis"
+ },
+ "rasterio": {
+  "name": "Rasterio",
+  "cat": "library",
+  "aliases": [],
+  "parent": "remote-sensing"
+ },
+ "gdal": {
+  "name": "GDAL",
+  "cat": "library",
+  "aliases": [
+   "ogr",
+   "osgeo"
+  ],
+  "parent": "gis"
+ },
+ "xarray": {
+  "name": "xarray",
+  "cat": "library",
+  "aliases": [],
+  "parent": "scientific-computing"
+ },
+ "fastmcp": {
+  "name": "FastMCP",
+  "cat": "library",
+  "aliases": [],
+  "parent": "mcp-server-development"
+ },
+ "pymc": {
+  "name": "PyMC",
+  "cat": "library",
+  "aliases": [
+   "pymc3"
+  ],
+  "parent": "bayesian-statistics"
+ },
+ "stan": {
+  "name": "Stan",
+  "cat": "library",
+  "aliases": [
+   "cmdstanpy",
+   "pystan"
+  ],
+  "parent": "bayesian-statistics"
+ },
+ "docker": {
+  "name": "Docker",
+  "cat": "tool",
+  "aliases": [
+   "containers",
+   "dockerfile"
+  ],
+  "parent": "devops"
+ },
+ "kubernetes": {
+  "name": "Kubernetes",
+  "cat": "tool",
+  "aliases": [
+   "k8s"
+  ],
+  "parent": "devops"
+ },
+ "git": {
+  "name": "Git",
+  "cat": "tool",
+  "aliases": [],
+  "parent": null
+ },
+ "github-actions": {
+  "name": "GitHub Actions",
+  "cat": "tool",
+  "aliases": [
+   "gha"
+  ],
+  "parent": "ci-cd"
+ },
+ "aws": {
+  "name": "Amazon Web Services",
+  "cat": "tool",
+  "aliases": [
+   "amazon-web-services"
+  ],
+  "parent": "cloud-computing"
+ },
+ "gcp": {
+  "name": "Google Cloud",
+  "cat": "tool",
+  "aliases": [
+   "google-cloud",
+   "google-cloud-platform"
+  ],
+  "parent": "cloud-computing"
+ },
+ "azure": {
+  "name": "Microsoft Azure",
+  "cat": "tool",
+  "aliases": [],
+  "parent": "cloud-computing"
+ },
+ "google-earth-engine": {
+  "name": "Google Earth Engine",
+  "cat": "tool",
+  "aliases": [
+   "earth-engine",
+   "gee"
+  ],
+  "parent": "remote-sensing"
+ },
+ "postgis": {
+  "name": "PostGIS",
+  "cat": "tool",
+  "aliases": [],
+  "parent": "gis"
+ },
+ "qgis": {
+  "name": "QGIS",
+  "cat": "tool",
+  "aliases": [],
+  "parent": "gis"
+ },
+ "arcgis": {
+  "name": "ArcGIS",
+  "cat": "tool",
+  "aliases": [
+   "arcgis-pro",
+   "arcpy"
+  ],
+  "parent": "gis"
+ },
+ "hec-ras": {
+  "name": "HEC-RAS",
+  "cat": "tool",
+  "aliases": [
+   "hec-ras-2d",
+   "hecras"
+  ],
+  "parent": "hydraulic-modelling"
+ },
+ "delft3d": {
+  "name": "Delft3D",
+  "cat": "tool",
+  "aliases": [
+   "delft3d-fm"
+  ],
+  "parent": "hydrodynamic-modelling"
+ },
+ "mike21": {
+  "name": "MIKE 21",
+  "cat": "tool",
+  "aliases": [
+   "mike-21"
+  ],
+  "parent": "hydrodynamic-modelling"
+ },
+ "telemac": {
+  "name": "TELEMAC",
+  "cat": "tool",
+  "aliases": [
+   "telemac-2d"
+  ],
+  "parent": "hydrodynamic-modelling"
+ },
+ "swat": {
+  "name": "SWAT",
+  "cat": "tool",
+  "aliases": [],
+  "parent": "hydrological-modelling"
+ },
+ "claude-code": {
+  "name": "Claude Code",
+  "cat": "tool",
+  "aliases": [],
+  "parent": "llm-engineering"
+ },
+ "mlflow": {
+  "name": "MLflow",
+  "cat": "tool",
+  "aliases": [],
+  "parent": "mlops"
+ },
+ "dvc": {
+  "name": "DVC",
+  "cat": "tool",
+  "aliases": [],
+  "parent": "mlops"
+ },
+ "machine-learning": {
+  "name": "Machine learning",
+  "cat": "method",
+  "aliases": [
+   "ml"
+  ],
+  "parent": null
+ },
+ "deep-learning": {
+  "name": "Deep learning",
+  "cat": "method",
+  "aliases": [
+   "dl"
+  ],
+  "parent": "machine-learning"
+ },
+ "llm-engineering": {
+  "name": "LLM engineering",
+  "cat": "method",
+  "aliases": [
+   "large-language-models",
+   "llms"
+  ],
+  "parent": "machine-learning"
+ },
+ "retrieval-augmented-generation": {
+  "name": "Retrieval-augmented generation",
+  "cat": "method",
+  "aliases": [
+   "rag"
+  ],
+  "parent": "llm-engineering"
+ },
+ "llm-agents": {
+  "name": "LLM agents",
+  "cat": "method",
+  "aliases": [
+   "agentic-ai",
+   "ai-agents"
+  ],
+  "parent": "llm-engineering"
+ },
+ "mcp-server-development": {
+  "name": "MCP server development",
+  "cat": "method",
+  "aliases": [
+   "mcp",
+   "mcp-server",
+   "model-context-protocol",
+   "model-context-protocol-server"
+  ],
+  "parent": "llm-engineering"
+ },
+ "prompt-engineering": {
+  "name": "Prompt engineering",
+  "cat": "method",
+  "aliases": [],
+  "parent": "llm-engineering"
+ },
+ "mlops": {
+  "name": "MLOps",
+  "cat": "method",
+  "aliases": [],
+  "parent": "machine-learning"
+ },
+ "api-development": {
+  "name": "API development",
+  "cat": "method",
+  "aliases": [
+   "api-design",
+   "rest-api"
+  ],
+  "parent": null
+ },
+ "web-development": {
+  "name": "Web development",
+  "cat": "method",
+  "aliases": [],
+  "parent": null
+ },
+ "data-analysis": {
+  "name": "Data analysis",
+  "cat": "method",
+  "aliases": [],
+  "parent": null
+ },
+ "bayesian-statistics": {
+  "name": "Bayesian statistics",
+  "cat": "method",
+  "aliases": [
+   "bayesian-inference"
+  ],
+  "parent": "statistics"
+ },
+ "statistics": {
+  "name": "Statistics",
+  "cat": "method",
+  "aliases": [],
+  "parent": null
+ },
+ "remote-sensing": {
+  "name": "Remote sensing",
+  "cat": "method",
+  "aliases": [
+   "earth-observation",
+   "eo"
+  ],
+  "parent": "geospatial-analysis"
+ },
+ "gis": {
+  "name": "GIS",
+  "cat": "method",
+  "aliases": [
+   "geographic-information-systems"
+  ],
+  "parent": "geospatial-analysis"
+ },
+ "geospatial-analysis": {
+  "name": "Geospatial analysis",
+  "cat": "method",
+  "aliases": [
+   "spatial-analysis"
+  ],
+  "parent": null
+ },
+ "hydraulic-modelling": {
+  "name": "Hydraulic modelling",
+  "cat": "method",
+  "aliases": [
+   "hydraulic-modeling"
+  ],
+  "parent": "hydrodynamic-modelling"
+ },
+ "hydrodynamic-modelling": {
+  "name": "Hydrodynamic modelling",
+  "cat": "method",
+  "aliases": [
+   "hydrodynamic-modeling"
+  ],
+  "parent": null
+ },
+ "hydrological-modelling": {
+  "name": "Hydrological modelling",
+  "cat": "method",
+  "aliases": [
+   "hydrological-modeling",
+   "hydrology"
+  ],
+  "parent": null
+ },
+ "flood-modelling": {
+  "name": "Flood modelling",
+  "cat": "method",
+  "aliases": [
+   "flood-modeling",
+   "flood-risk-modelling"
+  ],
+  "parent": "hydraulic-modelling"
+ },
+ "distributed-computing": {
+  "name": "Distributed computing",
+  "cat": "method",
+  "aliases": [],
+  "parent": null
+ },
+ "scientific-computing": {
+  "name": "Scientific computing",
+  "cat": "method",
+  "aliases": [],
+  "parent": null
+ },
+ "devops": {
+  "name": "DevOps",
+  "cat": "method",
+  "aliases": [],
+  "parent": null
+ },
+ "ci-cd": {
+  "name": "CI/CD",
+  "cat": "method",
+  "aliases": [
+   "continuous-integration"
+  ],
+  "parent": "devops"
+ },
+ "cloud-computing": {
+  "name": "Cloud computing",
+  "cat": "method",
+  "aliases": [],
+  "parent": null
+ },
+ "time-series-analysis": {
+  "name": "Time series analysis",
+  "cat": "method",
+  "aliases": [
+   "time-series"
+  ],
+  "parent": "statistics"
+ },
+ "computer-vision": {
+  "name": "Computer vision",
+  "cat": "method",
+  "aliases": [
+   "cv-models"
+  ],
+  "parent": "deep-learning"
+ },
+ "data-engineering": {
+  "name": "Data engineering",
+  "cat": "method",
+  "aliases": [
+   "etl"
+  ],
+  "parent": null
+ },
+ "technical-writing": {
+  "name": "Technical writing",
+  "cat": "method",
+  "aliases": [],
+  "parent": null
+ },
+ "science-communication": {
+  "name": "Science communication",
+  "cat": "method",
+  "aliases": [
+   "public-speaking"
+  ],
+  "parent": null
+ },
+ "research-supervision": {
+  "name": "Research supervision",
+  "cat": "method",
+  "aliases": [
+   "mentoring"
+  ],
+  "parent": null
+ }
+}

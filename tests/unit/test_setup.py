@@ -64,7 +64,7 @@ def test_noninteractive_init_refuses_vault_in_checkout(home):
 
 def test_interactive_wizard(home, tmp_path):
     vpath = tmp_path / "wiz-vault"
-    answers = "\n".join(["lab-ws", "hub", str(vpath), str(tmp_path / "projects"), ""]) + "\n"
+    answers = "\n".join(["lab-ws", "hub", str(vpath), "", str(tmp_path / "projects"), ""]) + "\n"
     res = runner.invoke(app, ["init"], input=answers)
     assert res.exit_code == 0, res.output
     cfg = config.load_device()
