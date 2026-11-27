@@ -3,17 +3,15 @@ from __future__ import annotations
 
 import json
 import os
-import re
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
 
 from .. import llm, paths
-from ..novelty.counters import Counters
-from ..novelty.filter import Knowledge, decide
-from ..novelty.ids import card_id, kind_for, normnum, slugify
-from ..schemas import validate
+from ..novelty.filter import Knowledge
+from ..novelty.ids import slugify
 from ..sync.outbox import Outbox
+from .pipeline import build_and_emit, numbers_in  # noqa: F401  (numbers_in re-exported for callers)
 from .prompts import MANUAL_PROMPT, MANUAL_SCHEMA
+from .redact import Redactor
 
 
 class LogError(ValueError):
@@ -24,10 +22,6 @@ class LogError(ValueError):
 class LogResult:
     card: dict | None
     messages: list[str] = field(default_factory=list)
-
-
-def utcnow() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def parse_result(spec: str) -> dict:
@@ -49,18 +43,6 @@ def parse_result(spec: str) -> dict:
     return {"m": m, "val": num, "unit": unit, "dir": direction}
 
 
-_NUM = re.compile(r"\d+(?:[.,]\d+)?")
-
-
-def numbers_in(text: str) -> set[str]:
-    return {normnum(n.replace(",", "")) for n in _NUM.findall(text)}
-
-
-def metric_is_grounded(r: dict, source: str) -> bool:
-    """A metric is allowed only if its value literally appears in what the user wrote (honesty rule)."""
-    return normnum(abs(float(r["val"]))) in numbers_in(source)
-
-
 def load_knowledge(device_id: str) -> Knowledge:
     reg = None
     rc = paths.registry_cache()
@@ -69,15 +51,14 @@ def load_knowledge(device_id: str) -> Knowledge:
     return Knowledge.from_registry(reg).add_cards(Outbox(paths.outbox_dir(), device_id).iter_cards())
 
 
-def _normalise_skills(names: list[str], known: Knowledge) -> list[str]:
-    out = sorted({known.resolve_alias(n) for n in names if slugify(n)})
-    return out[:5]
+def load_redactor(cfg: dict) -> Redactor:
+    return Redactor.load(paths.home() / "redact.yaml",
+                         extra_exclude=(cfg.get("privacy") or {}).get("exclude_paths") or [])
 
 
 def _llm_fields(text: str, known: Knowledge, cfg: dict, hints: list[str]) -> dict:
-    vocab = sorted(known.skills)[:300]
     prompt = MANUAL_PROMPT.format(
-        known=", ".join(vocab) or "(none yet)",
+        known=", ".join(sorted(known.skills)[:300]) or "(none yet)",
         hints=", ".join(hints) or "(none)",
         entry=text,
     )
@@ -101,7 +82,6 @@ def log_entry(
     if os.environ.get("CVPRISM_EXTRACTING"):
         out.messages.append("cvprism: skipped (running inside an extraction session)")
         return out
-
     text = " ".join(text.split())
     if len(text) < 8:
         raise LogError("Entry is too short; describe what you did in a sentence.")
@@ -122,67 +102,21 @@ def log_entry(
         if not skills:
             raise LogError("Raw mode needs at least one --skill (e.g. --skill python).")
         flags.append("manual_raw")
-        s = _normalise_skills(skills, known)
-        d = depth or 2
-        txt, meth, tl, dom, conf = text, [], [], [], 1.0
+        fields = {"txt": text, "s": skills, "d": depth or 2, "conf": 1.0}
     else:
-        s = _normalise_skills(list(fields.get("s") or []) + skills, known)
-        if not s:
+        fields = dict(fields)
+        fields["s"] = list(fields.get("s") or []) + skills
+        if depth:
+            fields["d"] = depth
+        if not [x for x in fields["s"] if slugify(str(x))]:
             raise LogError("Could not identify a skill; pass --skill.")
-        d = depth or int(fields.get("d") or 2)
-        txt = str(fields.get("txt") or text)
-        meth = [str(x)[:80] for x in (fields.get("meth") or [])][:8]
-        tl = [t for t in (slugify(x) for x in (fields.get("tl") or [])) if t][:12]
-        dom = [t for t in (slugify(x) for x in (fields.get("dom") or [])) if t][:6]
-        conf = float(fields.get("conf") or 0.7)
-        work = work or bool(fields.get("work"))
-        if r is None and fields.get("r"):
-            cand = fields["r"]
-            if metric_is_grounded(cand, text):
-                r = {"m": str(cand["m"]), "val": cand["val"], "unit": str(cand.get("unit", "")),
-                     "dir": cand.get("dir", "abs")}
-                base = cand.get("base")
-                if base is not None and normnum(abs(float(base))) in numbers_in(text):
-                    r["base"] = base
-            else:
-                flags.append("needs_metric")
-                out.messages.append("note: the model proposed a metric you did not state; it was dropped (honesty rule)")
-        if r is None and fields.get("needs_metric") and "needs_metric" not in flags:
-            flags.append("needs_metric")
-
-    if len(txt) > 220:
-        txt = txt[:217].rstrip() + "..."
-    card = {
-        "v": 1,
-        "k": kind_for(work=work, r=r, flags=flags),
-        "s": s,
-        "d": max(1, min(5, d)),
-        "r": r,
-        "ctx": slugify(ctx) if ctx else None,
-        "txt": txt,
-        "meth": meth,
-        "tl": tl,
-        "dom": dom,
-        "t": now or utcnow(),
-        "dev": cfg["device_id"],
-        "src": "manual",
-        "conf": conf,
-        "flags": flags,
-        "lang": "en",
-    }
-    card["id"] = card_id(card)
-    why = decide(card, known)
-    if why is None:
-        Counters(paths.counters_file()).bump(card["s"], card["t"])
-        out.messages.append(f"Already known: {', '.join(card['s'])} (usage counter updated, no new card)")
-        return out
-    card["why"] = why
-    card = {k: card[k] for k in ("v", "id", "k", "why", "s", "d", "r", "ctx", "txt", "meth", "tl", "dom",
-                                 "t", "dev", "src", "conf", "flags", "lang")}
-    validate("card", card)
-    Outbox(paths.outbox_dir(), cfg["device_id"]).append(card)
-    out.card = card
-    out.messages.append(f"New card {card['id']} ({why.replace('_', ' ')}): {card['txt']}")
-    if "needs_metric" in flags:
+    # manual entries are the user's own words: deny-list scrubbing applies, but never drop silently
+    oc = build_and_emit(fields, cfg=cfg, known=known, src="manual", source_text=text, redactor=load_redactor(cfg),
+                        r=r, flags=flags, ctx=ctx, work=work, now=now)
+    if oc.dropped:
+        raise LogError(f"Card not saved: {oc.dropped}")
+    out.messages += oc.messages
+    out.card = oc.card
+    if oc.card and "needs_metric" in oc.card["flags"]:
         out.messages.append("Flagged needs_metric: add the number later with `cvprism review` if you have one.")
     return out

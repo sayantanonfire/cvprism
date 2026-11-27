@@ -25,7 +25,9 @@ gantt
 
 ---
 
-## 🧱 M1: Single machine
+## 🧱 M1: Single machine ✅
+
+> Done 2026-11-27. All automated criteria pass in CI (Ubuntu, macOS, Windows × Python 3.10/3.13, plus start-script bootstrap jobs).
 
 **Scope:** `start.sh`/`start.bat`, venv bootstrap, TUI wizard (device name, role, vault path), vault template, `cvprism log`, card schema and ID, local registry, novelty filter, counters, `cvprism status`, `cvprism doctor`.
 
@@ -39,7 +41,9 @@ gantt
 6. The wizard refuses a vault path inside the code checkout.
 7. `cvprism log "<text>"` (LLM mode) produces a market-phrased card when `claude` is available, and falls back to `--raw` with a warning when it is not.
 
-## 🛰️ M2: Auto-capture
+## 🛰️ M2: Auto-capture 🟡
+
+> Implemented 2026-11-27. Criteria 1–6 are automated and passing. Criterion 7 (a real session plus a reboot) needs the owner to run `cvprism install` on a real machine.
 
 **Scope:** Claude Code `SessionEnd` hook installer, global git hook dispatcher with chaining, watcher for opted-in paths, file queue and worker, reducer, extractor prompt and schema, redactor, login service per OS, `/cv-log` skill.
 

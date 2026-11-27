@@ -4,7 +4,7 @@
 
 cvprism quietly records the skills, methods and results that show up in your everyday work: Claude Code sessions, git commits, new dependencies, plus one-line notes you add. It deduplicates what it already knows, syncs everything from all your computers to one hub, and compiles CVs tailored to a role or a job description. Every bullet cites the evidence behind it.
 
-> 🚧 **Status: M1 (single machine).** `start.sh`/`start.bat`, `cvprism init`, `cvprism log`, `status`, `show` and `doctor` work today. Auto-capture, sync and CV builds are M2–M4 on the [roadmap](docs/ROADMAP.md).
+> 🚧 **Status: M2 (auto-capture).** Manual logging, Claude Code session capture, git commit capture, folder watching and the background agent work today (`cvprism install`). Multi-device sync and CV builds are M3–M4 on the [roadmap](docs/ROADMAP.md).
 
 ## 🔍 The problem
 
@@ -64,6 +64,8 @@ cvprism log --raw "Cut inference latency" --skill onnx --depth 4 --result "laten
 cvprism status        # cards, month files, adapters
 cvprism show          # recent cards
 cvprism doctor        # environment check
+cvprism install       # Claude Code SessionEnd hook, git hook dispatcher, /cv-log skill, login agent
+cvprism install --dry-run   # see every change first; `cvprism uninstall` reverts all of it
 ```
 
 Logging the same thing twice creates no new card, only a usage count. A higher depth or a new result creates a new card. Metrics you didn't state are never kept.

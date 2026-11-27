@@ -284,7 +284,7 @@ stateDiagram-v2
 | File watching | `watchdog` |
 | Schemas | `jsonschema` (draft 2020-12); the schemas in `cvprism/schemas/` are the single source |
 | YAML | `ruamel.yaml` (round-trip, preserves user comments) |
-| Login service | Windows: Task Scheduler (`schtasks`, at logon); macOS: `launchd` LaunchAgent; Linux: `systemd --user` unit, falling back to an XDG autostart `.desktop` file |
+| Login service | Windows: per-user `HKCU\...\Run` value (`pythonw -m cvprism agent`, no admin); macOS: `launchd` LaunchAgent; Linux: `systemd --user` unit, falling back to an XDG autostart `.desktop` file |
 | LLM | `claude -p --output-format json` invoked by subprocess ([ADR-007](adr/ADR-007-extraction-via-claude-cli.md)) |
 | Rendering | RenderCV for PDF, Pandoc for DOCX/MD ([ADR-010](adr/ADR-010-renderer.md)) |
 

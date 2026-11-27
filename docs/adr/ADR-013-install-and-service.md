@@ -10,7 +10,7 @@ Install must work from a git clone or a USB stick, and capture must continue aft
 ## Decision
 
 - `start.sh` / `start.bat` locate Python ≥ 3.10, create a venv in the platform data dir (`%LOCALAPPDATA%\cvprism`, `~/Library/Application Support/cvprism`, `~/.local/share/cvprism`) and `pip install` cvprism **from the stick or clone path**. A bundled wheelhouse on the USB stick allows offline install. After install, nothing references the stick.
-- The background service (`cvprism agent`) is registered per OS: a Windows Task Scheduler "at logon" task (no admin rights), a macOS `launchd` LaunchAgent, or a Linux `systemd --user` unit with an XDG autostart fallback.
+- The background service (`cvprism agent`) is registered per OS: on Windows the per-user `HKCU\...\CurrentVersion\Run` registry value launching `pythonw -m cvprism agent` (no admin rights; an "at logon" scheduled task was the first choice but needs elevation on many machines), a macOS `launchd` LaunchAgent, or a Linux `systemd --user` unit with an XDG autostart fallback.
 - Hooks point at the venv's absolute `cvprism` executable path.
 - `cvprism uninstall` removes services and hooks, restores prior git and Claude Code settings, and keeps data unless `--purge-data` is given.
 
