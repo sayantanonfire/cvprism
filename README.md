@@ -4,7 +4,7 @@
 
 cvprism quietly records the skills, methods and results that show up in your everyday work: Claude Code sessions, git commits, new dependencies, plus one-line notes you add. It deduplicates what it already knows, syncs everything from all your computers to one hub, and compiles CVs tailored to a role or a job description. Every bullet cites the evidence behind it.
 
-> 🚧 **Status: design phase (Phase 0).** Nothing is installable yet. The quick start below is aspirational. Read the [architecture](docs/ARCHITECTURE.md) and [roadmap](docs/ROADMAP.md), and open an issue with feedback.
+> 🚧 **Status: M1 (single machine).** `start.sh`/`start.bat`, `cvprism init`, `cvprism log`, `status`, `show` and `doctor` work today. Auto-capture, sync and CV builds are M2–M4 on the [roadmap](docs/ROADMAP.md).
 
 ## 🔍 The problem
 
@@ -46,7 +46,7 @@ flowchart LR
 | Any transport | Private git repo, Google Drive/OneDrive/Dropbox folder, USB stick, Syncthing. Use several at once |
 | Conflict-free by design | Each device appends only to its own inbox. Card IDs are content hashes, so merging is a union |
 
-## ⚡ Quick start (aspirational)
+## ⚡ Quick start
 
 ```bash
 git clone https://github.com/sayantanonfire/cvprism.git
@@ -55,13 +55,24 @@ cd cvprism
 # wizard: device name → hub or spoke → folders to watch → where the vault syncs
 ```
 
-Then just work. Afterwards:
+Works today (M1):
 
 ```bash
-cvprism log "Ran field ADCP survey on the Hooghly estuary"   # anything non-code
-cvprism status                                               # cards, backlog, adapters
-cvprism build --role applied-ai                              # on the hub → PDF + DOCX + MD
-cvprism build --jd job.txt                                   # tailored to a posting, with a gap report
+cvprism log "Built an MCP server exposing HEC-RAS runs as tools"     # Claude turns it into a market-phrased card
+cvprism log --raw "Led a 10-day ADCP field survey" --skill adcp-survey --depth 4 --work   # no LLM needed
+cvprism log --raw "Cut inference latency" --skill onnx --depth 4 --result "latency:-40:%"
+cvprism status        # cards, month files, adapters
+cvprism show          # recent cards
+cvprism doctor        # environment check
+```
+
+Logging the same thing twice creates no new card, only a usage count. A higher depth or a new result creates a new card. Metrics you didn't state are never kept.
+
+Coming next (M2–M5):
+
+```bash
+cvprism build --role applied-ai     # on the hub → PDF + DOCX + MD
+cvprism build --jd job.txt          # tailored to a posting, with a gap report
 ```
 
 Adding another computer means running `start.sh` there and choosing **spoke**.

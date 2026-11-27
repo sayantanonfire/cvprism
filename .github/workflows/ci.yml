@@ -1,0 +1,52 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.10", "3.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+      - name: Unit tests
+        run: python -m pytest
+
+  bootstrap:
+    # M1 acceptance criterion 1 (scripted): start script installs and runs setup non-interactively.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: start.sh
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          export CVPRISM_HOME="$RUNNER_TEMP/cvprism-home"
+          ./start.sh --name ci --role hub --vault "$RUNNER_TEMP/vault" --yes
+          "$CVPRISM_HOME/venv/bin/cvprism" log --raw "Built a CI pipeline for cvprism" --skill github-actions --depth 3
+          "$CVPRISM_HOME/venv/bin/cvprism" status
+      - name: start.bat
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          set "CVPRISM_HOME=%RUNNER_TEMP%\cvprism-home"
+          call start.bat --name ci --role hub --vault "%RUNNER_TEMP%\vault" --yes || exit /b 1
+          "%RUNNER_TEMP%\cvprism-home\venv\Scripts\cvprism.exe" log --raw "Built a CI pipeline for cvprism" --skill github-actions --depth 3 || exit /b 1
+          "%RUNNER_TEMP%\cvprism-home\venv\Scripts\cvprism.exe" status
