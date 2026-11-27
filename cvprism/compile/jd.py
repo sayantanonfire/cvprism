@@ -44,12 +44,12 @@ def _vocab_index(registry: dict | None) -> list[tuple[re.Pattern, str]]:
                 names[n] = slug
     out = []
     for n, slug in sorted(names.items(), key=lambda kv: -len(kv[0])):
-        n_space = n.replace("-", "[- ]")
         if len(n) <= 2:  # 'R', 'Go': case-sensitive only
             out.append((re.compile(r"(?<![\w&-])" + re.escape(n) + r"(?![\w&-])"), slug))  # not "R&D"
         else:
-            out.append((re.compile(r"(?<![\w])" + n_space.replace(" ", r"\s+").replace(".", r"\.") + r"(?![\w])", re.I),
-                        slug))
+            # escape every literal (C++, Node.js); hyphens and spaces are interchangeable
+            body = r"[-\s]+".join(re.escape(part) for part in re.split(r"[-\s]+", n.strip()) if part)
+            out.append((re.compile(r"(?<![\w])" + body + r"(?![\w])", re.I), slug))
     return out
 
 

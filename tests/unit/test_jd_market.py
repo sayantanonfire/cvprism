@@ -112,3 +112,9 @@ def test_gap_report_points_to_related_evidence(home, tmp_path):
     text = gaps_md({"title": "T"}, ["hec-ras"], ["hydraulic-modelling"], registry(tmp_path))
     line = next(ln for ln in text.splitlines() if ln.startswith("- Hydraulic modelling"))
     assert "related evidence:" in line and "HEC-RAS" in line and "Flood modelling" in line
+
+
+def test_special_character_skill_names_match_literally():
+    jd = extract_jd_deterministic("Experience with C++ and C# required; Node.js a plus.")
+    assert "c-plus-plus" in jd["skills"] and "javascript" in jd["skills"]
+    assert "c-plus-plus" not in extract_jd_deterministic("We like C and CC.")["skills"]
