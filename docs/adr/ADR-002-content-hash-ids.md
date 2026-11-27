@@ -27,4 +27,5 @@ The kickoff spec wants the same achievement captured twice anywhere to dedup aut
 
 - Dedup quality depends on **slug normalisation**. The registry alias table is therefore on the critical path, and the extractor must choose slugs from the registry when one fits (it gets the top-N candidate slugs in its prompt).
 - Two genuinely different achievements with identical structure (e.g. two different MCP servers at depth 3 with no `ctx`) collapse into one card. That is acceptable: for novelty they are the same evidence, and `ctx` separates them when it matters.
+- `k` must be a pure function of card content (`work` > `result` > `skill`). An earlier draft had a `depth` kind, but whether something is a level-up depends on what the capturing device already knows. That would give the same achievement different IDs on different devices, so the novelty reason now lives in the unhashed `why` field.
 - Changing the canonical form is a breaking change and needs `v: 2` plus a migration.

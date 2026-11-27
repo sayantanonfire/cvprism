@@ -25,7 +25,9 @@ gantt
 
 ---
 
-## 🧱 M1: Single machine
+## 🧱 M1: Single machine ✅
+
+> Done 2026-11-27. All automated criteria pass in CI (Ubuntu, macOS, Windows × Python 3.10/3.13, plus start-script bootstrap jobs).
 
 **Scope:** `start.sh`/`start.bat`, venv bootstrap, TUI wizard (device name, role, vault path), vault template, `cvprism log`, card schema and ID, local registry, novelty filter, counters, `cvprism status`, `cvprism doctor`.
 
@@ -39,7 +41,9 @@ gantt
 6. The wizard refuses a vault path inside the code checkout.
 7. `cvprism log "<text>"` (LLM mode) produces a market-phrased card when `claude` is available, and falls back to `--raw` with a warning when it is not.
 
-## 🛰️ M2: Auto-capture
+## 🛰️ M2: Auto-capture 🟡
+
+> Implemented 2026-11-27. Criteria 1–6 are automated and passing. Criterion 7 (a real session plus a reboot) needs the owner to run `cvprism install` on a real machine.
 
 **Scope:** Claude Code `SessionEnd` hook installer, global git hook dispatcher with chaining, watcher for opted-in paths, file queue and worker, reducer, extractor prompt and schema, redactor, login service per OS, `/cv-log` skill.
 
@@ -53,7 +57,9 @@ gantt
 6. No recursion: an extraction run produces zero new queue jobs.
 7. *(manual)* A real 30-min Claude Code session yields a sensible card with no user action, and the background service survives a reboot.
 
-## 🔁 M3: Multi-device sync
+## 🔁 M3: Multi-device sync ✅
+
+> Done 2026-11-27. Five adapters (local, gdrive, usb, syncthing, git) pass one shared conformance suite. The two-spoke/two-adapter headline test passes. USB flush on mount is wired into the agent; criterion 6 (real hardware) is manual.
 
 **Scope:** Outbox cursors, adapters `local`, `git`, `gdrive`, `usb`; hub merge, quarantine, registry rebuild and publish; `hub.json` epochs; `cvprism sync`, `cvprism hub merge|promote|rebuild`; `suppress`, `purge`.
 
@@ -66,7 +72,9 @@ gantt
 5. `cvprism hub rebuild` from inboxes alone reproduces `cards.jsonl` byte-for-byte (after sorting).
 6. USB mount detection triggers a flush within 15 s on each OS. *(manual)*
 
-## 🧾 M4: Compile
+## 🧾 M4: Compile ✅
+
+> Done 2026-11-27. The deterministic honesty gate, citation trace (`evidence.md`), `rejected.md`, RenderCV PDF with page-limit fitting, python-docx DOCX, Markdown, BibTeX and ORCID import, and five starter roles are all covered by tests. A real build with Claude ran in about 18 s and produced a 1-page CV.
 
 **Scope:** Role profiles plus starter roles (`academic`, `industry-ds`, `applied-ai`, `hydrodynamics`, `geospatial`), scoring, `claude -p` drafting, honesty gate, RenderCV PDF, Pandoc DOCX/MD, `evidence.md` trace, BibTeX/ORCID import.
 
@@ -79,7 +87,9 @@ gantt
 5. Publications render from a `.bib` file, with the user's name highlighted.
 6. Confidential projects show only `display` names.
 
-## 📈 M5: Market intel and JD tailoring
+## 📈 M5: Market intel and JD tailoring ✅
+
+> Done 2026-11-27. `cvprism build --jd <file|url>` with `gaps.md`; `cvprism market add|extract` with a hash-keyed LLM cache, so re-runs are deterministic. Market phrases feed role vocabulary automatically. Postings are user-supplied, with no scraping (Open question 7 default).
 
 **Scope:** `cvprism build --jd <file|url>`, ad-hoc role from JD, `vault/market/<role>.json` phrase extraction from user-supplied postings, gap report ("JD asks for X; you have no evidence").
 

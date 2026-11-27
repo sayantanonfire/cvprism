@@ -1,0 +1,17 @@
+Senior Applied AI Engineer - Flood Intelligence (Remote)
+
+About the role
+We are building LLM agents that help water utilities respond to floods. You will design
+retrieval-augmented generation (RAG) systems and Model Context Protocol (MCP) servers that
+connect language models to hydraulic simulators.
+
+Must have
+- 4+ years of Python
+- Hands-on PyTorch or deep learning experience
+- Experience with Docker and Kubernetes
+- Built RAG pipelines or LLM agents in production
+
+Nice to have
+- HEC-RAS or other 2D hydraulic modelling tools
+- AWS (SageMaker, Lambda)
+- Google Earth Engine or SAR remote sensing

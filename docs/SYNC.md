@@ -95,6 +95,8 @@ flowchart TD
     class quar_q store
 ```
 
+Cards that are valid but not novel against the hub's state at merge time are kept with an extra `x_late: true` field (ADR-011). Push never shrinks a remote file: it writes the union of remote and local lines minus purged IDs, so a restored or reinstalled device cannot erase history.
+
 The hub recomputes each `id` from the canonical fields. A mismatch means corruption or tampering, and the line is quarantined. `cards.jsonl` is append-only on the hub too, and can always be rebuilt from scratch with `cvprism hub rebuild` from all inboxes.
 
 ---
@@ -131,6 +133,7 @@ A spoke accepts the registry with the highest `(epoch, rev)` across all adapters
 | S8. Old hub comes back | Reads `hub.json` with a higher epoch, demotes itself to spoke, pushes its inbox | Complete |
 | S9. Two hubs promoted concurrently (same epoch) | Tie broken by lexicographically higher `hub_device_id`. The loser demotes on next tick | Converges |
 | S10. Spoke has never seen a registry | Novelty filter runs against an empty registry, so every candidate becomes a card. The hub dedups and re-checks novelty at merge (a stale card is kept but flagged `needs_review` if not novel) | Some extra cards, all correct |
+| S11b. A device purges its own card | `cvprism purge <id>` rewrites its outbox and its inbox on every reachable transport, and appends the ID to `inbox/<dev>/purged.txt`. The hub unions all `purged.txt` into `vault/purged.txt` and removes the card from `cards.jsonl` and its inbox copies | Card erased everywhere the device and the hub can reach; git history needs a manual `git filter-repo` |
 | S11. User wants a card gone | Inboxes stay append-only. `cvprism suppress <id>` adds the ID to hub-owned `vault/suppressed.txt` (one per line), which the merge and the compiler honour. A *correction* is a new card with `sup: [<id>]` | Card hidden from CVs, history kept |
 | S12. Wrong vault's USB stick plugged in | `vault_id` mismatch. The adapter refuses and logs | No change |
 

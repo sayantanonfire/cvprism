@@ -27,6 +27,10 @@ emit card if  any(slug not in R for slug in c.s)           # new skill
 else          counters[slug].n += 1; counters[slug].last = now
 ```
 
+The reason that fired is stored in the card's unhashed `why` field (`new_skill`, `depth_up`, `new_result`, `work`).
+
+On a device, the known state is the union of the hub registry cache **and the device's own outbox**. Otherwise a single machine, or a spoke that has not yet seen a registry, would re-emit every card.
+
 The hub re-applies the rule at merge against the authoritative registry. A non-novel card that arrives late is kept (it is valid evidence) but flagged `needs_review`.
 
 ## Consequences

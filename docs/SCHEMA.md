@@ -33,7 +33,8 @@ One immutable fact about the user's capability. Cards are never edited. A correc
 | --- | --- | :---: |
 | `v` | Schema version (1) | no |
 | `id` | `c_` + first 16 hex chars of sha256 over the canonical form | — |
-| `k` | Kind: `skill` (new skill), `depth` (level-up), `result` (measurable outcome), `work` (non-code achievement: paper, talk, field campaign, award) | **yes** |
+| `k` | Kind, derived from content only: `work` (non-code achievement: paper, talk, field campaign, award), else `result` (has `r` or `needs_metric`), else `skill` | **yes** |
+| `why` | Novelty reason at capture: `new_skill`, `depth_up`, `new_result`, `work`, `manual` (depends on device state, so never hashed) | no |
 | `s` | Skill slugs, 1–5, sorted | **yes** |
 | `d` | Depth level 1–5 (see [ADR-011](adr/ADR-011-depth-ladder-novelty.md)) | **yes** |
 | `r` | Result `{m, val, unit, base?, dir}` or `null` | **yes** (normalised) |
@@ -77,7 +78,8 @@ id = "c_" + sha256(canon).hex()[:16]
   "properties": {
     "v":    { "const": 1 },
     "id":   { "type": "string", "pattern": "^c_[0-9a-f]{16}$" },
-    "k":    { "enum": ["skill", "depth", "result", "work"] },
+    "k":    { "enum": ["skill", "result", "work"] },
+    "why":  { "enum": ["new_skill", "depth_up", "new_result", "work", "manual"] },
     "s":    { "type": "array", "minItems": 1, "maxItems": 5, "uniqueItems": true,
               "items": { "$ref": "#/$defs/slug" } },
     "d":    { "type": "integer", "minimum": 1, "maximum": 5 },
@@ -124,7 +126,7 @@ id = "c_" + sha256(canon).hex()[:16]
 ### Example (one line in JSONL, wrapped here for reading)
 
 ```json
-{"v":1,"id":"c_3f9a1c0e7b2d4a61","k":"depth","s":["mcp-server-development"],"d":3,
+{"v":1,"id":"c_3f9a1c0e7b2d4a61","k":"skill","why":"depth_up","s":["mcp-server-development"],"d":3,
  "r":null,"ctx":"flood-copilot",
  "txt":"Built a Model Context Protocol (MCP) server exposing hydrodynamic model runs as LLM tools",
  "meth":["tool schema design","async job orchestration"],"tl":["python","fastmcp","hec-ras"],

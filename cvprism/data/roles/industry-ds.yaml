@@ -1,0 +1,13 @@
+# Industry data scientist / analytics roles.
+v: 1
+id: industry-ds
+title: Data Scientist
+sections: [summary, experience, projects, skills, education, certifications]
+include: {dom: [applied-ai, ml, data-science, devops, industry, geospatial], min_depth: 2}
+exclude: {dom: [teaching]}
+weights: {delivery: 1.0, results: 1.0, publications: 0.2, research: 0.2, recency: 0.8, depth: 0.6}
+vocabulary: [machine learning, statistics, SQL, Python, A/B testing, forecasting, data pipelines, stakeholders]
+limits: {pages: 2, bullets_per_position: 5, skills_max: 20, cards_to_llm: 50}
+template: sb2nov
+outputs: [pdf, docx, md]
+tone: business impact first, plain language, past tense

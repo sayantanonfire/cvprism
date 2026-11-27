@@ -1,0 +1,12 @@
+# Academic CV: publications and research first, no page squeeze.
+v: 1
+id: academic
+title: Researcher
+sections: [summary, education, publications, experience, talks, fieldwork, teaching, awards, skills, certifications]
+include: {min_depth: 2}
+weights: {delivery: 0.3, results: 0.7, publications: 1.0, research: 1.0, recency: 0.4, depth: 0.7}
+vocabulary: [peer-reviewed, methodology, field campaign, numerical modelling, grant, supervision]
+limits: {pages: 4, bullets_per_position: 6, skills_max: 30, cards_to_llm: 80}
+template: classic
+outputs: [pdf, docx, md]
+tone: precise, scholarly, methods-first

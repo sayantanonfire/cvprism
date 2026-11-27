@@ -4,7 +4,7 @@
 
 cvprism quietly records the skills, methods and results that show up in your everyday work: Claude Code sessions, git commits, new dependencies, plus one-line notes you add. It deduplicates what it already knows, syncs everything from all your computers to one hub, and compiles CVs tailored to a role or a job description. Every bullet cites the evidence behind it.
 
-> 🚧 **Status: design phase (Phase 0).** Nothing is installable yet. The quick start below is aspirational. Read the [architecture](docs/ARCHITECTURE.md) and [roadmap](docs/ROADMAP.md), and open an issue with feedback.
+> 🚧 **Status: M5 (JD tailoring + market intel).** Capture, multi-device sync, evidence-cited CV builds (PDF, DOCX, Markdown), job-description tailoring with gap reports, and market-phrase intel work today. M6 (polish, docs site, PyPI) is next on the [roadmap](docs/ROADMAP.md).
 
 ## 🔍 The problem
 
@@ -46,7 +46,7 @@ flowchart LR
 | Any transport | Private git repo, Google Drive/OneDrive/Dropbox folder, USB stick, Syncthing. Use several at once |
 | Conflict-free by design | Each device appends only to its own inbox. Card IDs are content hashes, so merging is a union |
 
-## ⚡ Quick start (aspirational)
+## ⚡ Quick start
 
 ```bash
 git clone https://github.com/sayantanonfire/cvprism.git
@@ -55,16 +55,45 @@ cd cvprism
 # wizard: device name → hub or spoke → folders to watch → where the vault syncs
 ```
 
-Then just work. Afterwards:
+Works today (M1):
 
 ```bash
-cvprism log "Ran field ADCP survey on the Hooghly estuary"   # anything non-code
-cvprism status                                               # cards, backlog, adapters
-cvprism build --role applied-ai                              # on the hub → PDF + DOCX + MD
-cvprism build --jd job.txt                                   # tailored to a posting, with a gap report
+cvprism log "Built an MCP server exposing HEC-RAS runs as tools"     # Claude turns it into a market-phrased card
+cvprism log --raw "Led a 10-day ADCP field survey" --skill adcp-survey --depth 4 --work   # no LLM needed
+cvprism log --raw "Cut inference latency" --skill onnx --depth 4 --result "latency:-40:%"
+cvprism status        # cards, month files, adapters
+cvprism show          # recent cards
+cvprism doctor        # environment check
+cvprism install       # Claude Code SessionEnd hook, git hook dispatcher, /cv-log skill, login agent
+cvprism install --dry-run   # see every change first; `cvprism uninstall` reverts all of it
 ```
 
-Adding another computer means running `start.sh` there and choosing **spoke**.
+Logging the same thing twice creates no new card, only a usage count. A higher depth or a new result creates a new card. Metrics you didn't state are never kept.
+
+Build CVs on the hub:
+
+```bash
+cvprism roles                                   # academic, industry-ds, applied-ai, hydrodynamics, geospatial + yours
+cvprism build --role applied-ai                 # → vault/build/applied-ai/<timestamp>/cv.pdf, cv.docx, cv.md
+cvprism build --role academic --no-llm          # card text only, no Claude call
+cvprism import-orcid 0000-0002-1825-0097        # pull publications into pubs.bib
+cvprism build --jd posting.txt                  # tailored to a job posting (file or URL) + gaps.md
+cvprism market add applied-ai posting.txt       # save postings you care about...
+cvprism market extract applied-ai               # ...and mirror their recurring phrases in future builds
+```
+
+Every build also writes `evidence.md` (each bullet → the cards it cites) and `rejected.md` (drafted claims the honesty gate removed because no evidence supported them).
+
+Adding another computer means running `start.sh` there and choosing **spoke**:
+
+```bash
+# hub (your main machine)
+cvprism init --name home-pc --role hub --vault ~/cvprism-vault --adapter git:git@github.com:me/cvprism-vault.git --yes
+cvprism sync
+# every other machine
+cvprism init --name office-01 --role spoke --adapter git:git@github.com:me/cvprism-vault.git --yes
+cvprism sync          # the background agent also does this every 15 min and when a USB drop-box is plugged in
+```
 
 ## 🗺️ Documentation
 

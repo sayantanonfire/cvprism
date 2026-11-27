@@ -284,7 +284,7 @@ stateDiagram-v2
 | File watching | `watchdog` |
 | Schemas | `jsonschema` (draft 2020-12); the schemas in `cvprism/schemas/` are the single source |
 | YAML | `ruamel.yaml` (round-trip, preserves user comments) |
-| Login service | Windows: Task Scheduler (`schtasks`, at logon); macOS: `launchd` LaunchAgent; Linux: `systemd --user` unit, falling back to an XDG autostart `.desktop` file |
+| Login service | Windows: per-user `HKCU\...\Run` value (`pythonw -m cvprism agent`, no admin); macOS: `launchd` LaunchAgent; Linux: `systemd --user` unit, falling back to an XDG autostart `.desktop` file |
 | LLM | `claude -p --output-format json` invoked by subprocess ([ADR-007](adr/ADR-007-extraction-via-claude-cli.md)) |
 | Rendering | RenderCV for PDF, Pandoc for DOCX/MD ([ADR-010](adr/ADR-010-renderer.md)) |
 
@@ -293,6 +293,8 @@ stateDiagram-v2
 ## ❓ Open questions
 
 These need your decision before or during M1/M2. Each one names the default I would pick.
+
+> **2026-11-27:** M1 started with every default below adopted provisionally (owner said "go ahead"). Any of them can still be overturned. Each is isolated behind config or a single module.
 
 1. **Counters on the hub.** Should per-skill usage counters (`count`, `last_seen`) reach the hub? They make good evidence ("used daily for 14 months") but are mutable. *Default:* each device appends a monthly rollup line `{"k":"usage", …}` to its inbox, which keeps it append-only.
 2. **Review before write.** Should auto-captured cards go straight to the outbox, or wait in `pending/` until approved? *Default:* straight through, with `review_mode: true` available. Weekly `cvprism review` digest.

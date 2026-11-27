@@ -1,0 +1,12 @@
+# Hydrodynamic / hydraulic modelling roles (consultancy, water utilities, research institutes).
+v: 1
+id: hydrodynamics
+title: Hydrodynamic Modeller
+sections: [summary, experience, projects, fieldwork, publications, skills, education, certifications]
+include: {dom: [hydrodynamics, hydrology, geospatial, academic, applied-ai], min_depth: 2}
+weights: {delivery: 0.8, results: 1.0, publications: 0.6, research: 0.6, recency: 0.6, depth: 0.9}
+vocabulary: [HEC-RAS, Delft3D, TELEMAC, MIKE 21, 2D hydraulic modelling, flood risk, calibration, ADCP]
+limits: {pages: 2, bullets_per_position: 5, skills_max: 24, cards_to_llm: 60}
+template: classic
+outputs: [pdf, docx, md]
+tone: technical, method and outcome focused

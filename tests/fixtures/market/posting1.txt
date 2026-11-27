@@ -1,0 +1,2 @@
+Applied AI Engineer posting 1. We need Python, retrieval-augmented generation, LLM agents and evaluation harness experience.
+Strong MLOps background with Docker. Posting 1 also mentions Kubernetes.

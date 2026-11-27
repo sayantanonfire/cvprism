@@ -1,3 +1,3 @@
 # vault-template
 
-The empty scaffold copied to a new vault location by the first-run wizard: `vault.json` (with a fresh `vault_id`), `hub.json`, an empty `registry.json`, `profile.yaml` with commented examples, `roles/`, `inbox/` and `market/`. A vault is private user data and must never live inside this code repository (the wizard enforces this).
+The empty vault scaffold now lives inside the package at [`cvprism/data/vault_template/`](../cvprism/data/vault_template/), so it ships with `pip install`. `cvprism init` copies it to a new vault location and adds `vault.json` (a fresh `vault_id`), `hub.json` and an empty `registry.json`. A vault is private user data and must never live inside this code repository. The wizard refuses such paths.
