@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cvprism.dev/schemas/manifest.v1.json",
+  "title": "Evidence-linked CV manifest v1",
+  "description": "Open format describing a CV, the proof behind each line, and fingerprints of the CV files. See docs/spec/evidence-linked-cv-v1.md.",
+  "type": "object",
+  "required": [
+    "v",
+    "name",
+    "built",
+    "file",
+    "sha256",
+    "files",
+    "bullets"
+  ],
+  "properties": {
+    "v": {
+      "const": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "headline": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "role": {
+      "type": "string"
+    },
+    "built": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "file": {
+      "type": "string",
+      "description": "the main CV file the fingerprint refers to"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "bullets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "text",
+          "level"
+        ],
+        "properties": {
+          "section": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cites": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^c_[0-9a-f]{16}$"
+            }
+          },
+          "level": {
+            "enum": [
+              "public",
+              "confirmed",
+              "captured",
+              "self-reported"
+            ]
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^https://[^\\s]{4,500}$"
+            }
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        }
+      }
+    }
+  }
+}

@@ -105,7 +105,7 @@ Every CV ends with an **Evidence** page grading each line:
 
 Mark a project public once (`cvprism project set flood-copilot --public --url …`) and every line from it links to its exact commit. Private projects are listed in full, without links.
 
-Optionally publish a **verify page** with a QR code and a file fingerprint, so anyone can confirm the CV wasn't edited after it was built. [Read how verification works](https://sayantanonfire.github.io/cvprism/guide/verifiable-cvs/)
+Optionally publish a **verify page** with a QR code and a file fingerprint, and **sign** it with the SSH key you already use for GitHub, so anyone can confirm the CV is unedited and really yours. The format is an [open specification](docs/spec/evidence-linked-cv-v1.md) any tool can adopt. [Read how verification works](https://sayantanonfire.github.io/cvprism/guide/verifiable-cvs/)
 
 </td>
 </tr>
@@ -189,6 +189,18 @@ For automatic capture, yes: cvprism reads what you did in Claude Code sessions. 
 <summary><b>Does it make things up?</b></summary>
 
 No. Every bullet must cite at least one evidence card, and every number must be traceable to that evidence or to a fact you wrote yourself. This is checked by code, not by asking an AI nicely. Anything that fails is removed and listed in <code>rejected.md</code>.
+</details>
+
+<details>
+<summary><b>Will it get through applicant tracking systems (ATS)?</b></summary>
+
+Every build reads its own PDF or Word file back the way an ATS does and reports the result in <code>ats.md</code>: name and email read first, standard headings, every line readable, proof links kept as text. For a job posting it also scores keyword coverage, and separates skills you could still add (you have evidence) from real gaps.
+</details>
+
+<details>
+<summary><b>Will it sound repetitive or generic?</b></summary>
+
+No two lines start with the same verb, lines that say the same thing are merged, and weak openers ("Responsible for…") and buzzwords ("passionate", "results-driven") are flagged in <code>quality.md</code>. Lines are written as challenge → action → result.
 </details>
 
 <details>

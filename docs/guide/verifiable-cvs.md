@@ -75,6 +75,29 @@ cvprism verify cv.pdf --manifest https://you.github.io/cv/manifest.json
 !!! note "What the fingerprint proves"
     The fingerprint proves the file was not changed after cvprism built it. It does not prove the claims: the public links do that. The verify page says this in plain words.
 
+## Sign your CV (optional)
+
+Prove a CV came from you, using the SSH key you already use for GitHub:
+
+```yaml
+verify:
+  repo: git@github.com:you/you.github.io.git
+  url: https://you.github.io/cv
+  signing_key: ~/.ssh/id_ed25519
+```
+
+```bash
+cvprism build --role academic --sign --publish
+```
+
+Anyone can then check both the file and its author:
+
+```bash
+cvprism verify cv.pdf --manifest https://you.github.io/cv/manifest.json --github you
+```
+
+The signature only needs OpenSSH, so it can be checked without cvprism (see the [open specification](../spec/evidence-linked-cv-v1.md)).
+
 ## Why this design
 
-See [ADR-015](../adr/ADR-015-verifiable-cv.md) and the [design spec](../superpowers/specs/2026-11-28-verifiable-cv-design.md).
+See [ADR-015](../adr/ADR-015-verifiable-cv.md), [ADR-017](../adr/ADR-017-signed-builds-open-spec.md) and the [design spec](../superpowers/specs/2026-11-28-verifiable-cv-design.md).

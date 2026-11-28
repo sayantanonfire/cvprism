@@ -260,6 +260,14 @@
           "type": "string",
           "pattern": "^https://[^\\s]{4,500}$",
           "description": "public URL of the verify page"
+        },
+        "signing_key": {
+          "type": "string",
+          "description": "SSH key used to sign builds (private key, or public key held in ssh-agent)"
+        },
+        "github_user": {
+          "type": "string",
+          "description": "GitHub username whose published SSH keys verify the signature"
         }
       }
     }

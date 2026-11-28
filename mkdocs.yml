@@ -53,4 +53,5 @@ nav:
       - Security & privacy: SECURITY_PRIVACY.md
       - Roadmap: ROADMAP.md
       - Decision records: adr/README.md
+      - "Open spec: evidence-linked CV": spec/evidence-linked-cv-v1.md
   - Contributing: contributing.md

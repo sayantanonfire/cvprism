@@ -18,6 +18,9 @@ Each build writes a timestamped folder in `vault/build/<role>/` containing:
 | `cv.md` | Markdown |
 | `evidence.md` | Every bullet with the cards it cites |
 | `rejected.md` | Drafted claims removed because no evidence supported them |
+| `quality.md` | Repeated verbs varied, duplicates merged, weak openers or buzzwords to fix |
+| `ats.md` | The CV read back like an ATS would: contacts, headings, every line, links, size; plus keyword match for job postings |
+| `manifest.json` | Proof for every line and file fingerprints ([open spec](../spec/evidence-linked-cv-v1.md)) |
 | `cv.rendercv.yaml` | Editable source for one-off layout tweaks |
 
 `--no-llm` uses your card text directly, with no Claude call.
@@ -55,6 +58,12 @@ cvprism market extract applied-ai
 ```
 
 Phrases that recur in at least 30% of your saved postings are added to the role's vocabulary. They influence which evidence is chosen and how it is worded, never what is claimed.
+
+## Recruiter-ready by default
+
+- **No repetition:** two lines never start with the same verb, and lines that say the same thing are merged (the stronger proof wins).
+- **No filler:** weak openers ("Responsible for", "Worked on") and buzzwords ("passionate", "results-driven") are flagged in `quality.md`. With Claude drafting, they're forbidden, and lines follow challenge → action → result.
+- **ATS read-back:** cvprism extracts the text of its own PDF or Word file, like an applicant tracking system, and confirms your name and email are read first, the headings are standard, no line is lost, and proof links survive as text. For job postings, `ats.md` also scores keyword coverage. It separates skills you have evidence for but didn't include (opportunities) from real gaps.
 
 ## The honesty rule
 
