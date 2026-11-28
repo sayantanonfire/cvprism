@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://sayantanonfire.github.io/cvprism/guide/cli/">
       
       
-        <link rel="prev" href="../building-cvs/">
+        <link rel="prev" href="../verifiable-cvs/">
       
       
         <link rel="next" href="../../ARCHITECTURE/">
@@ -424,6 +424,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../verifiable-cvs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable CVs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -641,6 +669,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cvprism-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism link
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cvprism-verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism verify
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#cvprism-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -712,6 +762,56 @@
     <span class="md-ellipsis">
       
         cvprism market extract
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cvprism-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism project
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="cvprism project">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cvprism-project-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism project set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cvprism-project-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism project map
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cvprism-project-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism project list
       
     </span>
   </a>
@@ -1224,6 +1324,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cvprism-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism link
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cvprism-verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism verify
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#cvprism-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1295,6 +1417,56 @@
     <span class="md-ellipsis">
       
         cvprism market extract
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cvprism-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism project
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="cvprism project">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cvprism-project-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism project set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cvprism-project-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism project map
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cvprism-project-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism project list
       
     </span>
   </a>
@@ -1402,11 +1574,14 @@
 <li><code>import-cv</code>: Turn an existing CV into evidence cards...</li>
 <li><code>import-orcid</code>: Fetch your public ORCID works and add new...</li>
 <li><code>demo</code>: Build sample CVs (3 roles + a job posting)...</li>
+<li><code>link</code>: Attach a public proof link to an existing...</li>
+<li><code>verify</code>: Check a CV file against its published...</li>
 <li><code>roles</code>: List starter roles and the roles in your...</li>
 <li><code>sync</code>: Push this device&#x27;s cards to every...</li>
 <li><code>suppress</code>: Hide a card from merge and compile without...</li>
 <li><code>purge</code>: Erase a card everywhere this device can...</li>
 <li><code>market</code>: Market intel: recurring phrases from job...</li>
+<li><code>project</code>: Projects: public (linked), private or local.</li>
 <li><code>hub</code>: Hub-only operations: merge, rebuild, promote.</li>
 </ul>
 <h2 id="cvprism-init"><code>cvprism init</code><a class="headerlink" href="#cvprism-init" title="Permanent link">&para;</a></h2>
@@ -1444,6 +1619,7 @@
 <li><code>--work</code>: Non-code achievement (paper, talk, field work, award).</li>
 <li><code>--project &lt;str&gt;</code>: Project alias (mapped to a display name in profile.yaml).</li>
 <li><code>--raw</code>: Skip Claude; store your words as-is.</li>
+<li><code>--link &lt;list[str]&gt;</code>: Public proof URL, e.g. a DOI, PyPI page or video (repeatable).</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="cvprism-status"><code>cvprism status</code><a class="headerlink" href="#cvprism-status" title="Permanent link">&para;</a></h2>
@@ -1530,6 +1706,8 @@
 <li><code>--no-llm</code>: Use card text directly; no Claude call.</li>
 <li><code>-f, --format &lt;str&gt;</code>: Comma list: pdf,docx,md (default: role outputs).</li>
 <li><code>--out &lt;path&gt;</code>: Output root (default: vault/build/&lt;role&gt;/).</li>
+<li><code>--check-links</code>: Open every proof link; drop dead ones.</li>
+<li><code>--publish</code>: Publish the verify page (profile.yaml <code>verify:</code>).</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="cvprism-import-linkedin"><code>cvprism import-linkedin</code><a class="headerlink" href="#cvprism-import-linkedin" title="Permanent link">&para;</a></h2>
@@ -1583,6 +1761,34 @@
 <li><code>--out &lt;path&gt;</code>: Folder for the demo vault and CVs.  [default: cvprism-demo]</li>
 <li><code>--llm</code>: Draft bullets with Claude (default: offline, card text).</li>
 <li><code>-f, --format &lt;str&gt;</code>: Comma list: pdf,docx,md.</li>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<h2 id="cvprism-link"><code>cvprism link</code><a class="headerlink" href="#cvprism-link" title="Permanent link">&para;</a></h2>
+<p>Attach a public proof link to an existing card (hub only).</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>cvprism<span class="w"> </span>link<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>card_id<span class="o">}</span><span class="w"> </span><span class="o">{</span>url<span class="o">}</span>
+</code></pre></div>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>card_id &lt;str&gt;</code>: Card ID (see <code>cvprism show</code> or evidence.md).  [required]</li>
+<li><code>url &lt;str&gt;</code>: Public proof URL (https).  [required]</li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<h2 id="cvprism-verify"><code>cvprism verify</code><a class="headerlink" href="#cvprism-verify" title="Permanent link">&para;</a></h2>
+<p>Check a CV file against its published fingerprint (proves it was not edited after cvprism built it).</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>cvprism<span class="w"> </span>verify<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>file<span class="o">}</span>
+</code></pre></div>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>file &lt;path&gt;</code>: The CV file you received (PDF, DOCX or MD).  [required]</li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--manifest &lt;str&gt;</code>: manifest.json path or URL from the verify page.  [required]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="cvprism-roles"><code>cvprism roles</code><a class="headerlink" href="#cvprism-roles" title="Permanent link">&para;</a></h2>
@@ -1670,6 +1876,62 @@
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--no-llm</code>: Keyword matching only.</li>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<h2 id="cvprism-project"><code>cvprism project</code><a class="headerlink" href="#cvprism-project" title="Permanent link">&para;</a></h2>
+<p>Projects: public (linked), private or local. Private work always keeps its skills.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>cvprism<span class="w"> </span>project<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</code></pre></div>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<p><strong>Commands</strong>:</p>
+<ul>
+<li><code>set</code>: Set a project&#x27;s visibility on the hub...</li>
+<li><code>map</code>: On this computer: tag work captured inside...</li>
+<li><code>list</code>: Show projects, their visibility and folder...</li>
+</ul>
+<h3 id="cvprism-project-set"><code>cvprism project set</code><a class="headerlink" href="#cvprism-project-set" title="Permanent link">&para;</a></h3>
+<p>Set a project&#x27;s visibility on the hub (profile.yaml). Applies to all past and future cards.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>cvprism<span class="w"> </span>project<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>ctx<span class="o">}</span>
+</code></pre></div>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>ctx &lt;str&gt;</code>: Project alias, e.g. flood-copilot.  [required]</li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--public</code>: Link proof to this project&#x27;s public repo/page.</li>
+<li><code>--private</code>: Show &#x27;(private repository)&#x27; instead of links.</li>
+<li><code>--local</code>: Local-only work: no link, no label.</li>
+<li><code>--url &lt;str&gt;</code>: Repository or project URL (https).</li>
+<li><code>--display &lt;str&gt;</code>: Public-safe name shown on CVs.</li>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<h3 id="cvprism-project-map"><code>cvprism project map</code><a class="headerlink" href="#cvprism-project-map" title="Permanent link">&para;</a></h3>
+<p>On this computer: tag work captured inside PATH with the project alias.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>cvprism<span class="w"> </span>project<span class="w"> </span>map<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>ctx<span class="o">}</span><span class="w"> </span><span class="o">{</span>path<span class="o">}</span>
+</code></pre></div>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>ctx &lt;str&gt;</code>: Project alias.  [required]</li>
+<li><code>path &lt;path&gt;</code>: Folder whose work belongs to this project.  [required]</li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<h3 id="cvprism-project-list"><code>cvprism project list</code><a class="headerlink" href="#cvprism-project-list" title="Permanent link">&para;</a></h3>
+<p>Show projects, their visibility and folder mappings on this computer.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>cvprism<span class="w"> </span>project<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div>
+<p><strong>Options</strong>:</p>
+<ul>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="cvprism-hub"><code>cvprism hub</code><a class="headerlink" href="#cvprism-hub" title="Permanent link">&para;</a></h2>

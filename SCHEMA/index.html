@@ -425,6 +425,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../guide/verifiable-cvs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable CVs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../guide/cli/" class="md-nav__link">
         
   
@@ -1428,6 +1456,11 @@
 <td style="text-align: center;">no</td>
 </tr>
 <tr>
+<td><code>lnk</code></td>
+<td>Public proof URLs (https, max 5); see <a href="../guide/verifiable-cvs/">Verifiable CVs</a></td>
+<td style="text-align: center;">no</td>
+</tr>
+<tr>
 <td><code>lang</code></td>
 <td>BCP-47, default <code>en</code></td>
 <td style="text-align: center;">no</td>
@@ -1725,7 +1758,8 @@ id = "c_" + sha256(canon).hex()[:16]
 <span class="nt">     dom</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">applied-ai</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">hydrodynamics</span><span class="p p-Indicator">]}</span>
 <span class="nt">projects</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">ctx</span><span class="p">:</span><span class="w"> </span><span class="nv">flood-copilot</span><span class="p p-Indicator">,</span><span class="nt"> display</span><span class="p">:</span><span class="w"> </span><span class="s">"LLM</span><span class="nv"> </span><span class="s">copilot</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">flood</span><span class="nv"> </span><span class="s">forecasting"</span><span class="p p-Indicator">,</span><span class="nt"> position</span><span class="p">:</span><span class="w"> </span><span class="nv">acme-ds</span><span class="p p-Indicator">}</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">ctx</span><span class="p">:</span><span class="w"> </span><span class="nv">client-x-dam</span><span class="p p-Indicator">,</span><span class="nt"> display</span><span class="p">:</span><span class="w"> </span><span class="s">"Dam-break</span><span class="nv"> </span><span class="s">study</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">utility</span><span class="nv"> </span><span class="s">client"</span><span class="p p-Indicator">,</span><span class="nt"> position</span><span class="p">:</span><span class="w"> </span><span class="nv">acme-ds</span><span class="p p-Indicator">,</span><span class="nt"> confidential</span><span class="p">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">ctx</span><span class="p">:</span><span class="w"> </span><span class="nv">client-x-dam</span><span class="p p-Indicator">,</span><span class="nt"> display</span><span class="p">:</span><span class="w"> </span><span class="s">"Dam-break</span><span class="nv"> </span><span class="s">study</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">utility</span><span class="nv"> </span><span class="s">client"</span><span class="p p-Indicator">,</span><span class="nt"> position</span><span class="p">:</span><span class="w"> </span><span class="nv">acme-ds</span><span class="p p-Indicator">,</span><span class="nt"> confidential</span><span class="p">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
+<span class="nt">     visibility</span><span class="p">:</span><span class="w"> </span><span class="nv">private</span><span class="p p-Indicator">}</span><span class="w">   </span><span class="c1"># public (+ url) | private | local; see guide/verifiable-cvs.md</span>
 <span class="nt">education</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">degree</span><span class="p">:</span><span class="w"> </span><span class="nv">PhD</span><span class="p p-Indicator">,</span><span class="nt"> field</span><span class="p">:</span><span class="w"> </span><span class="nv">Civil Engineering</span><span class="p p-Indicator">,</span><span class="nt"> institution</span><span class="p">:</span><span class="w"> </span><span class="nv">IIT Example</span><span class="p p-Indicator">,</span><span class="nt"> end</span><span class="p">:</span><span class="w"> </span><span class="s">"2023"</span><span class="p p-Indicator">,</span><span class="nt"> thesis</span><span class="p">:</span><span class="w"> </span><span class="s">"Coupled</span><span class="nv"> </span><span class="s">1D-2D</span><span class="nv"> </span><span class="s">flood</span><span class="nv"> </span><span class="s">modelling"</span><span class="p p-Indicator">}</span>
 <span class="nt">publications</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">bibtex</span><span class="p">:</span><span class="w"> </span><span class="nv">pubs.bib</span><span class="p p-Indicator">,</span><span class="nt"> orcid</span><span class="p">:</span><span class="w"> </span><span class="s">"0000-0002-1825-0097"</span><span class="p p-Indicator">,</span><span class="nt"> highlight_name</span><span class="p">:</span><span class="w"> </span><span class="s">"Doe,</span><span class="nv"> </span><span class="s">J."</span><span class="p p-Indicator">}</span>
