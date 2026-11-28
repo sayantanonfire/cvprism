@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0 (2026-11-28)
+
+### The cvprism app: no terminal needed ([ADR-018](docs/adr/ADR-018-local-app.md))
+- `cvprism app` opens a local app in your browser: add evidence in plain language, upload a LinkedIn export or old CV, set project visibility, see your evidence and its proof level, and build CVs for a role or a pasted job posting, with downloads and the ATS, gap and quality reports on one page.
+- Double-clicking `start.bat` / running `start.sh` with no arguments now sets up in the browser and opens the app.
+- Runs on 127.0.0.1 only, behind a one-time key, CSRF tokens, a Host check and a strict content-security policy; no JavaScript.
+
 ## 1.2.0 (2026-11-28)
 
 ### Recruiter-ready output ([ADR-016](docs/adr/ADR-016-recruiter-ready.md))

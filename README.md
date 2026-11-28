@@ -121,7 +121,9 @@ cd cvprism
 ./start.sh                       # Windows: start.bat
 ```
 
-Answer four questions (or run `cvprism init --web` to answer them in your browser). Then see what cvprism makes, without setting anything else up:
+**Not a developer?** Just double-click `start.bat` (or run `./start.sh` with no arguments). Setup opens in your browser, and from then on every double-click opens the **cvprism app**: add evidence, upload your LinkedIn export or old CV, choose which projects are public, and build CVs, all without a terminal. [About the app](https://sayantanonfire.github.io/cvprism/guide/app/)
+
+Prefer the terminal? Answer four questions (or `cvprism init --web`), then see what cvprism makes:
 
 ```bash
 cvprism demo --out cvprism-demo
@@ -137,6 +139,7 @@ This builds four CVs for a made-up person in about ten seconds, completely offli
 
 | I want to… | Command |
 | --- | --- |
+| Do everything in the browser | `cvprism app` (or double-click `start.bat`) |
 | Start from my LinkedIn profile | `cvprism import-linkedin Basic_LinkedInDataExport.zip` |
 | Start from my old CV | `cvprism import-cv old_cv.docx` |
 | Add my publications | `cvprism import-orcid 0000-0002-1825-0097` |

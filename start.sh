@@ -49,6 +49,17 @@ else
 fi
 
 CVPRISM="$VENV/bin/cvprism"
+
+# No arguments: set up in the browser, then open the app.
+if [ "$#" -eq 0 ]; then
+  if ! "$CVPRISM" status >/dev/null 2>&1; then
+    "$CVPRISM" init --web || exit 1
+  fi
+  echo
+  echo "Opening cvprism in your browser. Keep this window open while you use it."
+  exec "$CVPRISM" app
+fi
+
 if "$CVPRISM" status >/dev/null 2>&1; then
   "$CVPRISM" status
 else

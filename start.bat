@@ -39,6 +39,21 @@ if exist "%HERE%\wheelhouse" (
 )
 
 set "CVPRISM=%VENV%\Scripts\cvprism.exe"
+
+rem No arguments (double-click): set up in the browser, then open the app.
+if "%~1"=="" (
+  "%CVPRISM%" status >nul 2>&1
+  if errorlevel 1 (
+    "%CVPRISM%" init --web
+    if errorlevel 1 exit /b 1
+  )
+  echo.
+  echo Opening cvprism in your browser. Keep this window open while you use it.
+  "%CVPRISM%" app
+  endlocal
+  exit /b 0
+)
+
 "%CVPRISM%" status >nul 2>&1
 if errorlevel 1 (
   "%CVPRISM%" init %*
@@ -50,4 +65,5 @@ if errorlevel 1 (
 echo.
 echo cvprism is installed at: %CVPRISM%
 echo To use `cvprism` from any terminal, add this folder to your PATH: %VENV%\Scripts
+echo Next time, just double-click start.bat to open the cvprism app.
 endlocal

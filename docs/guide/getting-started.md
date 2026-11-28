@@ -1,5 +1,8 @@
 # Getting started
 
+!!! tip "No terminal?"
+    Double-click `start.bat` (Windows) or run `./start.sh` with no arguments. Setup and the [cvprism app](app.md) open in your browser.
+
 You need **Python 3.10+** (3.12+ for PDF output) and, for automatic capture, **Claude Code**. There is no database and no server.
 
 ## Install
