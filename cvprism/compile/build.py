@@ -89,7 +89,8 @@ def assemble(profile: dict, role: dict, bullets: dict, selected: list[dict], reg
             entries = [{"kind": "text", "text": bullets["summary"]["text"]}]
         elif key == "experience":
             for p in sorted(profile.get("positions") or [], key=lambda p: str(p["start"]), reverse=True):
-                bs = draft.order_bullets(bullets["positions"].get(p["id"], []), cards_by_id, role)[:per_pos]
+                bs = render.label_groups(
+                    draft.order_bullets(bullets["positions"].get(p["id"], []), cards_by_id, role)[:per_pos])
                 entries.append({"kind": "experience", "title": p["title"], "org": p["org"],
                                 "location": p.get("location"), "start": p.get("start"), "end": p.get("end"),
                                 "bullets": bs})
@@ -219,12 +220,23 @@ def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[s
     if "pdf" in wanted:
         if render.rendercv_available():
             theme = role.get("template") or "classic"
-            pdf, pages = render.render_pdf(render.to_rendercv(cv, theme), out)
+            def _render(n):
+                c = assemble(profile, role, bullets, selected, registry, pubs, cards_by_id, n)
+                c["summary_cites"] = (bullets.get("summary") or {}).get("cites")
+                return c, render.render_pdf(render.to_rendercv(c, theme), out)
+
+            cv, (pdf, pages, sparse) = _render(per_pos)
             while pages > role["limits"]["pages"] and per_pos > 1:
                 per_pos -= 1
-                cv = assemble(profile, role, bullets, selected, registry, pubs, cards_by_id, per_pos)
-                cv["summary_cites"] = (bullets.get("summary") or {}).get("cites")
-                pdf, pages = render.render_pdf(render.to_rendercv(cv, theme), out)
+                cv, (pdf, pages, sparse) = _render(per_pos)
+            if pages > 1 and sparse and per_pos > 2:
+                # a nearly empty last page: one bullet fewer per position may pull it back
+                cv2, (pdf2, pages2, sparse2) = _render(per_pos - 1)
+                if pages2 < pages:
+                    cv, pages, per_pos = cv2, pages2, per_pos - 1
+                    log.append("tightened layout to avoid a nearly empty last page")
+                else:
+                    cv, (pdf, pages, sparse) = _render(per_pos)
             meta["pages"] = pages
             meta["formats"].append("pdf")
             if pages > role["limits"]["pages"]:

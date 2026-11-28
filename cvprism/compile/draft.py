@@ -78,13 +78,40 @@ def skills_section(cards: list[dict], registry: dict, role: dict) -> list[dict]:
             for lbl in dict.fromkeys(order) if groups.get(lbl)]
 
 
+def result_phrase(r: dict) -> str:
+    """'scenario setup time 120 → 15 min' / 'f1 score 0.91' / 'latency -40%'."""
+    from ..novelty.ids import normnum
+
+    unit = str(r.get("unit") or "").strip()
+    u = unit if unit in ("%", "x", "×") else (f" {unit}" if unit else "")
+    val = f"{normnum(r['val'])}{u}"
+    if r.get("base") is not None:
+        val = f"{normnum(r['base'])} → {val}"
+    return f"{r['m']} {val}"
+
+
+def card_bullet_text(c: dict) -> str:
+    txt = c["txt"]
+    r = c.get("r")
+    if r and normnum_in(r["val"], txt) is False:
+        txt = txt.rstrip(". ") + f" ({result_phrase(r)})"
+    return txt
+
+
+def normnum_in(val, text: str) -> bool:
+    from ..novelty.ids import normnum
+    import re as _re
+
+    return normnum(abs(float(val))) in {normnum(n) for n in _re.findall(r"\d+(?:\.\d+)?", text)}
+
+
 def deterministic_bullets(selected: list[dict], profile: dict, role: dict) -> dict:
     """Bullets straight from card text, grouped by position / project / work section."""
     per_pos: dict[str, list] = defaultdict(list)
     projects: dict[str, list] = defaultdict(list)
     work: dict[str, list] = defaultdict(list)
     for c in selected:
-        b = {"text": c["txt"], "cites": [c["id"]], "project": project_label(c.get("ctx"), profile)}
+        b = {"text": card_bullet_text(c), "cites": [c["id"]], "project": project_label(c.get("ctx"), profile)}
         if c.get("k") == "work":
             work[work_section(c)].append(b)
             continue

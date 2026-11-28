@@ -25,6 +25,31 @@ def _authors(authors: list[str], highlight: str | None) -> str:
     return ", ".join(f"**{a}**" if highlight and a.strip() == highlight.strip() else a for a in authors)
 
 
+def label_groups(bullets: list[dict]) -> list[dict]:
+    """Keep bullets of the same project together; show the project label only on the first one."""
+    order: list = []
+    groups: dict = {}
+    for b in bullets:
+        k = b.get("project")
+        if k not in groups:
+            groups[k] = []
+            order.append(k)
+        groups[k].append(b)
+    out = []
+    for k in order:
+        for i, b in enumerate(groups[k]):
+            out.append(dict(b, project=k if i == 0 else None))
+    return out
+
+
+def last_page_sparse(pngs: list[Path], ratio: float = 0.3) -> bool:
+    """A nearly blank page compresses to a much smaller PNG than a full one (stdlib-only proxy)."""
+    if len(pngs) < 2:
+        return False
+    first, last = pngs[0].stat().st_size, pngs[-1].stat().st_size
+    return first > 0 and last < ratio * first
+
+
 def _bullet_text(b: dict) -> str:
     return f"**{b['project']}:** {b['text']}" if b.get("project") else b["text"]
 
@@ -152,8 +177,8 @@ def rendercv_available() -> bool:
         return False
 
 
-def render_pdf(model: dict, out_dir: Path) -> tuple[Path, int]:
-    """Run RenderCV; returns (pdf path, page count from per-page PNGs)."""
+def render_pdf(model: dict, out_dir: Path) -> tuple[Path, int, bool]:
+    """Run RenderCV; returns (pdf path, page count, last page nearly empty) from per-page PNGs."""
     out_dir.mkdir(parents=True, exist_ok=True)
     yml = out_dir / "cv.rendercv.yaml"
     yamlio.dump(model, yml)
@@ -169,11 +194,13 @@ def render_pdf(model: dict, out_dir: Path) -> tuple[Path, int]:
     pdf = work / "cv.pdf"
     if r.returncode != 0 or not pdf.exists():
         raise RuntimeError(f"RenderCV failed: {(r.stderr or r.stdout)[-800:]}")
-    pages = len(list(work.glob("page*.png"))) or 1
+    pngs = sorted(work.glob("page*.png"), key=lambda p: int(re.sub(r"\D", "", p.stem) or 0))
+    pages = len(pngs) or 1
+    sparse = last_page_sparse(pngs)
     final = out_dir / "cv.pdf"
     shutil.move(str(pdf), final)
     shutil.rmtree(work, ignore_errors=True)
-    return final, pages
+    return final, pages, sparse
 
 
 # ---- DOCX ------------------------------------------------------------------------------------------
