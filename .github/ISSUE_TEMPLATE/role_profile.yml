@@ -1,0 +1,20 @@
+name: New role profile
+description: Propose a starter role (e.g. "data engineer", "environmental consultant")
+labels: [role-profile, good first issue]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Role title
+    validations:
+      required: true
+  - type: textarea
+    id: yaml
+    attributes:
+      label: Draft profile (YAML)
+      description: Copy a file from cvprism/data/roles/ and edit it.
+      render: yaml
+  - type: textarea
+    id: why
+    attributes:
+      label: Who is this for and what should come first on their CV?

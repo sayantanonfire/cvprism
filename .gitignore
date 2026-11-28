@@ -14,6 +14,7 @@ dist/
 vault/
 *.jsonl
 !tests/fixtures/**/*.jsonl
+!cvprism/data/demo/cards.jsonl
 .cvprism/
 
 # OS / editor
@@ -21,3 +22,7 @@ vault/
 Thumbs.db
 .idea/
 .vscode/
+
+# generated at docs build time from CONTRIBUTING.md
+docs/contributing.md
+site/

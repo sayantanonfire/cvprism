@@ -228,3 +228,42 @@ def test_orcid_bulk_to_bibtex_dedupes_by_doi():
     assert added == 1                                    # the 2023 DOI already exists in pubs.bib
     titles = [e["title"] for e in parse_bibtex(merged)]
     assert "A brand-new SAR paper" in titles and len(titles) == 3
+
+
+# ---- output polish ---------------------------------------------------------------------------------
+
+def test_deterministic_bullets_include_stated_results():
+    from cvprism.compile.draft import deterministic_bullets
+    from cvprism.compile.roles import load_role
+    import yaml
+    from tests.compile_fixtures import PROFILE
+
+    b = deterministic_bullets([SETUP, F1], yaml.safe_load(PROFILE), load_role("applied-ai", vault=None))
+    texts = [x["text"] for bs in b["positions"].values() for x in bs]
+    assert any("120" in t and "15 min" in t for t in texts), texts
+    assert any("0.91" in t for t in texts), texts
+    for bs in b["positions"].values():                      # still passes the honesty gate
+        for x in bs:
+            assert check_bullet(x, BY_ID, facts=[])[0], x
+
+
+def test_project_label_shown_once_per_group():
+    from cvprism.compile.render import label_groups
+
+    bs = [{"text": "a", "project": "P1"}, {"text": "b", "project": "P2"}, {"text": "c", "project": "P1"},
+          {"text": "d", "project": None}]
+    out = label_groups(bs)
+    assert [x["text"] for x in out] == ["a", "c", "b", "d"]           # same project kept together
+    assert [x.get("project") for x in out] == ["P1", None, "P2", None]  # label only on the first
+
+
+def test_sparse_last_page_detection(tmp_path):
+    from cvprism.compile.render import last_page_sparse
+
+    full, empty = tmp_path / "page_1.png", tmp_path / "page_2.png"
+    full.write_bytes(b"x" * 100_000)
+    empty.write_bytes(b"x" * 9_000)
+    assert last_page_sparse([full, empty]) is True
+    empty.write_bytes(b"x" * 60_000)
+    assert last_page_sparse([full, empty]) is False
+    assert last_page_sparse([full]) is False

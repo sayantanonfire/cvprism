@@ -1,0 +1,24 @@
+# Synthetic demo person. Not a real individual.
+v: 1
+person:
+  name: Asha Verma
+  email: asha@example.org
+  location: Kolkata, India
+  links:
+    - {label: GitHub, url: "https://github.com/ashaverma"}
+positions:
+  - {id: acme, title: Senior Data Scientist, org: Acme Water, location: Pune, start: "2024-03", end: null,
+     dom: [applied-ai, hydrodynamics]}
+  - {id: iit, title: Research Fellow, org: IIT Example, start: "2019-07", end: "2024-02",
+     dom: [academic, hydrodynamics, geospatial]}
+projects:
+  - {ctx: flood-copilot, display: "LLM copilot for flood forecasting", position: acme}
+  - {ctx: client-x-dam, display: "Dam-break study for a utility client", position: acme, confidential: true}
+  - {ctx: delta-sar, display: "SAR flood mapping of the Ganges delta", position: iit}
+education:
+  - {degree: PhD, field: Civil Engineering, institution: IIT Example, end: "2023", thesis: "Coupled 1D-2D flood modelling"}
+publications: {bibtex: pubs.bib, highlight_name: "Verma, A."}
+certifications:
+  - {name: "AWS Certified Machine Learning - Specialty", issuer: AWS, date: "2025-06"}
+facts:
+  - {id: f_team, text: "Mentored 4 junior engineers"}

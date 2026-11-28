@@ -1,0 +1,3 @@
+Company Name,Title,Description,Location,Started On,Finished On
+Acme Water,Senior Data Scientist,"Built an LLM copilot for flood forecasting using retrieval-augmented generation and an MCP server over HEC-RAS. Cut scenario setup from 120 to 15 minutes.","Pune, India",Mar 2024,
+IIT Example,Research Fellow,"Mapped floods from Sentinel-1 SAR with deep learning in Google Earth Engine.",Kharagpur,Jul 2019,Feb 2024

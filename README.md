@@ -1,121 +1,202 @@
-# cvprism
+<p align="center">
+  <img src="docs/assets/banner.svg" alt="cvprism: work from several computers passes through a prism and comes out as several tailored CVs" width="100%">
+</p>
 
-**Work on many machines. Get many CVs. Write none of them by hand.**
+<p align="center">
+  <a href="https://github.com/sayantanonfire/cvprism/actions/workflows/ci.yml"><img alt="Tests" src="https://github.com/sayantanonfire/cvprism/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://sayantanonfire.github.io/cvprism/"><img alt="Documentation" src="https://img.shields.io/badge/docs-online-3346C8"></a>
+  <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-2A9D8F">
+  <img alt="Windows, macOS, Linux" src="https://img.shields.io/badge/os-Windows%20%7C%20macOS%20%7C%20Linux-5A6577">
+  <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-1A2230"></a>
+</p>
 
-cvprism quietly records the skills, methods and results that show up in your everyday work: Claude Code sessions, git commits, new dependencies, plus one-line notes you add. It deduplicates what it already knows, syncs everything from all your computers to one hub, and compiles CVs tailored to a role or a job description. Every bullet cites the evidence behind it.
+<p align="center">
+  <b>Your CV, kept up to date by the work you already do.</b><br>
+  cvprism notices the skills you use every day, across all your computers, and turns them into<br>
+  CVs for any role or job posting. Every line on the CV points to proof.
+</p>
 
-> 🚧 **Status: M5 (JD tailoring + market intel).** Capture, multi-device sync, evidence-cited CV builds (PDF, DOCX, Markdown), job-description tailoring with gap reports, and market-phrase intel work today. M6 (polish, docs site, PyPI) is next on the [roadmap](docs/ROADMAP.md).
+<p align="center">
+  <a href="#-try-it-in-one-minute">Try it</a> ·
+  <a href="#-how-it-works">How it works</a> ·
+  <a href="#%EF%B8%8F-what-you-get">What you get</a> ·
+  <a href="https://sayantanonfire.github.io/cvprism/">Documentation</a>
+</p>
 
-## 🔍 The problem
+---
 
-- You learn something new nearly every day: a tool, an API, a model, a method. Your CV gets updated once a year, from memory.
-- Multidisciplinary people have it worst. One document can't speak to academic, industry, applied-AI *and* domain audiences (e.g. hydrodynamic modelling, geospatial) at once.
-- Your work is spread across a work laptop, a lab workstation and a home PC, each possibly with a different Claude account.
+## 🤔 The problem
 
-## 🌈 How it works
+- **You learn something new almost every day:** a tool, a library, a method. Your CV gets updated once a year, from memory, and most of it is forgotten.
+- **One CV can't speak to everyone.** A university, a tech company and an engineering consultancy each want different things first. Most people with mixed backgrounds keep several CVs and none of them is current.
+- **Your work is spread out:** an office laptop, a lab computer, a home PC, maybe different Claude accounts.
 
-```mermaid
-flowchart LR
-    accTitle: cvprism in One Picture
-    accDescr: Work on several devices produces evidence cards, which sync through git, a synced folder, USB or Syncthing to a hub. The hub compiles role-specific CVs whose bullets each cite cards.
+cvprism fixes all three, and it never asks you to write a CV from scratch again.
 
-    work_w["🧑‍💻 Your work<br/>Claude Code · git ·<br/>projects · notes"]
-    cards_c["🃏 Evidence cards<br/>skills, methods, results<br/>(no code, no data)"]
-    sync_s["🔁 Sync<br/>git · Drive · USB · Syncthing"]
-    hub_h["🏠 Hub<br/>merge + dedup"]
-    cv_a["📄 Academic CV"]
-    cv_i["📄 Industry CV"]
-    cv_ai["📄 Applied-AI CV"]
-    cv_jd["📄 CV for this JD"]
+## 🧭 How it works
 
-    work_w --> cards_c --> sync_s --> hub_h
-    hub_h --> cv_a
-    hub_h --> cv_i
-    hub_h --> cv_ai
-    hub_h --> cv_jd
+<p align="center">
+  <img src="docs/assets/how-it-works.svg" alt="Four steps: you work as usual; cvprism notes the skill, never your files; your computers share the notes; you get a CV for any job with proof for every line" width="100%">
+</p>
 
-    classDef out fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
-    class cv_a,cv_i,cv_ai,cv_jd out
+1. **You work as usual.** cvprism watches quietly: Claude Code sessions, git commits, new libraries in your projects. You can also tell it things directly: `cvprism log "Presented at EGU 2026"`.
+2. **It writes a small evidence card** for each new skill or result: what you did, how deep, and any number you actually stated. It never stores your code, files, data or client names.
+3. **Your computers share the cards** with one main computer (the hub), over a private GitHub repo, Google Drive / OneDrive / Dropbox, a USB stick or Syncthing. The design makes conflicts impossible.
+4. **You ask for a CV** for a role (academic, industry, applied AI, your field) or paste a job posting. You get PDF, Word and Markdown, plus a report of what the job asks for that you can't yet prove.
+
+## 🖼️ What you get
+
+<table>
+<tr>
+<td width="52%" valign="top">
+<img src="docs/assets/sample-cv.png" alt="A one-page CV generated by cvprism for a synthetic person, Asha Verma, Applied AI Scientist" width="100%">
+<p align="center"><sub>A real cvprism output for a made-up person (<code>cvprism demo</code>).</sub></p>
+</td>
+<td valign="top">
+
+**Every line has a receipt.** Next to each CV, `evidence.md` shows the card behind every bullet:
+
+```text
+- Cut scenario setup time for 2D flood simulations
+  through automation (scenario setup time 120 → 15 min)
+  - c_9a59b3fedb34160f (2025-11-01, claude_session,
+    depth 4)
 ```
 
-| Principle | What it means |
-| --- | --- |
-| Evidence, not adjectives | Every CV bullet cites ≥ 1 card. Numbers that aren't in the evidence are rejected by code, not by a prompt |
-| Methodology, never content | Cards hold skill names, methods and stated results. Never code, data, file contents or client names |
-| Plain files | JSONL + YAML + JSON. No database, no server, no account lock-in |
-| Any transport | Private git repo, Google Drive/OneDrive/Dropbox folder, USB stick, Syncthing. Use several at once |
-| Conflict-free by design | Each device appends only to its own inbox. Card IDs are content hashes, so merging is a union |
+**Numbers can't be invented.** If a drafted line mentions a number that isn't in the evidence, code removes it and lists it in `rejected.md`.
 
-## ⚡ Quick start
+**Honest gap reports.** Tailor to a job and you also get `gaps.md`:
+
+```text
+## No evidence
+- Hydraulic modelling (related evidence:
+  Flood modelling, HEC-RAS)
+- Kubernetes
+- PyTorch
+## Thin evidence (depth 1: used only)
+- Docker
+```
+
+</td>
+</tr>
+</table>
+
+## 🚀 Try it in one minute
+
+You need [Python 3.10 or newer](https://www.python.org/downloads/) (3.12+ for PDF output). On Windows, tick **"Add python.exe to PATH"** when installing.
 
 ```bash
 git clone https://github.com/sayantanonfire/cvprism.git
 cd cvprism
-./start.sh            # Windows: start.bat
-# wizard: device name → hub or spoke → folders to watch → where the vault syncs
+./start.sh                       # Windows: start.bat
 ```
 
-Works today (M1):
+Answer four questions (or run `cvprism init --web` to answer them in your browser). Then see what cvprism makes, without setting anything else up:
 
 ```bash
-cvprism log "Built an MCP server exposing HEC-RAS runs as tools"     # Claude turns it into a market-phrased card
-cvprism log --raw "Led a 10-day ADCP field survey" --skill adcp-survey --depth 4 --work   # no LLM needed
-cvprism log --raw "Cut inference latency" --skill onnx --depth 4 --result "latency:-40:%"
-cvprism status        # cards, month files, adapters
-cvprism show          # recent cards
-cvprism doctor        # environment check
-cvprism install       # Claude Code SessionEnd hook, git hook dispatcher, /cv-log skill, login agent
-cvprism install --dry-run   # see every change first; `cvprism uninstall` reverts all of it
+cvprism demo --out cvprism-demo
 ```
 
-Logging the same thing twice creates no new card, only a usage count. A higher depth or a new result creates a new card. Metrics you didn't state are never kept.
+This builds four CVs for a made-up person in about ten seconds, completely offline.
 
-Build CVs on the hub:
+<p align="center">
+  <img src="docs/assets/terminal.svg" alt="Terminal: logging an achievement creates a card; logging it again only updates a counter; building for a job posting reports 7 skills with evidence and 6 gaps" width="88%">
+</p>
 
-```bash
-cvprism roles                                   # academic, industry-ds, applied-ai, hydrodynamics, geospatial + yours
-cvprism build --role applied-ai                 # → vault/build/applied-ai/<timestamp>/cv.pdf, cv.docx, cv.md
-cvprism build --role academic --no-llm          # card text only, no Claude call
-cvprism import-orcid 0000-0002-1825-0097        # pull publications into pubs.bib
-cvprism build --jd posting.txt                  # tailored to a job posting (file or URL) + gaps.md
-cvprism market add applied-ai posting.txt       # save postings you care about...
-cvprism market extract applied-ai               # ...and mirror their recurring phrases in future builds
-```
+## 🛠️ Everyday use
 
-Every build also writes `evidence.md` (each bullet → the cards it cites) and `rejected.md` (drafted claims the honesty gate removed because no evidence supported them).
-
-Adding another computer means running `start.sh` there and choosing **spoke**:
-
-```bash
-# hub (your main machine)
-cvprism init --name home-pc --role hub --vault ~/cvprism-vault --adapter git:git@github.com:me/cvprism-vault.git --yes
-cvprism sync
-# every other machine
-cvprism init --name office-01 --role spoke --adapter git:git@github.com:me/cvprism-vault.git --yes
-cvprism sync          # the background agent also does this every 15 min and when a USB drop-box is plugged in
-```
-
-## 🗺️ Documentation
-
-| Doc | |
+| I want to… | Command |
 | --- | --- |
-| [Architecture](docs/ARCHITECTURE.md) | Components, data flow, failure modes, open questions |
-| [Schema](docs/SCHEMA.md) | Cards, registry, device config, profile, role profiles |
-| [Sync](docs/SYNC.md) | Protocol, adapters, offline and conflict scenarios |
-| [Security & privacy](docs/SECURITY_PRIVACY.md) | What is and isn't captured, redaction |
-| [Roadmap](docs/ROADMAP.md) | M1–M6 with acceptance criteria |
-| [ADRs](docs/adr/) | Every non-obvious design decision |
+| Start from my LinkedIn profile | `cvprism import-linkedin Basic_LinkedInDataExport.zip` |
+| Start from my old CV | `cvprism import-cv old_cv.docx` |
+| Add my publications | `cvprism import-orcid 0000-0002-1825-0097` |
+| Record something by hand | `cvprism log "Led a 10-day field survey"` (or `/cv-log` inside Claude Code) |
+| Capture automatically from now on | `cvprism install` (undo any time with `cvprism uninstall`) |
+| Sync my computers | `cvprism sync` (the background agent also does this every 15 minutes) |
+| Build a CV for a role | `cvprism build --role academic` |
+| Build a CV for a job posting | `cvprism build --jd posting.txt` or a URL |
+| Check that everything works | `cvprism doctor` |
+
+Five starter roles are included: `academic`, `industry-ds`, `applied-ai`, `hydrodynamics`, `geospatial`. Adding your own means copying one small text file. See [Building CVs](https://sayantanonfire.github.io/cvprism/guide/building-cvs/).
+
+## 💻 Several computers
+
+```mermaid
+flowchart LR
+    accTitle: Several computers, one hub
+    accDescr: Spoke computers send evidence cards to the hub over any transport; the hub sends the list of known skills back.
+    a["💻 Office laptop"] -- cards --> t(("GitHub · Drive · USB · Syncthing"))
+    b["💻 Lab computer"] -- cards --> t
+    t -- cards --> h["🏠 Hub: builds your CVs"]
+    h -. known skills .-> t
+```
+
+Each computer only ever adds to its own files, and each card's ID comes from its content, so the same achievement arriving twice is stored once. Offline? Cards wait and go out later. Lost the hub? Promote another computer and it rebuilds everything. Details: [Several computers](https://sayantanonfire.github.io/cvprism/guide/multi-device/).
+
+## 🔒 Privacy
+
+| cvprism records | cvprism never records |
+| --- | --- |
+| Skill and tool names (`PyTorch`, `HEC-RAS`) | Your code, files, notebooks or data |
+| What you did, in one sentence | Client, employer or colleague names (you choose public-safe project names) |
+| How deep you went (used → built → published) | Passwords, keys, tokens; a secret scanner drops any card that contains one |
+| Numbers **you** stated | Full chat transcripts (only a stripped-down summary is ever read) |
+
+Everything is plain text files you own: no database, no server, no account. The code is public and your vault is a separate private folder. Full details: [Security & privacy](docs/SECURITY_PRIVACY.md).
+
+## ❓ FAQ
+
+<details>
+<summary><b>Do I need Claude Code?</b></summary>
+
+For automatic capture, yes: cvprism reads what you did in Claude Code sessions. Without it, manual logging (`cvprism log --raw`), git and folder capture, imports and CV builds (`--no-llm`) all still work.
+</details>
+
+<details>
+<summary><b>Does it make things up?</b></summary>
+
+No. Every bullet must cite at least one evidence card, and every number must be traceable to that evidence or to a fact you wrote yourself. This is checked by code, not by asking an AI nicely. Anything that fails is removed and listed in <code>rejected.md</code>.
+</details>
+
+<details>
+<summary><b>Will it fill my CV with trivial things?</b></summary>
+
+No. A card is created only for a new skill, a deeper level of a known skill, a new measurable result, or non-code work like papers and talks. Using Python for the hundredth time just updates a counter.
+</details>
+
+<details>
+<summary><b>What does it cost?</b></summary>
+
+cvprism is free and open source (Apache-2.0). AI steps use your own Claude Code login. You can build CVs with no AI at all using <code>--no-llm</code>.
+</details>
+
+<details>
+<summary><b>Can I edit the result?</b></summary>
+
+Yes. Each build includes the Markdown, a Word file, and the RenderCV source (<code>cv.rendercv.yaml</code>) for layout tweaks. Your evidence and profile are plain YAML/JSON files you can read and edit.
+</details>
+
+---
+
+## 📚 Documentation
+
+| | |
+| --- | --- |
+| [Getting started](https://sayantanonfire.github.io/cvprism/guide/getting-started/) | Install, import, capture, build |
+| [CLI reference](https://sayantanonfire.github.io/cvprism/guide/cli/) | Every command and option |
+| [Architecture](docs/ARCHITECTURE.md) | Components, data flow, failure modes |
+| [File formats](docs/SCHEMA.md) · [Sync protocol](docs/SYNC.md) | For people building on cvprism |
+| [Decision records](docs/adr/) | Why things are the way they are |
+| [Changelog](CHANGELOG.md) · [Roadmap](docs/ROADMAP.md) | What's done and what's next |
 
 ## 🤝 Contributing
 
-cvprism is designed to be extended without touching the core:
+New role profiles, skill names, sync adapters and translations are all welcome, and most need no Python. Start with [CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately as described in [SECURITY.md](SECURITY.md).
 
-- **Add a role:** copy a YAML file in [`roles/`](roles/).
-- **Add a sync adapter:** one Python module implementing `push`, `pull` and `status` ([ADR-005](docs/adr/ADR-005-adapter-interface.md)).
-- **Add a CV template:** see [`templates/`](templates/).
+## 🙏 Built with
 
-During Phase 0 the most valuable contribution is critique: open an issue against any ADR. Your vault (your career data) always lives in a **separate private location** and never in a fork of this repository.
+[RenderCV](https://github.com/rendercv/rendercv) and [Typst](https://typst.app) for typesetting, [Claude Code](https://claude.com/claude-code) for understanding your work, [Typer](https://typer.tiangolo.com), [watchdog](https://github.com/gorakhargosh/watchdog) and [python-docx](https://github.com/python-openxml/python-docx).
 
 ## 📜 License
 
-[Apache-2.0](LICENSE)
+[Apache-2.0](LICENSE). Your career data is yours: it never leaves the places you choose.

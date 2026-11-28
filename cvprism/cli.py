@@ -55,8 +55,19 @@ def init(
     no_claude: bool = typer.Option(False, "--no-claude-capture", help="Disable Claude Code session capture."),
     yes: bool = typer.Option(False, "--yes", "-y", help="Non-interactive; requires --name, --role, --vault."),
     force: bool = typer.Option(False, help="Redo setup on an already configured device."),
+    web: bool = typer.Option(False, "--web", help="Use a setup page in your browser instead of the terminal."),
 ) -> None:
     """First-run setup: device name, hub or spoke, vault location, watch paths."""
+    if web:
+        from .setup import web as webwiz
+
+        if paths.device_file().exists() and not force:
+            _fail(f"This device is already set up ({paths.device_file()}). Use --force to redo setup.")
+        cfg = webwiz.run(force=force)
+        if not cfg:
+            _fail("Setup was not completed.")
+        typer.echo(f"Ready. Device {cfg['device_id']} is a {cfg['role']}.")
+        return
     try:
         if yes:
             if not (name and role and (vault_path or adapter)):
@@ -380,6 +391,45 @@ def build(
     typer.echo(f"output: {res.out_dir}")
 
 
+def _import_report(rep) -> None:
+    for n in rep.notes:
+        typer.echo(f"note: {n}")
+    typer.echo(f"{rep.cards} new card(s), {rep.known} already known; {rep.positions} position(s), "
+               f"{rep.education} education entr(y/ies), {rep.certifications} certification(s) added to profile")
+    if rep.cards:
+        typer.echo("Imported cards are flagged needs_review (self-reported). Check them with `cvprism show`.")
+
+
+@app.command("import-linkedin")
+def import_linkedin_cmd(
+    src: Path = typer.Argument(..., help="LinkedIn data export (.zip or unzipped folder)."),
+    no_llm: bool = typer.Option(False, "--no-llm", help="Keyword matching only."),
+) -> None:
+    """Bootstrap profile facts and evidence cards from a LinkedIn data export."""
+    from .capture.importers import import_linkedin
+
+    try:
+        rep = import_linkedin(src, _cfg(), use_llm=not no_llm)
+    except (OSError, ValueError) as e:
+        _fail(str(e))
+    _import_report(rep)
+
+
+@app.command("import-cv")
+def import_cv_cmd(
+    path: Path = typer.Argument(..., help="Existing CV: .md, .txt, .docx (or .pdf with pypdf installed)."),
+    no_llm: bool = typer.Option(False, "--no-llm", help="Keyword matching on bullet points only."),
+) -> None:
+    """Turn an existing CV into evidence cards (flagged for review)."""
+    from .capture.importers import import_cv
+
+    try:
+        rep = import_cv(path, _cfg(), use_llm=not no_llm)
+    except (OSError, ValueError) as e:
+        _fail(str(e))
+    _import_report(rep)
+
+
 @app.command("import-orcid")
 def import_orcid(orcid: str = typer.Argument(..., help="Your ORCID iD, e.g. 0000-0002-1825-0097.")) -> None:
     """Fetch your public ORCID works and add new ones to the vault's BibTeX file (hub only)."""
@@ -432,6 +482,24 @@ def market_extract(role: str = typer.Argument(..., help="Role id."),
     typer.echo(f"{out['postings']} posting(s), {len(out['phrases'])} phrase(s)")
     for p in out["phrases"][:15]:
         typer.echo(f"  {p['share']:>5.0%}  {p['phrase']}")
+
+
+@app.command()
+def demo(
+    out: Path = typer.Option(Path("cvprism-demo"), "--out", help="Folder for the demo vault and CVs."),
+    llm_: bool = typer.Option(False, "--llm", help="Draft bullets with Claude (default: offline, card text)."),
+    fmt: Optional[str] = typer.Option(None, "--format", "-f", help="Comma list: pdf,docx,md."),
+) -> None:
+    """Build sample CVs (3 roles + a job posting) for a synthetic person. Needs no setup."""
+    from .demo import run_demo
+
+    formats = [f.strip() for f in fmt.split(",")] if fmt else None
+    out = out.expanduser().resolve()
+    typer.echo(f"Demo vault: {out / 'demo-vault'} (synthetic person, safe to delete)")
+    for label, path, log in run_demo(out, use_llm=llm_, formats=formats):
+        typer.echo(f"{label}: {log[-1] if log else ''}")
+        typer.echo(f"  -> {path}")
+    typer.echo("Open cv.pdf / cv.md, then evidence.md to see which card backs every bullet.")
 
 
 @app.command("roles")
