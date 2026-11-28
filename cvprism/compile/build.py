@@ -112,7 +112,9 @@ def assemble(profile: dict, role: dict, bullets: dict, selected: list[dict], reg
             entries = [{"kind": "bullet", "text": f"{c['name']}, {c['issuer']} ({c['date']})"}
                        for c in profile.get("certifications") or []]
         elif key in ("talks", "fieldwork", "teaching", "awards"):
-            entries = [{"kind": "bullet", "text": b["text"], "cites": b["cites"]} for b in bullets["work"].get(key, [])]
+            entries = [{"kind": "bullet", "text": b["text"], "cites": b["cites"], "link": b.get("link"),
+                        "label": b.get("label"), "level": b.get("level"), "date": b.get("date")}
+                       for b in bullets["work"].get(key, [])]
             if key == "awards":
                 entries += [{"kind": "bullet", "text": a.get("name") or a.get("text", "")}
                             for a in profile.get("awards") or [] if a.get("name") or a.get("text")]
@@ -121,8 +123,40 @@ def assemble(profile: dict, role: dict, bullets: dict, selected: list[dict], reg
                        for l in profile.get("languages") or []]
         if entries:
             sections.append({"key": key, "title": draft.SECTION_TITLES.get(key, key.title()), "entries": entries})
+    if role.get("evidence_page", True):
+        rows = [b for s in sections for e in s["entries"] for b in (e.get("bullets") or ([e] if e.get("cites") else []))
+                if b.get("level")]
+        if rows:
+            sections.append({"key": "evidence", "title": "Evidence", "entries": [
+                {"kind": "evidence", "text": b["text"], "level": b["level"], "link": b.get("link"),
+                 "label": b.get("label"), "date": b.get("date")} for b in rows]})
     return {"person": profile["person"], "headline": role["title"], "sections": sections,
-            "highlight_name": (profile.get("publications") or {}).get("highlight_name")}
+            "highlight_name": (profile.get("publications") or {}).get("highlight_name"),
+            "verify_url": (profile.get("verify") or {}).get("url")}
+
+
+def attach_proof(groups: dict[str, list[dict]], cards_by_id: dict, profile: dict, index) -> None:
+    """Annotate every bullet with its proof level, first public link, privacy label and capture date."""
+    from .evidence import bullet_proof
+
+    for bs in groups.values():
+        for b in bs:
+            p = bullet_proof(b.get("cites") or [], cards_by_id, profile, index)
+            dates = sorted(cards_by_id[c]["t"][:10] for c in b.get("cites") or [] if c in cards_by_id)
+            b.update(level=p.level, link=p.links[0] if p.links else None, links=p.links, label=p.label,
+                     date=dates[0] if dates else None)
+
+
+def manifest_bullets(groups: dict[str, list[dict]]) -> list[dict]:
+    out = []
+    for g, bs in groups.items():
+        if g == "summary":
+            continue
+        for b in bs:
+            out.append({"section": g.split(":", 1)[0], "text": b["text"], "cites": b.get("cites") or [],
+                        "level": b.get("level"), "links": b.get("links") or [], "label": b.get("label"),
+                        "date": b.get("date")})
+    return out
 
 
 def _evidence_md(cv: dict, cards_by_id: dict) -> str:
@@ -158,11 +192,15 @@ def _rejected_md(rejected: list[dict]) -> str:
 
 
 def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[str] | None = None,
-             out_root: Path | None = None, role_override: dict | None = None) -> BuildResult:
+             out_root: Path | None = None, role_override: dict | None = None, check_links: bool = False,
+             publish: bool = False) -> BuildResult:
     if cfg.get("role") != "hub":
         raise BuildError("CVs are built on the hub. This device is a spoke.")
     vault = Path(cfg["vault_path"])
     profile = load_profile(vault)
+    if publish and not (profile.get("verify") or {}).get("repo"):
+        raise BuildError("Publishing needs a verify page target in profile.yaml, e.g.\n"
+                         "verify: {repo: git@github.com:you/you.github.io.git, path: cv, url: https://you.github.io/cv}")
     role = role_override or load_role(role_name, vault)
     from .market import vocabulary_for
 
@@ -204,6 +242,20 @@ def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[s
     }
     kept = sum(len(v) for v in clean.values())
     log.append(f"bullets: {kept} kept, rejected {len(rejected)}")
+    from .evidence import LinkIndex
+    from .evidence import check_links as _check
+
+    attach_proof(clean, cards_by_id, profile, LinkIndex.load(vault))
+    if check_links:
+        dead = set(_check(u for bs in clean.values() for b in bs for u in b.get("links") or []))
+        for bs in clean.values():
+            for b in bs:
+                b["links"] = [u for u in b.get("links") or [] if u not in dead]
+                b["link"] = b["links"][0] if b["links"] else None
+        log.append(f"links: {len(dead)} dead link(s) removed" if dead else "links: all links open")
+    levels = [b["level"] for g, bs in clean.items() if g != "summary" for b in bs]
+    if levels:
+        log.append(f"proof: {sum(l == 'public' for l in levels)} of {len(levels)} line(s) have public proof")
 
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     out = (out_root or vault / "build" / role["id"]) / stamp
@@ -225,8 +277,9 @@ def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[s
                 c["summary_cites"] = (bullets.get("summary") or {}).get("cites")
                 return c, render.render_pdf(render.to_rendercv(c, theme), out)
 
+            limit = role["limits"]["pages"] + (1 if role.get("evidence_page", True) else 0)
             cv, (pdf, pages, sparse) = _render(per_pos)
-            while pages > role["limits"]["pages"] and per_pos > 1:
+            while pages > limit and per_pos > 1:
                 per_pos -= 1
                 cv, (pdf, pages, sparse) = _render(per_pos)
             if pages > 1 and sparse and per_pos > 2:
@@ -239,10 +292,11 @@ def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[s
                     cv, (pdf, pages, sparse) = _render(per_pos)
             meta["pages"] = pages
             meta["formats"].append("pdf")
-            if pages > role["limits"]["pages"]:
-                log.append(f"warning: {pages} pages exceeds the {role['limits']['pages']}-page limit")
+            extra = " + evidence page" if limit > role["limits"]["pages"] else ""
+            if pages > limit:
+                log.append(f"warning: {pages} pages exceeds the {role['limits']['pages']}-page limit{extra}")
             else:
-                log.append(f"pdf: {pages} page(s) (limit {role['limits']['pages']}, {per_pos} bullets/position)")
+                log.append(f"pdf: {pages} page(s) (limit {role['limits']['pages']}{extra}, {per_pos} bullets/position)")
         else:
             log.append("pdf skipped: install the PDF renderer with `pip install cvprism[pdf]`")
     (out / "cv.md").write_text(render.to_markdown(cv), encoding="utf-8")
@@ -256,5 +310,18 @@ def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[s
     (out / "evidence.md").write_text(_evidence_md(cv, cards_by_id), encoding="utf-8")
     (out / "rejected.md").write_text(_rejected_md(rejected), encoding="utf-8")
     meta["bullets_per_position"] = per_pos
+    from . import verify as _verify
+
+    manifest = _verify.make_manifest(cv, manifest_bullets(clean), out, meta["created"], role["id"])
+    (out / "manifest.json").write_text(json.dumps(manifest, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    meta["fingerprints"] = manifest["files"]
+    if publish:
+        from .. import paths
+
+        try:
+            url = _verify.publish(manifest, profile["verify"], paths.home() / "state" / "verify-site")
+        except RuntimeError as e:
+            raise BuildError(f"CV built in {out}, but publishing failed: {e}") from e
+        log.append(f"published verify page: {url}")
     (out / "build.json").write_text(json.dumps(meta, indent=1) + "\n", encoding="utf-8")
     return BuildResult(out_dir=out, log=log, meta=meta)

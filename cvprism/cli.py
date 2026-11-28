@@ -95,6 +95,7 @@ def log(
     work: bool = typer.Option(False, "--work", help="Non-code achievement (paper, talk, field work, award)."),
     ctx: Optional[str] = typer.Option(None, "--project", help="Project alias (mapped to a display name in profile.yaml)."),
     raw: bool = typer.Option(False, "--raw", help="Skip Claude; store your words as-is."),
+    link: List[str] = typer.Option([], "--link", help="Public proof URL, e.g. a DOI, PyPI page or video (repeatable)."),
 ) -> None:
     """Record an achievement manually."""
     import os
@@ -103,7 +104,8 @@ def log(
         return  # never capture from inside an extraction session
     cfg = _cfg()
     try:
-        res = log_entry(text, cfg=cfg, skills=skill, depth=depth, result=result, work=work, ctx=ctx, raw=raw)
+        res = log_entry(text, cfg=cfg, skills=skill, depth=depth, result=result, work=work, ctx=ctx, raw=raw,
+                        links=link)
     except LogError as e:
         _fail(str(e))
     for m in res.messages:
@@ -367,6 +369,8 @@ def build(
     no_llm: bool = typer.Option(False, "--no-llm", help="Use card text directly; no Claude call."),
     fmt: Optional[str] = typer.Option(None, "--format", "-f", help="Comma list: pdf,docx,md (default: role outputs)."),
     out: Optional[Path] = typer.Option(None, "--out", help="Output root (default: vault/build/<role>/)."),
+    check_links: bool = typer.Option(False, "--check-links", help="Open every proof link; drop dead ones."),
+    publish: bool = typer.Option(False, "--publish", help="Publish the verify page (profile.yaml `verify:`)."),
 ) -> None:
     """Build a tailored CV on the hub. Every bullet cites evidence; unsupported numbers are rejected."""
     from .compile.build import BuildError, build_cv
@@ -378,11 +382,13 @@ def build(
         if jd:
             from .compile.jd import build_for_jd
 
-            res = build_for_jd(cfg, jd, use_llm=not no_llm, formats=formats, out_root=out, base_role=role)
+            res = build_for_jd(cfg, jd, use_llm=not no_llm, formats=formats, out_root=out, base_role=role,
+                               check_links=check_links, publish=publish)
         else:
             if not role:
                 _fail("Pass --role <id> or --jd <file-or-url>. Starter roles: " + ", ".join(starter_roles()))
-            res = build_cv(cfg, role, use_llm=not no_llm, formats=formats, out_root=out)
+            res = build_cv(cfg, role, use_llm=not no_llm, formats=formats, out_root=out, check_links=check_links,
+                           publish=publish)
     except (BuildError, RoleError) as e:
         _fail(str(e))
     for line in res.log:
@@ -500,6 +506,127 @@ def demo(
         typer.echo(f"{label}: {log[-1] if log else ''}")
         typer.echo(f"  -> {path}")
     typer.echo("Open cv.pdf / cv.md, then evidence.md to see which card backs every bullet.")
+
+
+project_app = typer.Typer(help="Projects: public (linked), private or local. Private work always keeps its skills.",
+                          no_args_is_help=True)
+app.add_typer(project_app, name="project")
+
+
+@project_app.command("set")
+def project_set(
+    ctx: str = typer.Argument(..., help="Project alias, e.g. flood-copilot."),
+    public: bool = typer.Option(False, "--public", help="Link proof to this project's public repo/page."),
+    private: bool = typer.Option(False, "--private", help="Show '(private repository)' instead of links."),
+    local: bool = typer.Option(False, "--local", help="Local-only work: no link, no label."),
+    url: Optional[str] = typer.Option(None, "--url", help="Repository or project URL (https)."),
+    display: Optional[str] = typer.Option(None, "--display", help="Public-safe name shown on CVs."),
+) -> None:
+    """Set a project's visibility on the hub (profile.yaml). Applies to all past and future cards."""
+    from .compile.evidence import is_https, normalise_repo_url
+    from .novelty.ids import slugify
+
+    cfg = _hub_cfg()
+    if sum([public, private, local]) > 1:
+        _fail("Choose one of --public, --private, --local.")
+    if url and not is_https(normalise_repo_url(url)):
+        _fail("--url must be an https:// address (or a git@host:owner/repo remote).")
+    if public and not url:
+        _fail("A public project needs --url (its repository or project page).")
+    pf = Path(cfg["vault_path"]) / "profile.yaml"
+    prof = yamlio.load(pf) or {"v": 1, "person": {"name": "Your Name"}}
+    slug = slugify(ctx)
+    projects = prof.setdefault("projects", [])
+    p = next((x for x in projects if x.get("ctx") == slug), None)
+    if p is None:
+        p = {"ctx": slug, "display": display or slug.replace("-", " ").capitalize()}
+        projects.append(p)
+    if display:
+        p["display"] = display
+    if public or private or local:
+        p["visibility"] = "public" if public else "private" if private else "local"
+    if url:
+        p["url"] = normalise_repo_url(url)
+    from .schemas import errors as _errors
+
+    errs = _errors("profile", prof)
+    if errs:
+        _fail("; ".join(errs[:3]))
+    yamlio.dump(prof, pf)
+    typer.echo(f"{slug}: {p.get('visibility', 'local')}{' ' + p['url'] if p.get('url') else ''}")
+
+
+@project_app.command("map")
+def project_map(ctx: str = typer.Argument(..., help="Project alias."),
+                path: Path = typer.Argument(..., help="Folder whose work belongs to this project.")) -> None:
+    """On this computer: tag work captured inside PATH with the project alias."""
+    from .novelty.ids import slugify
+
+    cfg = _cfg()
+    entry = {"ctx": slugify(ctx), "path": str(path.expanduser().resolve())}
+    maps = [m for m in cfg.get("projects") or [] if m["path"] != entry["path"]]
+    cfg["projects"] = maps + [entry]
+    config.save_device(cfg)
+    typer.echo(f"work in {entry['path']} is now tagged as project '{entry['ctx']}'")
+
+
+@project_app.command("list")
+def project_list() -> None:
+    """Show projects, their visibility and folder mappings on this computer."""
+    cfg = _cfg()
+    if cfg.get("vault_path"):
+        prof = yamlio.load(Path(cfg["vault_path"]) / "profile.yaml") or {}
+        for p in prof.get("projects") or []:
+            typer.echo(f"{p['ctx']:<24} {p.get('visibility', 'local'):<8} {p.get('url', '')}  ({p.get('display', '')})")
+    for m in cfg.get("projects") or []:
+        typer.echo(f"mapped: {m['path']} -> {m['ctx']}")
+
+
+@app.command("link")
+def link_cmd(card_id: str = typer.Argument(..., help="Card ID (see `cvprism show` or evidence.md)."),
+             url: str = typer.Argument(..., help="Public proof URL (https).")) -> None:
+    """Attach a public proof link to an existing card (hub only)."""
+    import json as _json
+
+    from .compile.evidence import is_https
+    from .hub.merge import read_cards
+    from .vault import utcnow
+
+    cfg = _hub_cfg()
+    if not is_https(url):
+        _fail("Links must be public https:// URLs.")
+    vault_dir = Path(cfg["vault_path"])
+    if card_id not in {c["id"] for c in read_cards(vault_dir)}:
+        _fail(f"No card {card_id} in this vault.")
+    with (vault_dir / "links.jsonl").open("a", encoding="utf-8", newline="\n") as f:
+        f.write(_json.dumps({"id": card_id, "url": url, "t": utcnow()}) + "\n")
+    typer.echo(f"linked {card_id} -> {url}")
+
+
+@app.command("verify")
+def verify_cmd(
+    file: Path = typer.Argument(..., help="The CV file you received (PDF, DOCX or MD)."),
+    manifest: str = typer.Option(..., "--manifest", help="manifest.json path or URL from the verify page."),
+) -> None:
+    """Check a CV file against its published fingerprint (proves it was not edited after cvprism built it)."""
+    import json as _json
+    import urllib.request
+
+    from .compile.verify import verify_pdf
+
+    try:
+        if manifest.startswith("https://"):
+            with urllib.request.urlopen(manifest, timeout=30) as r:
+                m = _json.loads(r.read().decode("utf-8"))
+        else:
+            m = _json.loads(Path(manifest).read_text(encoding="utf-8"))
+    except Exception as e:  # noqa: BLE001
+        _fail(f"Could not read the manifest: {e}")
+    if verify_pdf(file, m):
+        typer.echo(f"OK: {file.name} matches the CV {m['name']} published on {m['built'][:10]}.")
+        typer.echo("This proves the file was not changed. Check the proof links for the claims themselves.")
+    else:
+        _fail(f"{file.name} does not match the published fingerprint: it was changed or is a different build.")
 
 
 @app.command("roles")

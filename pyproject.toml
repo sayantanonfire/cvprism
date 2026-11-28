@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cvprism"
-version = "1.0.0"
+version = "1.1.0"
 description = "Turn everyday work across many computers into evidence-backed, role-specific CVs."
 readme = "README.md"
 license = "Apache-2.0"
@@ -16,6 +16,7 @@ dependencies = [
   "jsonschema>=4.20",
   "platformdirs>=4.0",
   "watchdog>=4.0",
+  "segno>=1.6",
 ]
 classifiers = [
   "Programming Language :: Python :: 3",
