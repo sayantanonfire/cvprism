@@ -50,3 +50,18 @@ jobs:
           call start.bat --name ci --role hub --vault "%RUNNER_TEMP%\vault" --yes || exit /b 1
           "%RUNNER_TEMP%\cvprism-home\venv\Scripts\cvprism.exe" log --raw "Built a CI pipeline for cvprism" --skill github-actions --depth 3 || exit /b 1
           "%RUNNER_TEMP%\cvprism-home\venv\Scripts\cvprism.exe" status
+
+  windows-bundle:
+    # The no-install Windows download: build it and run it like a user would.
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build bundle
+        shell: pwsh
+        run: ./tools/build_windows_bundle.ps1
+      - name: Smoke test bundle
+        shell: pwsh
+        run: ./tools/smoke_windows_bundle.ps1

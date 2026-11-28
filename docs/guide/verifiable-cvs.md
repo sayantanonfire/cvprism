@@ -64,7 +64,7 @@ verify:
   url: https://you.github.io/cv
 ```
 
-Then build with `--publish`. cvprism writes a small page (evidence table, QR code, file fingerprint) and pushes it to that repository. Your CV gets a "Verify this CV" link in the header, and the Word file includes the QR code.
+Then build with `--publish`. cvprism writes a small page (evidence table, QR code, file fingerprint) and pushes it to that repository. Once `verify.url` is set, your CV gets a "Verify this CV" link and a small **scan-to-verify QR code** in the PDF header; the Word file includes the QR code on its Evidence page.
 
 Anyone can confirm a CV file is exactly the one you built:
 

@@ -208,11 +208,16 @@ def to_rendercv(cv: dict, theme: str) -> dict:
         if items:
             sections[sec["title"]] = items
     out["sections"] = sections
+    design = {"theme": theme if theme in RENDERCV_THEMES else "classic",
+              "colors": {"links": LINK_RGB}, "links": {"underline": True}}
     if cv.get("verify_url"):
         out["custom_connections"] = [{"fontawesome_icon": "circle-check", "placeholder": "Verify this CV",
                                       "url": cv["verify_url"]}]
-    return {"cv": out, "design": {"theme": theme if theme in RENDERCV_THEMES else "classic",
-                                  "colors": {"links": LINK_RGB}, "links": {"underline": True}}}
+        if cv.get("qr_file"):
+            # a "scan to verify" QR in the header's photo slot, sized to stay small
+            out["photo"] = cv["qr_file"]
+            design["header"] = {"photo_width": "2.1cm", "photo_position": "right"}
+    return {"cv": out, "design": design}
 
 
 def rendercv_available() -> bool:

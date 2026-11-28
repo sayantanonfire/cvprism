@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0 (2026-11-28)
+
+- **Windows without installing Python:** every release now includes `cvprism-windows.zip`, with the official embeddable Python and everything cvprism needs. Unzip it and double-click **Open cvprism**. CI builds and runs it like a user would before it's published ([ADR-019](docs/adr/ADR-019-windows-bundle.md)).
+- **Scan-to-verify QR code in the PDF:** when a verify page is configured, a small QR code in the CV header links to it, next to a "Verify this CV" link.
+
 ## 1.3.0 (2026-11-28)
 
 ### The cvprism app: no terminal needed ([ADR-018](docs/adr/ADR-018-local-app.md))
