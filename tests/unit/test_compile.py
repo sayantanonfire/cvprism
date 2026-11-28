@@ -135,7 +135,9 @@ def test_confidential_projects_show_display_only(home, tmp_path):
     make_fixture_vault(tmp_path)
     out, _ = build("--role", "hydrodynamics", "--no-llm", "--format", "md")
     md = (out / "cv.md").read_text(encoding="utf-8")
-    assert "client-x-dam" not in md and "flood-copilot" not in md   # criterion 6: no raw ctx slugs
+    assert "client-x-dam" not in md                                  # criterion 6: confidential slug never shown
+    # a public project's alias may appear only inside its real repository URL (the user chose to publish it)
+    assert all("github.com/ashaverma/flood-copilot" in ln for ln in md.splitlines() if "flood-copilot" in ln)
     assert "Dam-break study for a utility client" in md
 
 

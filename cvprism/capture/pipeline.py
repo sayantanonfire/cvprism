@@ -14,7 +14,7 @@ from ..sync.outbox import Outbox
 from .redact import Redactor
 
 ORDER = ("v", "id", "k", "why", "s", "d", "r", "ctx", "txt", "meth", "tl", "dom",
-         "t", "dev", "src", "ref", "conf", "flags", "lang")
+         "t", "dev", "src", "ref", "lnk", "conf", "flags", "lang")
 _NUM = re.compile(r"\d+(?:[.,]\d+)?")
 
 
@@ -75,6 +75,7 @@ def build_and_emit(
     ctx: str | None = None,
     work: bool = False,
     now: str | None = None,
+    links: list[str] | None = None,
 ) -> Outcome:
     """fields: txt, s, d, meth, tl, dom, r, needs_metric, work, conf (LLM-shaped)."""
     out = Outcome()
@@ -113,6 +114,8 @@ def build_and_emit(
     }
     if ref:
         card["ref"] = ref[:120]
+    if links:
+        card["lnk"] = list(dict.fromkeys(links))[:5]
     if redactor is not None:
         red = redactor.apply_card(card)
         if red is None:

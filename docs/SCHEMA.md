@@ -50,6 +50,7 @@ One immutable fact about the user's capability. Cards are never edited. A correc
 | `conf` | Extractor confidence 0–1 (manual = 1) | no |
 | `flags` | `needs_metric`, `needs_review`, `low_confidence`, `manual_raw` | no |
 | `sup` | IDs this card supersedes | no |
+| `lnk` | Public proof URLs (https, max 5); see [Verifiable CVs](guide/verifiable-cvs.md) | no |
 | `lang` | BCP-47, default `en` | no |
 
 ### Canonical form for `id`
@@ -379,7 +380,8 @@ positions:
      dom: [applied-ai, hydrodynamics]}
 projects:
   - {ctx: flood-copilot, display: "LLM copilot for flood forecasting", position: acme-ds}
-  - {ctx: client-x-dam, display: "Dam-break study for a utility client", position: acme-ds, confidential: true}
+  - {ctx: client-x-dam, display: "Dam-break study for a utility client", position: acme-ds, confidential: true,
+     visibility: private}   # public (+ url) | private | local; see guide/verifiable-cvs.md
 education:
   - {degree: PhD, field: Civil Engineering, institution: IIT Example, end: "2023", thesis: "Coupled 1D-2D flood modelling"}
 publications: {bibtex: pubs.bib, orcid: "0000-0002-1825-0097", highlight_name: "Doe, J."}

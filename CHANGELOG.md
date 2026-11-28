@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.0 (2026-11-28)
+
+### Verifiable CVs
+- Lines with public proof end with a short **blue link** to the work itself (commit, PR, project, DOI, PyPI, video). The visible text is the URL, so the CV stays ATS-safe.
+- **Private work keeps its skills:** lines from private repositories show *(private repository)*; local work shows no label. Nothing is hidden or downgraded.
+- Every line gets a computed **proof level** (public proof, third-party confirmed, captured, self-reported), listed on a final **Evidence** page in PDF, Word and Markdown.
+- `cvprism project set/map/list`: mark projects public, private or local once; tag folders on each computer.
+- `cvprism log --link` and `cvprism link <card> <url>` for proof outside git.
+- `cvprism build --check-links` drops dead links; `--publish` pushes a verify page (evidence table, QR code, file fingerprint) to your own GitHub Pages; `cvprism verify` checks a CV file against it.
+- Design: [ADR-015](docs/adr/ADR-015-verifiable-cv.md).
+
 ## 1.0.0 (2026-11-27)
 
 First public release.

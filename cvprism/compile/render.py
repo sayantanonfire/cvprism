@@ -50,8 +50,33 @@ def last_page_sparse(pngs: list[Path], ratio: float = 0.3) -> bool:
     return first > 0 and last < ratio * first
 
 
+LINK_RGB = "rgb(0, 82, 204)"   # #0052CC: accessible blue on white
+LINK_HEX = "0052CC"
+
+
+def _proof_md(b: dict) -> str:
+    from .evidence import short_url
+
+    if b.get("link"):
+        return f" ([{short_url(b['link'])}]({b['link']}))"
+    if b.get("label"):
+        return f" *({b['label']})*"
+    return ""
+
+
 def _bullet_text(b: dict) -> str:
-    return f"**{b['project']}:** {b['text']}" if b.get("project") else b["text"]
+    base = f"**{b['project']}:** {b['text']}" if b.get("project") else b["text"]
+    return base + _proof_md(b)
+
+
+def _evidence_proof_md(e: dict) -> str:
+    from .evidence import short_url
+
+    if e.get("link"):
+        return f"[{short_url(e['link'])}]({e['link']})"
+    from .evidence import no_link_text
+
+    return e.get("label") or no_link_text(e.get("level"))
 
 
 # ---- Markdown -----------------------------------------------------------------------------------
@@ -78,7 +103,14 @@ def to_markdown(cv: dict) -> str:
             elif k == "project":
                 lines += [f"### {e['name']}", ""] + [f"- {_bullet_text(b)}" for b in e["bullets"]] + [""]
             elif k == "bullet":
-                lines += [f"- {e['text']}"]
+                lines += [f"- {_bullet_text(e)}"]
+            elif k == "evidence":
+                from .evidence import LEVEL_LABEL
+
+                if not lines[-1].startswith("|"):
+                    lines += ["| CV line | Proof level | Proof | Captured |", "| --- | --- | --- | --- |"]
+                lines += [f"| {e['text'].replace('|', '/')} | {LEVEL_LABEL.get(e['level'], e['level'])} | "
+                          f"{_evidence_proof_md(e)} | {e.get('date') or ''} |"]
             elif k == "skills":
                 lines += [f"- **{e['label']}:** {', '.join(e['items'])}"]
             elif k == "publication":
@@ -94,6 +126,11 @@ def to_markdown(cv: dict) -> str:
                 lines += [f"- **{e['degree']}{', ' + e['field'] if e.get('field') else ''}**, {e['institution']}"
                           f"{' (' + _dates(e) + ')' if _dates(e) else ''}"
                           + (f". Thesis: *{e['thesis']}*" if e.get("thesis") else "")]
+        if sec["key"] == "evidence":
+            lines += ["", "*Public proof links open the work itself. Private and local work is listed without links: "
+                          "the skill is real, the code is not public.*"]
+            if cv.get("verify_url"):
+                lines += ["", f"Verify this CV: [{cv['verify_url']}]({cv['verify_url']})"]
         if lines[-1] != "":
             lines.append("")
     return "\n".join(lines).rstrip() + "\n"
@@ -140,7 +177,13 @@ def to_rendercv(cv: dict, theme: str) -> dict:
             elif k == "project":
                 items.append({"name": e["name"], "highlights": [_bullet_text(b) for b in e["bullets"]]})
             elif k == "bullet":
-                items.append({"bullet": e["text"]})
+                items.append({"bullet": _bullet_text(e)})
+            elif k == "evidence":
+                from .evidence import LEVEL_LABEL
+
+                items.append({"label": LEVEL_LABEL.get(e["level"], e["level"]),
+                              "details": f"{e['text']} ({_evidence_proof_md(e)}"
+                                         f"{', ' + e['date'] if e.get('date') else ''})"})
             elif k == "skills":
                 items.append({"label": e["label"], "details": ", ".join(e["items"])})
             elif k == "publication":
@@ -165,7 +208,11 @@ def to_rendercv(cv: dict, theme: str) -> dict:
         if items:
             sections[sec["title"]] = items
     out["sections"] = sections
-    return {"cv": out, "design": {"theme": theme if theme in RENDERCV_THEMES else "classic"}}
+    if cv.get("verify_url"):
+        out["custom_connections"] = [{"fontawesome_icon": "circle-check", "placeholder": "Verify this CV",
+                                      "url": cv["verify_url"]}]
+    return {"cv": out, "design": {"theme": theme if theme in RENDERCV_THEMES else "classic",
+                                  "colors": {"links": LINK_RGB}, "links": {"underline": True}}}
 
 
 def rendercv_available() -> bool:
@@ -213,6 +260,50 @@ def _md_runs(par, text: str) -> None:
         run.bold = i % 2 == 1
 
 
+def _docx_link(par, url: str, text: str) -> None:
+    """Insert a real, blue, underlined hyperlink run (python-docx has no high-level API for this)."""
+    from docx.opc.constants import RELATIONSHIP_TYPE
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+
+    r_id = par.part.relate_to(url, RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+    link = OxmlElement("w:hyperlink")
+    link.set(qn("r:id"), r_id)
+    run = OxmlElement("w:r")
+    rpr = OxmlElement("w:rPr")
+    color = OxmlElement("w:color")
+    color.set(qn("w:val"), LINK_HEX)
+    underline = OxmlElement("w:u")
+    underline.set(qn("w:val"), "single")
+    rpr.append(color)
+    rpr.append(underline)
+    run.append(rpr)
+    t = OxmlElement("w:t")
+    t.text = text
+    t.set(qn("xml:space"), "preserve")
+    run.append(t)
+    link.append(run)
+    par._p.append(link)
+
+
+def _docx_bullet(d, b: dict) -> None:
+    from docx.shared import RGBColor
+
+    from .evidence import short_url
+
+    par = d.add_paragraph(style="List Bullet")
+    base = f"**{b['project']}:** {b['text']}" if b.get("project") else b["text"]
+    _md_runs(par, base)
+    if b.get("link"):
+        par.add_run(" (")
+        _docx_link(par, b["link"], short_url(b["link"]))
+        par.add_run(")")
+    elif b.get("label"):
+        r = par.add_run(f" ({b['label']})")
+        r.italic = True
+        r.font.color.rgb = RGBColor(0x5A, 0x65, 0x77)
+
+
 def to_docx(cv: dict, path: Path) -> Path:
     import docx
     from docx.shared import Pt
@@ -242,9 +333,11 @@ def to_docx(cv: dict, path: Path) -> Path:
                 if k == "experience" and _dates(e):
                     h.add_run(f"    {', '.join(x for x in [e.get('location'), _dates(e)] if x)}").italic = True
                 for b in e["bullets"]:
-                    _md_runs(d.add_paragraph(style="List Bullet"), _bullet_text(b))
+                    _docx_bullet(d, b)
             elif k == "bullet":
-                _md_runs(d.add_paragraph(style="List Bullet"), e["text"])
+                _docx_bullet(d, e)
+            elif k == "evidence":
+                pass  # rendered as one table below
             elif k == "skills":
                 par = d.add_paragraph()
                 par.add_run(e["label"] + ": ").bold = True
@@ -259,5 +352,42 @@ def to_docx(cv: dict, path: Path) -> Path:
                 par = d.add_paragraph(style="List Bullet")
                 par.add_run(f"{e['degree']}{', ' + e['field'] if e.get('field') else ''}").bold = True
                 par.add_run(f", {e['institution']}" + (f" ({_dates(e)})" if _dates(e) else ""))
+        if sec["key"] == "evidence":
+            _docx_evidence(d, sec["entries"], cv.get("verify_url"), path.parent)
     d.save(str(path))
     return path
+
+
+def _docx_evidence(d, entries: list[dict], verify_url: str | None, workdir: Path) -> None:
+    from docx.shared import Inches
+
+    from .evidence import LEVEL_LABEL, short_url
+
+    table = d.add_table(rows=1, cols=4)
+    table.style = "Table Grid"
+    for cell, head in zip(table.rows[0].cells, ("CV line", "Proof level", "Proof", "Captured")):
+        cell.paragraphs[0].add_run(head).bold = True
+    for e in entries:
+        row = table.add_row().cells
+        row[0].text = e["text"]
+        row[1].text = LEVEL_LABEL.get(e["level"], e["level"])
+        if e.get("link"):
+            _docx_link(row[2].paragraphs[0], e["link"], short_url(e["link"]))
+        else:
+            from .evidence import no_link_text
+
+            row[2].text = e.get("label") or no_link_text(e.get("level"))
+        row[3].text = e.get("date") or ""
+    d.add_paragraph("Public proof links open the work itself. Private and local work is listed without links: "
+                    "the skill is real, the code is not public.").runs[0].italic = True
+    if verify_url:
+        par = d.add_paragraph("Verify this CV: ")
+        _docx_link(par, verify_url, verify_url)
+        try:
+            from .verify import qr_png
+
+            png = qr_png(verify_url, workdir / ".verify-qr.png")
+            d.add_picture(str(png), width=Inches(1.1))
+            png.unlink(missing_ok=True)
+        except ImportError:
+            pass

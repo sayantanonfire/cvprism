@@ -186,6 +186,25 @@
           }
         }
       }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "ctx",
+          "path"
+        ],
+        "properties": {
+          "ctx": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }

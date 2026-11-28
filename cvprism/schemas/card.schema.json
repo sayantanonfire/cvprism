@@ -149,6 +149,16 @@
     "lang": {
       "type": "string",
       "default": "en"
+    },
+    "lnk": {
+      "type": "array",
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^https://[^\\s]{4,500}$"
+      },
+      "description": "public proof links (not part of the ID hash)"
     }
   },
   "allOf": [

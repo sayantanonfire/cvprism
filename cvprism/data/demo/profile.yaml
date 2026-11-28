@@ -12,9 +12,11 @@ positions:
   - {id: iit, title: Research Fellow, org: IIT Example, start: "2019-07", end: "2024-02",
      dom: [academic, hydrodynamics, geospatial]}
 projects:
-  - {ctx: flood-copilot, display: "LLM copilot for flood forecasting", position: acme}
-  - {ctx: client-x-dam, display: "Dam-break study for a utility client", position: acme, confidential: true}
-  - {ctx: delta-sar, display: "SAR flood mapping of the Ganges delta", position: iit}
+  - {ctx: flood-copilot, display: "LLM copilot for flood forecasting", position: acme, visibility: public,
+     url: "https://github.com/ashaverma/flood-copilot.git"}
+  - {ctx: client-x-dam, display: "Dam-break study for a utility client", position: acme, confidential: true,
+     visibility: private}
+  - {ctx: delta-sar, display: "SAR flood mapping of the Ganges delta", position: iit, visibility: local}
 education:
   - {degree: PhD, field: Civil Engineering, institution: IIT Example, end: "2023", thesis: "Coupled 1D-2D flood modelling"}
 publications: {bibtex: pubs.bib, highlight_name: "Verma, A."}
