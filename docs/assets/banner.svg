@@ -16,19 +16,19 @@
 
   <!-- three computers -->
   <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#5A6577" text-anchor="middle">
-    <g transform="translate(70,92)">
+    <g transform="translate(70,46)">
       <rect width="104" height="66" rx="6" fill="#FFFFFF" stroke="#1A2230" stroke-width="2.5"/>
       <rect x="10" y="10" width="84" height="46" rx="2" fill="#E4E9F1"/>
       <path d="M-8 74h120l-10 10H2z" fill="#1A2230"/>
       <text x="52" y="108">office laptop</text>
     </g>
-    <g transform="translate(70,192)">
+    <g transform="translate(70,158)">
       <rect width="104" height="66" rx="6" fill="#FFFFFF" stroke="#1A2230" stroke-width="2.5"/>
       <rect x="10" y="10" width="84" height="46" rx="2" fill="#E4E9F1"/>
       <path d="M-8 74h120l-10 10H2z" fill="#1A2230"/>
       <text x="52" y="108">lab workstation</text>
     </g>
-    <g transform="translate(70,292)">
+    <g transform="translate(70,270)">
       <rect width="104" height="66" rx="6" fill="#FFFFFF" stroke="#1A2230" stroke-width="2.5"/>
       <rect x="10" y="10" width="84" height="46" rx="2" fill="#E4E9F1"/>
       <path d="M-8 74h120l-10 10H2z" fill="#1A2230"/>
@@ -37,7 +37,7 @@
   </g>
 
   <!-- incoming beams -->
-  <path d="M190 128 L455 236 M190 228 L455 240 M190 328 L455 244" stroke="url(#beam)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M190 79 L455 236 M190 191 L455 240 M190 303 L455 244" stroke="url(#beam)" stroke-width="5" fill="none" stroke-linecap="round"/>
 
   <!-- prism -->
   <polygon points="520,120 600,270 440,270" fill="url(#glass)" stroke="#1A2230" stroke-width="3" stroke-linejoin="round"/>

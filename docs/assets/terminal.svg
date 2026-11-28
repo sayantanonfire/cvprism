@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 430" width="1000" height="430" role="img" aria-labelledby="t d">
   <title id="t">cvprism in a terminal</title>
-  <desc id="d">Logging one achievement, then building a CV for a job posting, with the real output of each command.</desc>
+  <desc id="d">An example session: logging an achievement, logging it again (no duplicate), then building a CV for a job posting.</desc>
   <rect width="1000" height="430" rx="12" fill="#1A2230"/>
   <circle cx="26" cy="24" r="6" fill="#E5533D"/><circle cx="46" cy="24" r="6" fill="#E9C46A"/><circle cx="66" cy="24" r="6" fill="#2A9D8F"/>
   <g font-family="Cascadia Mono, Consolas, Menlo, monospace" font-size="15">
