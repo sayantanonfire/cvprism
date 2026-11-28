@@ -21,9 +21,11 @@ positions:
   - {id: iit, title: Research Fellow, org: IIT Example, start: "2019-07", end: "2024-02",
      dom: [academic, hydrodynamics, geospatial]}
 projects:
-  - {ctx: flood-copilot, display: "LLM copilot for flood forecasting", position: acme}
-  - {ctx: client-x-dam, display: "Dam-break study for a utility client", position: acme, confidential: true}
-  - {ctx: delta-sar, display: "SAR flood mapping of the Ganges delta", position: iit}
+  - {ctx: flood-copilot, display: "LLM copilot for flood forecasting", position: acme, visibility: public,
+     url: "https://github.com/ashaverma/flood-copilot.git"}
+  - {ctx: client-x-dam, display: "Dam-break study for a utility client", position: acme, confidential: true,
+     visibility: private}
+  - {ctx: delta-sar, display: "SAR flood mapping of the Ganges delta", position: iit, visibility: local}
 education:
   - {degree: PhD, field: Civil Engineering, institution: IIT Example, end: "2023", thesis: "Coupled 1D-2D flood modelling"}
 publications: {bibtex: pubs.bib, highlight_name: "Verma, A."}
@@ -63,12 +65,13 @@ def _card(**kw) -> dict:
 CARDS = [
     _card(s=["mcp-server-development"], d=3, ctx="flood-copilot", t="2025-09-02T10:00:00Z", dom=["applied-ai"],
           txt="Built a Model Context Protocol server exposing HEC-RAS 2D runs as tools for an LLM assistant",
-          tl=["python", "fastmcp"]),
+          tl=["python", "fastmcp"], ref="git:flood-copilot@9fceb02"),
     _card(s=["retrieval-augmented-generation"], d=3, ctx="flood-copilot", t="2025-10-01T10:00:00Z",
           dom=["applied-ai"], txt="Designed a retrieval-augmented generation pipeline over flood bulletins"),
     _card(s=["hec-ras", "flood-modelling"], d=4, ctx="flood-copilot", t="2025-11-01T10:00:00Z",
           dom=["hydrodynamics"], txt="Cut scenario setup time for 2D flood simulations through automation",
-          r={"m": "scenario setup time", "val": 15, "unit": "min", "base": 120, "dir": "down"}),
+          r={"m": "scenario setup time", "val": 15, "unit": "min", "base": 120, "dir": "down"},
+          ref="git:flood-copilot@1a2b3c4"),
     _card(s=["hec-ras"], d=3, ctx="client-x-dam", t="2024-06-01T10:00:00Z", dom=["hydrodynamics"],
           txt="Ran a dam-break inundation analysis with unsteady 2D hydraulic modelling"),
     _card(s=["sentinel-1-sar", "deep-learning"], d=3, ctx="delta-sar", t="2022-03-01T10:00:00Z",

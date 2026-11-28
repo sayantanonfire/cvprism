@@ -117,6 +117,19 @@
           "confidential": {
             "type": "boolean",
             "default": false
+          },
+          "visibility": {
+            "enum": [
+              "public",
+              "private",
+              "local"
+            ],
+            "description": "public: link proof; private: '(private repository)'; local: no label"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://[^\\s]{4,500}$",
+            "description": "repository or project homepage (public projects only)"
           }
         }
       }
@@ -225,6 +238,28 @@
           "text": {
             "type": "string"
           }
+        }
+      }
+    },
+    "verify": {
+      "type": "object",
+      "required": [
+        "repo",
+        "url"
+      ],
+      "properties": {
+        "repo": {
+          "type": "string",
+          "description": "git remote of a public GitHub Pages repo you own"
+        },
+        "path": {
+          "type": "string",
+          "default": "cv"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https://[^\\s]{4,500}$",
+          "description": "public URL of the verify page"
         }
       }
     }

@@ -106,9 +106,13 @@ def run_once(cfg: dict, queue: Queue | None = None) -> dict:
             stats["retry"] += len(gjobs)
             continue
         source_text = _human_text(digest)
+        from .projects import ctx_for_path
+
+        where = gjobs[0]["payload"].get("cwd") if kind == "claude_session" else (gkey if kind == "git_commit" else None)
+        ctx = ctx_for_path(cfg, where)
         for cand in candidates:
             oc = build_and_emit(cand, cfg=cfg, known=known, src=SRC[kind], source_text=source_text,
-                                redactor=redactor, ref=ref)
+                                redactor=redactor, ref=ref, ctx=ctx)
             if oc.card:
                 stats["cards"] += 1
             elif oc.dropped:

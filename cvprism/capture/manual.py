@@ -77,11 +77,17 @@ def log_entry(
     ctx: str | None = None,
     raw: bool = False,
     now: str | None = None,
+    links: list[str] | None = None,
 ) -> LogResult:
     out = LogResult(card=None)
     if os.environ.get("CVPRISM_EXTRACTING"):
         out.messages.append("cvprism: skipped (running inside an extraction session)")
         return out
+    from ..compile.evidence import is_https
+
+    bad = [u for u in links or [] if not is_https(u)]
+    if bad:
+        raise LogError(f"Links must be public https:// URLs: {', '.join(bad)}")
     text = " ".join(text.split())
     if len(text) < 8:
         raise LogError("Entry is too short; describe what you did in a sentence.")
@@ -112,7 +118,7 @@ def log_entry(
             raise LogError("Could not identify a skill; pass --skill.")
     # manual entries are the user's own words: deny-list scrubbing applies, but never drop silently
     oc = build_and_emit(fields, cfg=cfg, known=known, src="manual", source_text=text, redactor=load_redactor(cfg),
-                        r=r, flags=flags, ctx=ctx, work=work, now=now)
+                        r=r, flags=flags, ctx=ctx, work=work, now=now, links=links)
     if oc.dropped:
         raise LogError(f"Card not saved: {oc.dropped}")
     out.messages += oc.messages
