@@ -17,5 +17,7 @@ $demo = Join-Path $env:RUNNER_TEMP "bundle-demo"
 if ($LASTEXITCODE -ne 0) { throw "demo failed" }
 $pdfs = Get-ChildItem -Recurse $demo -Filter cv.pdf
 if ($pdfs.Count -lt 4) { throw "expected 4 PDFs, found $($pdfs.Count)" }
+# doctor is informational here: CI has no Claude CLI, which doctor rightly reports as exit 1
 & cmd /c "`"$b\cvprism.bat`" doctor"
 Write-Host "Bundle smoke test passed: $($pdfs.Count) PDFs built with the embedded Python."
+exit 0
