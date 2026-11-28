@@ -371,6 +371,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The app (no terminal)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../multi-device/" class="md-nav__link">
         
   
@@ -684,6 +712,17 @@
     <span class="md-ellipsis">
       
         cvprism verify
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cvprism-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism app
       
     </span>
   </a>
@@ -1374,6 +1413,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cvprism-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvprism app
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#cvprism-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1604,6 +1654,7 @@
 <li><code>demo</code>: Build sample CVs (3 roles + a job posting)...</li>
 <li><code>link</code>: Attach a public proof link to an existing...</li>
 <li><code>verify</code>: Check a CV file against its published...</li>
+<li><code>app</code>: Open cvprism in your browser: add...</li>
 <li><code>roles</code>: List starter roles and the roles in your...</li>
 <li><code>sync</code>: Push this device&#x27;s cards to every...</li>
 <li><code>suppress</code>: Hide a card from merge and compile without...</li>
@@ -1820,6 +1871,17 @@
 <li><code>--manifest &lt;str&gt;</code>: manifest.json path or URL from the verify page.  [required]</li>
 <li><code>--github &lt;str&gt;</code>: Also check the signature against this GitHub user&#x27;s published SSH keys.</li>
 <li><code>--keys &lt;path&gt;</code>: Also check the signature against SSH public keys in this file.</li>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<h2 id="cvprism-app"><code>cvprism app</code><a class="headerlink" href="#cvprism-app" title="Permanent link">&para;</a></h2>
+<p>Open cvprism in your browser: add evidence, import, manage projects and build CVs without a terminal.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>cvprism<span class="w"> </span>app<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--no-browser</code>: Don&#x27;t open the browser automatically.</li>
+<li><code>--port &lt;int&gt;</code>: Fixed port (default: any free port).  [default: 0]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="cvprism-roles"><code>cvprism roles</code><a class="headerlink" href="#cvprism-roles" title="Permanent link">&para;</a></h2>
