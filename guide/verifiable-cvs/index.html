@@ -1103,7 +1103,7 @@ cvprism<span class="w"> </span>link<span class="w"> </span>c_9a59b3fedb34160f<sp
 <span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cv</span>
 <span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://you.github.io/cv</span>
 </code></pre></div>
-<p>Then build with <code>--publish</code>. cvprism writes a small page (evidence table, QR code, file fingerprint) and pushes it to that repository. Your CV gets a "Verify this CV" link in the header, and the Word file includes the QR code.</p>
+<p>Then build with <code>--publish</code>. cvprism writes a small page (evidence table, QR code, file fingerprint) and pushes it to that repository. Once <code>verify.url</code> is set, your CV gets a "Verify this CV" link and a small <strong>scan-to-verify QR code</strong> in the PDF header; the Word file includes the QR code on its Evidence page.</p>
 <p>Anyone can confirm a CV file is exactly the one you built:</p>
 <div class="highlight"><pre><span></span><code>cvprism<span class="w"> </span>verify<span class="w"> </span>cv.pdf<span class="w"> </span>--manifest<span class="w"> </span>https://you.github.io/cv/manifest.json
 </code></pre></div>
