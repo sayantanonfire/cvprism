@@ -290,9 +290,20 @@ def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[s
     if "pdf" in wanted:
         if render.rendercv_available():
             theme = role.get("template") or "classic"
+            qr_file = None
+            if cv.get("verify_url"):
+                try:
+                    from .verify import qr_png
+
+                    qr_png(cv["verify_url"], out / "verify-qr.png")
+                    qr_file = "verify-qr.png"
+                except ImportError:
+                    pass
+
             def _render(n):
                 c = assemble(profile, role, bullets, selected, registry, pubs, cards_by_id, n)
                 c["summary_cites"] = (bullets.get("summary") or {}).get("cites")
+                c["qr_file"] = qr_file
                 return c, render.render_pdf(render.to_rendercv(c, theme), out)
 
             limit = role["limits"]["pages"] + (1 if role.get("evidence_page", True) else 0)

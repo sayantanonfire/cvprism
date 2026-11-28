@@ -272,3 +272,30 @@ def test_evidence_wording_for_unlinked_lines(home, tmp_path):
     assert "Self-reported" in survey and "no link yet" in survey
     unet = next(l for l in ev.splitlines() if "U-Net" in l)
     assert "local work" in unet
+
+
+def test_rendercv_puts_verify_qr_in_header():
+    from cvprism.compile.render import to_rendercv
+
+    cv = {"person": {"name": "X"}, "verify_url": "https://you.github.io/cv", "qr_file": "verify-qr.png",
+          "sections": []}
+    m = to_rendercv(cv, "classic")
+    assert m["cv"]["photo"] == "verify-qr.png"
+    assert m["design"]["header"]["photo_position"] == "right"
+    assert to_rendercv(dict(cv, qr_file=None), "classic")["cv"].get("photo") is None
+
+
+def test_pdf_with_verify_url_embeds_qr(home, tmp_path):
+    pytest.importorskip("rendercv")
+    make_fixture_vault(tmp_path)
+    prof_file = tmp_path / "vault" / "profile.yaml"
+    prof = yamlio.load(prof_file)
+    prof["verify"] = {"repo": "unused", "url": "https://ashaverma.github.io/cv"}
+    yamlio.dump(prof, prof_file)
+    out, log = build("--role", "applied-ai", "--no-llm", "--format", "pdf")
+    assert (out / "verify-qr.png").exists()
+    import pypdf
+
+    reader = pypdf.PdfReader(str(out / "cv.pdf"))
+    assert any(page.images for page in reader.pages)        # the QR is an image on the page
+    assert "5/5 passed" in log                              # still ATS-clean
