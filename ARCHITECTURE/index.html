@@ -1,0 +1,1673 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Work on many machines. Get many CVs. Write none of them by hand.">
+      
+      
+      
+        <link rel="canonical" href="https://sayantanonfire.github.io/cvprism/ARCHITECTURE/">
+      
+      
+        <link rel="prev" href="../guide/cli/">
+      
+      
+        <link rel="next" href="../SCHEMA/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Architecture - cvprism</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cvprism-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="cvprism" class="md-header__button md-logo" aria-label="cvprism" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            cvprism
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sayantanonfire/cvprism" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sayantanonfire/cvprism
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="cvprism" class="md-nav__button md-logo" aria-label="cvprism" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    cvprism
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sayantanonfire/cvprism" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sayantanonfire/cvprism
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/multi-device/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Many computers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/building-cvs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building CVs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals-and-non-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Goals and non-goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧭 System context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧱 Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧱 Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-state-vs-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local state vs vault
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Data flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Data flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capture-to-card-every-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capture to card (every device)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-and-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync and merge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compile (hub)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topology-and-hub-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 Topology and hub lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💥 Failure modes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-and-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Runtime and platform
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❓ Open questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SCHEMA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SYNC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_PRIVACY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decision records
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals-and-non-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Goals and non-goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧭 System context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧱 Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧱 Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-state-vs-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local state vs vault
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Data flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Data flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capture-to-card-every-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capture to card (every device)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-and-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync and merge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compile (hub)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topology-and-hub-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 Topology and hub lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💥 Failure modes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-and-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Runtime and platform
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❓ Open questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="cvprism-architecture">cvprism Architecture<a class="headerlink" href="#cvprism-architecture" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Status: <strong>Phase 0 draft for review</strong>. Nothing here is implemented yet. Normative words (MUST, SHOULD, MAY) follow RFC 2119.</p>
+</blockquote>
+<p>cvprism turns ordinary work spread over several computers into evidence cards. It syncs them to one hub machine and builds CVs for specific roles from them. Every CV bullet traces back to at least one card.</p>
+<p>Companion documents:</p>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../SCHEMA/">SCHEMA.md</a></td>
+<td>Exact file formats and JSON Schemas</td>
+</tr>
+<tr>
+<td><a href="../SYNC/">SYNC.md</a></td>
+<td>Sync protocol, adapters, offline and conflict scenarios</td>
+</tr>
+<tr>
+<td><a href="../SECURITY_PRIVACY/">SECURITY_PRIVACY.md</a></td>
+<td>What is and isn't captured, redaction</td>
+</tr>
+<tr>
+<td><a href="../ROADMAP/">ROADMAP.md</a></td>
+<td>Milestones and acceptance criteria</td>
+</tr>
+<tr>
+<td><a href="adr/">adr/</a></td>
+<td>Architecture Decision Records</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="goals-and-non-goals">🎯 Goals and non-goals<a class="headerlink" href="#goals-and-non-goals" title="Permanent link">&para;</a></h2>
+<p><strong>Goals</strong></p>
+<ol>
+<li>Capture methodology, skills, tools, techniques and measurable results continuously, with no user effort beyond an optional one-line log.</li>
+<li>Keep state in plain, human-readable files. No database, no server, no dependency on any Claude account.</li>
+<li>Sync from any number of devices into one hub over interchangeable transports, without conflicts.</li>
+<li>Compile tailored CVs (academic, industry, applied-AI, domain) where every claim cites evidence.</li>
+<li>Stay cheap: deterministic code does filtering and dedup, and the LLM sees only small, pre-filtered inputs.</li>
+</ol>
+<p><strong>Non-goals (v1)</strong></p>
+<ul>
+<li>Capturing raw data, file contents, source code or client data. This is a hard rule (see <a href="../SECURITY_PRIVACY/">SECURITY_PRIVACY.md</a>).</li>
+<li>Real-time sync, multi-user vaults, a hosted service or a GUI CV editor.</li>
+<li>A native LAN server (<code>cvprism hub serve</code> is on the post-v1 roadmap; see <a href="../adr/ADR-006-syncthing-not-custom-lan/">ADR-006</a>).</li>
+<li>Writing our own CV typesetter (<a href="../adr/ADR-010-renderer/">ADR-010</a>).</li>
+</ul>
+<hr />
+<h2 id="system-context">🧭 System context<a class="headerlink" href="#system-context" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    accTitle: cvprism System Context
+    accDescr: Spoke devices capture evidence cards locally and push them through sync adapters to a hub. The hub merges cards, publishes the registry back, and compiles role-specific CVs.
+
+    subgraph spokes["Spoke devices (any number)"]
+        direction TB
+        sp_a["💻 Spoke A&lt;br/&gt;capture + outbox"]
+        sp_b["💻 Spoke B&lt;br/&gt;capture + outbox"]
+    end
+
+    subgraph transports["Sync adapters (one or more)"]
+        direction TB
+        t_git["git (private repo)"]
+        t_drive["synced folder&lt;br/&gt;(Drive/OneDrive/Dropbox)"]
+        t_usb["USB drop-box"]
+        t_st["Syncthing"]
+    end
+
+    subgraph hub_box["Hub device (exactly one)"]
+        direction TB
+        hub_cap["💻 Hub capture"]
+        hub_merge["🔀 Merge + registry"]
+        hub_vault["📁 Vault"]
+        hub_comp["🧾 Compiler"]
+    end
+
+    cv_out["📄 CVs&lt;br/&gt;PDF / DOCX / MD"]
+
+    sp_a --&gt;|"append-only inbox"| transports
+    sp_b --&gt;|"append-only inbox"| transports
+    transports --&gt;|"pull inboxes"| hub_merge
+    hub_cap --&gt; hub_vault
+    hub_merge --&gt; hub_vault
+    hub_vault --&gt; hub_comp
+    hub_comp --&gt; cv_out
+    hub_merge -.-&gt;|"registry.json back-flow"| transports
+    transports -.-&gt;|"registry.json"| spokes
+
+    classDef dev fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
+    classDef tr fill:#fef9c3,stroke:#ca8a04,stroke-width:2px,color:#713f12
+    classDef out fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
+    class sp_a,sp_b,hub_cap,hub_merge,hub_vault,hub_comp dev
+    class t_git,t_drive,t_usb,t_st tr
+    class cv_out out</code></pre>
+<hr />
+<h2 id="components">🧱 Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h2>
+<p>Each component maps to one subpackage of <code>cvprism/</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Package</th>
+<th>Runs on</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Installer and wizard</td>
+<td><code>start.sh</code>, <code>start.bat</code>, <code>cvprism/setup</code></td>
+<td>all</td>
+<td>Create the venv, run the first-run wizard, register hooks and the login service</td>
+</tr>
+<tr>
+<td>Capture: Claude Code hook</td>
+<td><code>capture/hooks</code></td>
+<td>all</td>
+<td><code>SessionEnd</code> hook that <strong>enqueues</strong> a job. It never runs the extraction inline</td>
+</tr>
+<tr>
+<td>Capture: git hook</td>
+<td><code>capture/hooks</code></td>
+<td>all</td>
+<td>Global <code>post-commit</code> dispatcher that chains to repo-local hooks (<a href="../adr/ADR-008-git-hooks-chaining/">ADR-008</a>) and enqueues commit metadata</td>
+</tr>
+<tr>
+<td>Capture: watcher</td>
+<td><code>capture/watcher</code></td>
+<td>all</td>
+<td>Watches opted-in paths for tech-signal files (manifests, notebooks, <code>SKILL.md</code>, model configs) and enqueues <strong>diffs of dependency names only</strong></td>
+</tr>
+<tr>
+<td>Capture: manual</td>
+<td><code>capture/manual</code>, <code>skills/cv-log</code></td>
+<td>all</td>
+<td><code>cvprism log "&lt;line&gt;"</code> and the <code>/cv-log</code> skill</td>
+</tr>
+<tr>
+<td>Job queue and worker</td>
+<td><code>capture/queue</code></td>
+<td>all</td>
+<td>A durable file-based queue (<code>~/.cvprism/queue/</code>) drained by the background service</td>
+</tr>
+<tr>
+<td>Reducer</td>
+<td><code>capture/reduce</code></td>
+<td>all</td>
+<td>Turns raw signals (transcript, commit, diff) into a small, sanitised digest <strong>in code</strong> before any LLM call</td>
+</tr>
+<tr>
+<td>Extractor</td>
+<td><code>capture/extract</code></td>
+<td>all</td>
+<td>Runs <code>claude -p</code> with a JSON-schema-constrained prompt over the digest and returns candidate cards</td>
+</tr>
+<tr>
+<td>Redactor</td>
+<td><code>capture/redact</code></td>
+<td>all</td>
+<td>Applies the user's deny-lists, project aliases and secret scanners to candidate cards</td>
+</tr>
+<tr>
+<td>Novelty filter</td>
+<td><code>novelty/</code></td>
+<td>all</td>
+<td>Compares candidates with the local registry cache and emits a card or bumps a counter</td>
+</tr>
+<tr>
+<td>Outbox</td>
+<td><code>sync/outbox</code></td>
+<td>all</td>
+<td>Append-only per-device JSONL files, with per-adapter replication cursors</td>
+</tr>
+<tr>
+<td>Sync adapters</td>
+<td><code>sync/adapters/*</code></td>
+<td>all</td>
+<td><code>push(outbox)</code>, <code>pull() -&gt; registry</code>, <code>status()</code> for git, gdrive, usb, syncthing and local</td>
+</tr>
+<tr>
+<td>Hub merge</td>
+<td><code>hub/merge</code></td>
+<td>hub</td>
+<td>Unions all inboxes into <code>cards.jsonl</code>, validates and quarantines, rebuilds the registry</td>
+</tr>
+<tr>
+<td>Registry publisher</td>
+<td><code>hub/publish</code></td>
+<td>hub</td>
+<td>Writes <code>registry.json</code> back out through every adapter</td>
+</tr>
+<tr>
+<td>Compiler</td>
+<td><code>compile/</code></td>
+<td>hub</td>
+<td>Role and JD filtering, scoring, bullet rewriting with citations, honesty gate, rendering</td>
+</tr>
+<tr>
+<td>Market intel (M5)</td>
+<td><code>compile/market</code></td>
+<td>hub</td>
+<td>Extracts recurring phrases per role into <code>vault/market/&lt;role&gt;.json</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="local-state-vs-vault">Local state vs vault<a class="headerlink" href="#local-state-vs-vault" title="Permanent link">&para;</a></h3>
+<p>Two storage locations are kept strictly apart.</p>
+<table>
+<thead>
+<tr>
+<th>Location</th>
+<th>Contents</th>
+<th>Synced?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~/.cvprism/</code> (platform data dir, via <code>platformdirs</code>)</td>
+<td><code>device.yaml</code>, <code>outbox/&lt;device-id&gt;/*.jsonl</code>, <code>queue/</code>, <code>counters.json</code>, <code>registry.cache.json</code>, adapter cursors, logs</td>
+<td><strong>No</strong>. Only the outbox is replicated, by adapters</td>
+</tr>
+<tr>
+<td>Vault (hub: a real directory; spokes: reached only through adapters)</td>
+<td><code>inbox/&lt;device-id&gt;/</code>, <code>cards.jsonl</code>, <code>registry.json</code>, <code>profile.yaml</code>, <code>roles/</code>, <code>market/</code>, <code>hub.json</code>, <code>vault.json</code></td>
+<td>Yes, through adapters</td>
+</tr>
+</tbody>
+</table>
+<p>The outbox lives on local disk first, so a card exists durably on the device that captured it before any transport is involved. Adapters only ever <em>copy</em> outbox files into <code>inbox/&lt;device-id&gt;/</code> at the transport. Spokes never hold a full vault. That keeps the career history of a whole vault off a lost laptop or USB stick, except where the user chooses a full-vault transport.</p>
+<hr />
+<h2 id="data-flow">🔄 Data flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h2>
+<h3 id="capture-to-card-every-device">Capture to card (every device)<a class="headerlink" href="#capture-to-card-every-device" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+    accTitle: Capture Pipeline
+    accDescr: Signals from four sources are queued, reduced to a sanitised digest in code, extracted by Claude, redacted, and passed through the novelty filter, which either writes a card to the outbox or increments a local counter.
+
+    src_claude["Claude Code SessionEnd"]
+    src_git["git post-commit"]
+    src_watch["Folder watcher"]
+    src_manual["cvprism log / /cv-log"]
+
+    queue_q[("📥 File queue")]
+    reduce_r["✂️ Reducer (code)&lt;br/&gt;drop file contents,&lt;br/&gt;tool output, data"]
+    extract_e["🤖 Extractor&lt;br/&gt;claude -p + JSON schema"]
+    redact_r["🛡️ Redactor&lt;br/&gt;deny-list, aliases, secrets"]
+    validate_v{"Schema valid?"}
+    novelty_n{"Novel?&lt;br/&gt;new skill / higher depth&lt;br/&gt;/ new result"}
+    outbox_o[("📤 Outbox JSONL&lt;br/&gt;append-only")]
+    counter_c[("🔢 counters.json")]
+    reject_r[("🗑️ rejects.log")]
+
+    src_claude --&gt; queue_q
+    src_git --&gt; queue_q
+    src_watch --&gt; queue_q
+    src_manual --&gt;|"skips reducer"| extract_e
+    queue_q --&gt; reduce_r --&gt; extract_e --&gt; redact_r --&gt; validate_v
+    validate_v --&gt;|"no"| reject_r
+    validate_v --&gt;|"yes"| novelty_n
+    novelty_n --&gt;|"yes"| outbox_o
+    novelty_n --&gt;|"no"| counter_c
+
+    classDef store fill:#f3e8ff,stroke:#7c3aed,stroke-width:2px,color:#3b0764
+    classDef step fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
+    class queue_q,outbox_o,counter_c,reject_r store
+    class reduce_r,extract_e,redact_r step</code></pre>
+<p>Key properties:</p>
+<ul>
+<li><strong>Hooks only enqueue.</strong> A Claude Code <code>SessionEnd</code> hook MUST return within milliseconds. Extraction runs later in the worker. This also stops the extractor's own <code>claude -p</code> session from triggering capture recursively: the worker sets <code>CVPRISM_EXTRACTING=1</code>, and the hook exits immediately when it sees that variable.</li>
+<li><strong>The reducer runs before the LLM.</strong> The digest keeps user prompts (truncated), tool <em>names</em>, file <em>extensions</em>, package names, command verbs and commit subjects. It drops file contents, tool outputs, diffs and data. This is both the privacy boundary and the token budget, capped by <code>extraction.max_input_tokens</code> (default 6k).</li>
+<li><strong>Manual entries</strong> go straight to the extractor, which normalises them into the market-facing card form. With <code>--raw</code> they skip the LLM entirely, so <code>cvprism log</code> works offline and with no Claude installed.</li>
+<li><strong>Missing metrics are never invented.</strong> If the text implies a result but gives no number, <code>r</code> is <code>null</code> and <code>flags</code> contains <code>needs_metric</code>. <code>cvprism review</code> lists these for the user to fill in.</li>
+</ul>
+<h3 id="sync-and-merge">Sync and merge<a class="headerlink" href="#sync-and-merge" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    accTitle: Spoke to Hub Sync Sequence
+    accDescr: A spoke pushes its outbox through an adapter. The hub later pulls all inboxes, merges and deduplicates by card ID, rebuilds the registry and publishes it back. The spoke then pulls the new registry for local novelty checks.
+
+    participant S as Spoke worker
+    participant A as Adapter (any)
+    participant H as Hub worker
+    participant V as Hub vault
+
+    S-&gt;&gt;S: append card to outbox/&lt;dev&gt;/2026-11.jsonl
+    S-&gt;&gt;A: push(outbox): copy changed files to inbox/&lt;dev&gt;/
+    A--&gt;&gt;S: ok, update cursor (size + sha256)
+    Note over A: transport delivers in its own time&lt;br/&gt;(git push, Drive sync, USB carry, Syncthing)
+    H-&gt;&gt;A: pull inboxes
+    A--&gt;&gt;H: inbox/&lt;dev&gt;/*.jsonl (possibly partial last line)
+    H-&gt;&gt;H: parse complete lines, validate schema, quarantine invalid
+    H-&gt;&gt;V: union by card id into cards.jsonl
+    H-&gt;&gt;V: rebuild registry.json (rev+1)
+    H-&gt;&gt;A: publish registry.json
+    S-&gt;&gt;A: pull()
+    A--&gt;&gt;S: registry.json (epoch, rev)
+    S-&gt;&gt;S: accept if (epoch, rev) is newer, then replace registry.cache.json</code></pre>
+<h3 id="compile-hub">Compile (hub)<a class="headerlink" href="#compile-hub" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    accTitle: Compile Pipeline
+    accDescr: The compiler loads a role profile or JD, filters and scores cards in code, sends a bounded subset with profile facts to Claude to draft cited bullets, enforces citation and metric honesty, then renders via RenderCV and Pandoc.
+
+    role_in["📋 roles/&amp;lt;role&amp;gt;.yaml&lt;br/&gt;or JD → ad-hoc role"]
+    filter_f["🔎 Filter + score (code)&lt;br/&gt;domains, depth, recency,&lt;br/&gt;vocabulary match"]
+    subset_s["Top-K cards&lt;br/&gt;(token budget)"]
+    draft_d["🤖 Draft bullets&lt;br/&gt;claude -p, must cite ids"]
+    gate_g{"🛡️ Honesty gate&lt;br/&gt;ids exist? numbers&lt;br/&gt;traceable?"}
+    render_r["🖨️ RenderCV (PDF)&lt;br/&gt;Pandoc (DOCX/MD)"]
+    out_o["📄 build/&amp;lt;role&amp;gt;/&amp;lt;date&amp;gt;/"]
+    fail_f["❌ Rejected bullets&lt;br/&gt;+ report"]
+
+    role_in --&gt; filter_f --&gt; subset_s --&gt; draft_d --&gt; gate_g
+    gate_g --&gt;|"pass"| render_r --&gt; out_o
+    gate_g --&gt;|"fail, 1 retry then drop"| fail_f
+
+    classDef step fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
+    classDef bad fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d
+    classDef out fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
+    class filter_f,subset_s,draft_d,render_r step
+    class fail_f bad
+    class out_o out</code></pre>
+<p>The honesty gate is deterministic code, not a prompt instruction (<a href="../adr/ADR-009-honesty-gate/">ADR-009</a>). It:</p>
+<ol>
+<li>Rejects any bullet without <code>[c_…]</code> citations, or citing IDs not in <code>cards.jsonl</code>.</li>
+<li>Extracts every number (including <code>%</code>, <code>x</code>, ranges and written-out numbers) from the bullet. Each one MUST appear in a cited card's <code>r</code> or in <code>profile.yaml</code>. Otherwise the bullet is rejected.</li>
+<li>Writes <code>build/&lt;role&gt;/&lt;date&gt;/evidence.md</code>, a bullet-to-card trace you can audit before sending a CV.</li>
+</ol>
+<hr />
+<h2 id="topology-and-hub-lifecycle">🧩 Topology and hub lifecycle<a class="headerlink" href="#topology-and-hub-lifecycle" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Exactly one hub per vault. Its identity lives in <code>vault/hub.json</code> as <code>{hub_device_id, epoch}</code>.</li>
+<li><code>cvprism hub promote</code> on a new device increments <code>epoch</code> and becomes authoritative for hub-owned files. Spokes accept <code>registry.json</code> only from the highest <code>(epoch, rev)</code>.</li>
+<li>A demoted hub that comes back online sees a higher epoch in <code>hub.json</code> and stops writing hub-owned files. It keeps its own inbox, so no data is lost.</li>
+<li>Spokes never talk to each other, and a spoke never writes outside <code>inbox/&lt;own-device-id&gt;/</code> on any transport.</li>
+</ul>
+<pre class="mermaid"><code>stateDiagram-v2
+    accTitle: Device Role Lifecycle
+    accDescr: A device is installed as a spoke or a hub. A spoke can be promoted to hub, which bumps the epoch, and the old hub becomes a spoke when it observes the higher epoch.
+
+    [*] --&gt; Spoke: install (role=spoke)
+    [*] --&gt; Hub: install (role=hub, new vault)
+    Spoke --&gt; Hub: cvprism hub promote (epoch+1)
+    Hub --&gt; Spoke: sees higher epoch in hub.json
+    Hub --&gt; Hub: merge / publish (rev+1)</code></pre>
+<hr />
+<h2 id="failure-modes">💥 Failure modes<a class="headerlink" href="#failure-modes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Failure</th>
+<th>Effect</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>No adapter reachable (offline, no USB)</td>
+<td>Cards accumulate locally</td>
+<td>The outbox <em>is</em> durable storage. Cursors push everything once any adapter returns. <code>cvprism status</code> shows the backlog</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>Partial file at the transport (Drive mid-upload, USB yanked)</td>
+<td>Last line truncated</td>
+<td>Writers always end lines with <code>\n</code>. The hub ignores an unterminated last line and gets it on the next pull</td>
+</tr>
+<tr>
+<td>F3</td>
+<td>Synced-folder conflict copy (<code>2026-11 (1).jsonl</code>, <code>…conflicted copy…</code>)</td>
+<td>Duplicate files</td>
+<td>The hub globs and unions <em>all</em> <code>*.jsonl</code> in each inbox dir. Content-hash IDs make the union idempotent</td>
+</tr>
+<tr>
+<td>F4</td>
+<td>Same achievement captured on two devices</td>
+<td>Duplicate cards</td>
+<td>Identical canonical fields give the same <code>id</code> and are deduped at merge. Near-duplicates (different wording, same facts) are caught by the canonical-field ID because free text is excluded (<a href="../adr/ADR-002-content-hash-ids/">ADR-002</a>)</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>Two devices both believe they are the hub (split brain)</td>
+<td>Competing <code>cards.jsonl</code> / <code>registry.json</code></td>
+<td>Epoch in <code>hub.json</code>. Lower-epoch hub output is ignored and the lower-epoch hub self-demotes. <code>cards.jsonl</code> is always reproducible from the inboxes, so nothing is lost</td>
+</tr>
+<tr>
+<td>F6</td>
+<td>Stale registry on a spoke</td>
+<td>Spoke emits a card the hub already knows</td>
+<td>Harmless. The hub dedups by ID and the novelty check is repeated at merge</td>
+</tr>
+<tr>
+<td>F7</td>
+<td>Extractor returns invalid JSON / hallucinated metric</td>
+<td>Bad card</td>
+<td>JSON-schema validation and retry once, then reject. Metrics must quote a number present in the digest, otherwise they are nulled and flagged</td>
+</tr>
+<tr>
+<td>F8</td>
+<td><code>claude</code> CLI missing or not logged in</td>
+<td>No auto-extraction</td>
+<td>Jobs stay queued (TTL 30 days), <code>cvprism doctor</code> reports it, and manual <code>--raw</code> logging still works</td>
+</tr>
+<tr>
+<td>F9</td>
+<td>SessionEnd hook recursion</td>
+<td>Infinite extraction loop</td>
+<td><code>CVPRISM_EXTRACTING=1</code> guard, plus a queue dedup key per transcript path</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Transcript deleted before the worker runs (Claude Code cleanup)</td>
+<td>Lost session</td>
+<td>The worker runs within minutes. Jobs with a missing transcript are dropped and logged. Transcripts are never copied (privacy)</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Global <code>core.hooksPath</code> hides repo-local hooks</td>
+<td>Breaks user tooling (husky, pre-commit)</td>
+<td>The dispatcher chains to <code>$GIT_DIR/hooks/&lt;name&gt;</code> and to any previous global path (<a href="../adr/ADR-008-git-hooks-chaining/">ADR-008</a>)</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Vault accidentally committed to the public code repo</td>
+<td>Privacy leak</td>
+<td>The wizard refuses vault paths inside a cvprism checkout. <code>vault.json</code> carries a <code>vault_id</code>. The code repo <code>.gitignore</code> excludes <code>vault/</code></td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Two vaults on one transport (two users or test vault)</td>
+<td>Cross-contamination</td>
+<td>Every adapter checks <code>vault_id</code> in the transport's <code>vault.json</code> before reading or writing</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Clock skew between devices</td>
+<td>Out-of-order timestamps</td>
+<td>Correctness never depends on time. Month files use device-local capture time. Ordering at the hub is by <code>(t, id)</code> for display only</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Secret or client name leaks into a card</td>
+<td>Privacy</td>
+<td>Redactor deny-list, secret regexes and entropy check before write. Optional <code>review_mode</code> holds cards in <code>pending/</code> until approved</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="runtime-and-platform">⚙️ Runtime and platform<a class="headerlink" href="#runtime-and-platform" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language</td>
+<td>Python ≥ 3.10, one venv in the platform data dir (never on the USB stick)</td>
+</tr>
+<tr>
+<td>CLI</td>
+<td><code>typer</code></td>
+</tr>
+<tr>
+<td>File watching</td>
+<td><code>watchdog</code></td>
+</tr>
+<tr>
+<td>Schemas</td>
+<td><code>jsonschema</code> (draft 2020-12); the schemas in <code>cvprism/schemas/</code> are the single source</td>
+</tr>
+<tr>
+<td>YAML</td>
+<td><code>ruamel.yaml</code> (round-trip, preserves user comments)</td>
+</tr>
+<tr>
+<td>Login service</td>
+<td>Windows: per-user <code>HKCU\...\Run</code> value (<code>pythonw -m cvprism agent</code>, no admin); macOS: <code>launchd</code> LaunchAgent; Linux: <code>systemd --user</code> unit, falling back to an XDG autostart <code>.desktop</code> file</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td><code>claude -p --output-format json</code> invoked by subprocess (<a href="../adr/ADR-007-extraction-via-claude-cli/">ADR-007</a>)</td>
+</tr>
+<tr>
+<td>Rendering</td>
+<td>RenderCV for PDF, Pandoc for DOCX/MD (<a href="../adr/ADR-010-renderer/">ADR-010</a>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="open-questions">❓ Open questions<a class="headerlink" href="#open-questions" title="Permanent link">&para;</a></h2>
+<p>These need your decision before or during M1/M2. Each one names the default I would pick.</p>
+<blockquote>
+<p><strong>2026-11-27:</strong> M1 started with every default below adopted provisionally (owner said "go ahead"). Any of them can still be overturned. Each is isolated behind config or a single module.</p>
+</blockquote>
+<ol>
+<li><strong>Counters on the hub.</strong> Should per-skill usage counters (<code>count</code>, <code>last_seen</code>) reach the hub? They make good evidence ("used daily for 14 months") but are mutable. <em>Default:</em> each device appends a monthly rollup line <code>{"k":"usage", …}</code> to its inbox, which keeps it append-only.</li>
+<li><strong>Review before write.</strong> Should auto-captured cards go straight to the outbox, or wait in <code>pending/</code> until approved? <em>Default:</em> straight through, with <code>review_mode: true</code> available. Weekly <code>cvprism review</code> digest.</li>
+<li><strong>Extraction model and cost.</strong> <code>claude -p</code> uses whichever account is logged in on each device. Should we pin a cheaper model (e.g. Haiku) for extraction via <code>--model</code>? <em>Default:</em> yes, with <code>extraction.model</code> configurable.</li>
+<li><strong>Wizard form.</strong> TUI or a local browser page for the first run? <em>Default:</em> TUI in M1 (works over SSH, no server), browser page in M6.</li>
+<li><strong>Package distribution.</strong> Publish to PyPI as <code>cvprism</code> (claim the name now) and have <code>start.sh</code> install from the local checkout or USB? <em>Default:</em> yes to both.</li>
+<li><strong>Skill taxonomy seed.</strong> Should we seed the registry with an external taxonomy (ESCO, O*NET, Lightcast open skills) for alias normalisation, or grow organically? <em>Default:</em> small hand-curated seed (~300 tech and science skills) plus organic growth. Check licences before adopting ESCO/Lightcast.</li>
+<li><strong>Market intel source (M5).</strong> Scraping job boards raises terms-of-service problems. <em>Default:</em> the user pastes or saves postings into <code>vault/market/raw/</code>, and cvprism extracts from those. Official APIs come later.</li>
+<li><strong>Full-vault transports.</strong> Should spokes ever receive <code>cards.jsonl</code> (e.g. to build a CV away from the hub)? <em>Default:</em> no in v1. Only the hub compiles, which keeps the "lost laptop" exposure small.</li>
+<li><strong>Card language.</strong> English only in v1? <em>Default:</em> yes. Cards carry a <code>lang</code> field reserved for later.</li>
+<li><strong>Encryption at rest on transports.</strong> Should inbox files on Drive/USB be encrypted (e.g. <code>age</code>)? <em>Default:</em> not in v1. Documented as a known exposure, optional <code>age</code> encryption in M6.</li>
+<li><strong>Licence.</strong> The repo has Apache-2.0. RenderCV is MIT, and Pandoc is GPL but invoked as a separate binary, not linked. Confirm Apache-2.0 is intended.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Apache-2.0
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
