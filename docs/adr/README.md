@@ -19,5 +19,7 @@ Each ADR records one non-obvious choice: its context, the decision, the alternat
 | [013](ADR-013-install-and-service.md) | Venv in the user data dir; OS-native login services | Proposed |
 | [014](ADR-014-v1-scope.md) | What v1.0 deliberately leaves out | Accepted |
 | [015](ADR-015-verifiable-cv.md) | Verifiable CV through project-level visibility and computed proof levels | Accepted |
+| [016](ADR-016-recruiter-ready.md) | Recruiter-ready output: code-enforced writing rules and an ATS read-back | Accepted |
+| [017](ADR-017-signed-builds-open-spec.md) | Signed builds with existing SSH keys, and an open manifest specification | Accepted |
 
 Template: Context → Decision → Alternatives considered → Consequences.

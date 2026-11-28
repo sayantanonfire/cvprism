@@ -141,7 +141,7 @@ def gaps_md(jd: dict, covered: list[str], gaps: list[str], registry: dict) -> st
 
 
 def build_for_jd(cfg: dict, src: str, *, use_llm: bool = True, formats=None, out_root=None, base_role=None,
-                 check_links: bool = False, publish: bool = False):
+                 check_links: bool = False, publish: bool = False, sign: bool = False):
     import json
 
     from .build import BuildError, build_cv
@@ -166,8 +166,11 @@ def build_for_jd(cfg: dict, src: str, *, use_llm: bool = True, formats=None, out
     role["vocabulary"] = list(dict.fromkeys(list(jd.get("vocabulary") or []) +
                                             [registry["skills"][s]["name"] for s in covered]))
     role["x_priority_skills"] = covered
+    reg_skills = registry.get("skills") or {}
+    role["x_jd_skills"] = {s: (reg_skills.get(s) or seed().get(s) or {}).get("name") or display_name(s)
+                           for s in covered + gaps}
     res = build_cv(cfg, role["id"], use_llm=use_llm, formats=formats, out_root=out_root, role_override=role,
-                   check_links=check_links, publish=publish)
+                   check_links=check_links, publish=publish, sign=sign)
     (res.out_dir / "gaps.md").write_text(gaps_md(jd, covered, gaps, registry), encoding="utf-8")
     (res.out_dir / "jd.json").write_text(json.dumps({"source": src, **jd, "covered": covered, "gaps": gaps},
                                                     indent=1), encoding="utf-8")

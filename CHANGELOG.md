@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.0 (2026-11-28)
+
+### Recruiter-ready output ([ADR-016](docs/adr/ADR-016-recruiter-ready.md))
+- **No repetition:** repeated opening verbs are varied with vetted synonyms, and near-duplicate lines are merged (the stronger proof wins).
+- **No filler:** weak openers, buzzwords and over-long lines are reported in `quality.md`. The Claude drafting prompt now asks for challenge → action → result lines with specific verbs.
+- **ATS read-back:** every build re-reads its own PDF/Word file like an ATS (contacts first, standard headings, every line readable, links visible as text, size) and writes `ats.md`. Job-posting builds add a keyword-match score with opportunities vs. gaps.
+
+### Signed builds and an open standard ([ADR-017](docs/adr/ADR-017-signed-builds-open-spec.md))
+- `cvprism build --sign` signs the manifest with your existing SSH key; `cvprism verify --github <user>` checks it against GitHub's published keys.
+- The evidence-linked CV format is published as an open specification with a JSON Schema: `docs/spec/evidence-linked-cv-v1.md`.
+
 ## 1.1.0 (2026-11-28)
 
 ### Verifiable CVs

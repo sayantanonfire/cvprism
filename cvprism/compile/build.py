@@ -193,7 +193,7 @@ def _rejected_md(rejected: list[dict]) -> str:
 
 def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[str] | None = None,
              out_root: Path | None = None, role_override: dict | None = None, check_links: bool = False,
-             publish: bool = False) -> BuildResult:
+             publish: bool = False, sign: bool = False) -> BuildResult:
     if cfg.get("role") != "hub":
         raise BuildError("CVs are built on the hub. This device is a spoke.")
     vault = Path(cfg["vault_path"])
@@ -253,6 +253,24 @@ def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[s
                 b["links"] = [u for u in b.get("links") or [] if u not in dead]
                 b["link"] = b["links"][0] if b["links"] else None
         log.append(f"links: {len(dead)} dead link(s) removed" if dead else "links: all links open")
+    # writing quality (ADR-016): merge near-duplicates per group, then vary opening verbs across the CV
+    from . import quality as _q
+
+    merged_total = 0
+    for g in list(clean):
+        if g != "summary":
+            clean[g], m = _q.merge_duplicates(clean[g], cards_by_id)
+            merged_total += m
+    order = sorted((g for g in clean if g != "summary"),
+                   key=lambda g: (0 if g.startswith("pos:") else 1 if g.startswith("proj:") else 2))
+    flat = [(g, i) for g in order for i in range(len(clean[g]))]
+    varied_bullets, varied = _q.vary_verbs([clean[g][i] for g, i in flat])
+    for (g, i), nb in zip(flat, varied_bullets):
+        clean[g][i] = nb
+    issues = _q.review([clean[g][i] for g, i in flat])
+    quality_report = _q.quality_md(varied, merged_total, issues)
+    log.append(f"quality: {varied} repeated verb(s) varied, {merged_total} duplicate(s) merged, "
+               f"{len(issues)} line(s) to improve")
     levels = [b["level"] for g, bs in clean.items() if g != "summary" for b in bs]
     if levels:
         log.append(f"proof: {sum(l == 'public' for l in levels)} of {len(levels)} line(s) have public proof")
@@ -310,16 +328,42 @@ def build_cv(cfg: dict, role_name: str, *, use_llm: bool = True, formats: list[s
     (out / "evidence.md").write_text(_evidence_md(cv, cards_by_id), encoding="utf-8")
     (out / "rejected.md").write_text(_rejected_md(rejected), encoding="utf-8")
     meta["bullets_per_position"] = per_pos
+    (out / "quality.md").write_text(quality_report, encoding="utf-8")
+    from . import ats as _ats
+
+    read_name, read_text = _ats.read_back(out)
+    checks = _ats.ats_checks(read_text, cv, (out / read_name).stat().st_size)
+    km = None
+    if role.get("x_jd_skills"):
+        km = _ats.keyword_match(read_text, role["x_jd_skills"], set((registry.get("skills") or {}).keys()))
+    (out / "ats.md").write_text(_ats.ats_md(read_name, checks, km), encoding="utf-8")
+    meta["ats"] = {"file": read_name, "passed": sum(c.ok for c in checks), "total": len(checks),
+                   "keyword_match": km["score"] if km else None}
+    log.append(f"ATS check: {meta['ats']['passed']}/{len(checks)} passed on {read_name}"
+               + (f", keyword match {km['score']}%" if km else ""))
     from . import verify as _verify
 
     manifest = _verify.make_manifest(cv, manifest_bullets(clean), out, meta["created"], role["id"])
     (out / "manifest.json").write_text(json.dumps(manifest, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     meta["fingerprints"] = manifest["files"]
+    if sign:
+        from .sign import SignError, sign_file
+
+        key = (profile.get("verify") or {}).get("signing_key")
+        if not key:
+            raise BuildError("Signing needs `verify: {signing_key: ~/.ssh/id_ed25519}` in profile.yaml "
+                             "(the SSH key you use for GitHub).")
+        try:
+            sign_file(out / "manifest.json", Path(key))
+        except SignError as e:
+            raise BuildError(f"CV built in {out}, but signing failed: {e}") from e
+        meta["signed"] = True
+        log.append(f"signed manifest with {Path(key).name}")
     if publish:
         from .. import paths
 
         try:
-            url = _verify.publish(manifest, profile["verify"], paths.home() / "state" / "verify-site")
+            url = _verify.publish(manifest, profile["verify"], paths.home() / "state" / "verify-site", src_dir=out)
         except RuntimeError as e:
             raise BuildError(f"CV built in {out}, but publishing failed: {e}") from e
         log.append(f"published verify page: {url}")

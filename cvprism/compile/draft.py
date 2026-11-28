@@ -144,6 +144,16 @@ Hard rules:
 - Place each bullet under the position whose id is given for its cards ("pos"), or under a project ("ctx").
 - At most {per_pos} bullets per position. Merge overlapping cards into one stronger bullet.
 
+Writing rules (what recruiters reward):
+- Shape each bullet as challenge/context -> what you did (method, tool) -> result. If the card has a result
+  ("r"), lead with or end on it; never invent one.
+- Start with a strong, specific past-tense verb. Never start two bullets with the same verb.
+- Never start with "Responsible for", "Worked on", "Helped", "Assisted", "Involved in".
+- No buzzwords or self-praise: no "passionate", "results-driven", "dynamic", "team player", "detail-oriented".
+- Name the concrete tools and methods from the card (they are the keywords an ATS matches), but don't list
+  tools that the card doesn't mention.
+- Each bullet says something different: no two bullets about the same achievement.
+
 Role: {role}
 Positions: {positions}
 Projects: {projects}

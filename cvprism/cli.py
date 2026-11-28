@@ -371,6 +371,7 @@ def build(
     out: Optional[Path] = typer.Option(None, "--out", help="Output root (default: vault/build/<role>/)."),
     check_links: bool = typer.Option(False, "--check-links", help="Open every proof link; drop dead ones."),
     publish: bool = typer.Option(False, "--publish", help="Publish the verify page (profile.yaml `verify:`)."),
+    sign: bool = typer.Option(False, "--sign", help="Sign the manifest with your SSH key (profile `verify.signing_key`)."),
 ) -> None:
     """Build a tailored CV on the hub. Every bullet cites evidence; unsupported numbers are rejected."""
     from .compile.build import BuildError, build_cv
@@ -383,12 +384,12 @@ def build(
             from .compile.jd import build_for_jd
 
             res = build_for_jd(cfg, jd, use_llm=not no_llm, formats=formats, out_root=out, base_role=role,
-                               check_links=check_links, publish=publish)
+                               check_links=check_links, publish=publish, sign=sign)
         else:
             if not role:
                 _fail("Pass --role <id> or --jd <file-or-url>. Starter roles: " + ", ".join(starter_roles()))
             res = build_cv(cfg, role, use_llm=not no_llm, formats=formats, out_root=out, check_links=check_links,
-                           publish=publish)
+                           publish=publish, sign=sign)
     except (BuildError, RoleError) as e:
         _fail(str(e))
     for line in res.log:
@@ -607,9 +608,14 @@ def link_cmd(card_id: str = typer.Argument(..., help="Card ID (see `cvprism show
 def verify_cmd(
     file: Path = typer.Argument(..., help="The CV file you received (PDF, DOCX or MD)."),
     manifest: str = typer.Option(..., "--manifest", help="manifest.json path or URL from the verify page."),
+    github: Optional[str] = typer.Option(None, "--github", help="Also check the signature against this GitHub "
+                                                               "user's published SSH keys."),
+    keys: Optional[Path] = typer.Option(None, "--keys", help="Also check the signature against SSH public keys "
+                                                             "in this file."),
 ) -> None:
-    """Check a CV file against its published fingerprint (proves it was not edited after cvprism built it)."""
+    """Check a CV file against its published fingerprint, and optionally who signed it."""
     import json as _json
+    import tempfile
     import urllib.request
 
     from .compile.verify import verify_pdf
@@ -617,16 +623,40 @@ def verify_cmd(
     try:
         if manifest.startswith("https://"):
             with urllib.request.urlopen(manifest, timeout=30) as r:
-                m = _json.loads(r.read().decode("utf-8"))
+                raw = r.read()
         else:
-            m = _json.loads(Path(manifest).read_text(encoding="utf-8"))
+            raw = Path(manifest).read_bytes()
+        m = _json.loads(raw.decode("utf-8"))
     except Exception as e:  # noqa: BLE001
         _fail(f"Could not read the manifest: {e}")
-    if verify_pdf(file, m):
-        typer.echo(f"OK: {file.name} matches the CV {m['name']} published on {m['built'][:10]}.")
-        typer.echo("This proves the file was not changed. Check the proof links for the claims themselves.")
-    else:
+    if not verify_pdf(file, m):
         _fail(f"{file.name} does not match the published fingerprint: it was changed or is a different build.")
+    typer.echo(f"OK: {file.name} matches the CV {m['name']} published on {m['built'][:10]}.")
+    if github or keys:
+        from .compile.sign import SignError, github_keys, verify_signature
+
+        try:
+            if manifest.startswith("https://"):
+                with urllib.request.urlopen(manifest + ".sig", timeout=30) as r:
+                    sig_bytes = r.read()
+            else:
+                sig_bytes = Path(manifest + ".sig").read_bytes()
+            pubs = github_keys(github) if github else [
+                ln.strip() for ln in keys.read_text(encoding="utf-8").splitlines() if ln.strip()]
+        except Exception as e:  # noqa: BLE001
+            _fail(f"Could not load the signature or keys: {e}")
+        with tempfile.TemporaryDirectory() as td:
+            mf, sf = Path(td) / "manifest.json", Path(td) / "manifest.json.sig"
+            mf.write_bytes(raw)
+            sf.write_bytes(sig_bytes)
+            try:
+                ok = verify_signature(mf, sf, github or "signer", pubs)
+            except SignError as e:
+                _fail(str(e))
+        if not ok:
+            _fail("The signature does not match those keys: this CV was not signed by that person.")
+        typer.echo(f"Signed by {'GitHub user ' + github if github else 'the key in ' + keys.name}.")
+    typer.echo("This proves the file was not changed. Check the proof links for the claims themselves.")
 
 
 @app.command("roles")

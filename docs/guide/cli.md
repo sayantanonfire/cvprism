@@ -213,6 +213,7 @@ $ cvprism build [OPTIONS]
 * `--out <path>`: Output root (default: vault/build/&lt;role&gt;/).
 * `--check-links`: Open every proof link; drop dead ones.
 * `--publish`: Publish the verify page (profile.yaml `verify:`).
+* `--sign`: Sign the manifest with your SSH key (profile `verify.signing_key`).
 * `--help`: Show this message and exit.
 
 ## `cvprism import-linkedin`
@@ -309,7 +310,7 @@ $ cvprism link [OPTIONS] {card_id} {url}
 
 ## `cvprism verify`
 
-Check a CV file against its published fingerprint (proves it was not edited after cvprism built it).
+Check a CV file against its published fingerprint, and optionally who signed it.
 
 **Usage**:
 
@@ -324,6 +325,8 @@ $ cvprism verify [OPTIONS] {file}
 **Options**:
 
 * `--manifest <str>`: manifest.json path or URL from the verify page.  [required]
+* `--github <str>`: Also check the signature against this GitHub user&#x27;s published SSH keys.
+* `--keys <path>`: Also check the signature against SSH public keys in this file.
 * `--help`: Show this message and exit.
 
 ## `cvprism roles`
