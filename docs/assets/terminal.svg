@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 430" width="1000" height="430" role="img" aria-labelledby="t d">
+  <title id="t">cvprism in a terminal</title>
+  <desc id="d">Logging one achievement, then building a CV for a job posting, with the real output of each command.</desc>
+  <rect width="1000" height="430" rx="12" fill="#1A2230"/>
+  <circle cx="26" cy="24" r="6" fill="#E5533D"/><circle cx="46" cy="24" r="6" fill="#E9C46A"/><circle cx="66" cy="24" r="6" fill="#2A9D8F"/>
+  <g font-family="Cascadia Mono, Consolas, Menlo, monospace" font-size="15">
+    <text x="28" y="72" fill="#8FA2FF">$ <tspan fill="#FFFFFF">cvprism log "Built an MCP server that runs HEC-RAS floods for Claude"</tspan></text>
+    <text x="28" y="98" fill="#7FD1C4">New card c_52eab9dee5bc37da (new skill): Built a Model Context Protocol server</text>
+    <text x="28" y="120" fill="#7FD1C4">exposing HEC-RAS 2D runs as tools for an LLM assistant</text>
+
+    <text x="28" y="166" fill="#8FA2FF">$ <tspan fill="#FFFFFF">cvprism log "Same thing again, a week later"  --skill mcp-server --depth 3 --raw</tspan></text>
+    <text x="28" y="192" fill="#B8C1CF">Already known: mcp-server-development (usage counter updated, no new card)</text>
+
+    <text x="28" y="238" fill="#8FA2FF">$ <tspan fill="#FFFFFF">cvprism build --jd senior-ai-engineer.txt</tspan></text>
+    <text x="28" y="264" fill="#B8C1CF">role jd-senior-applied-ai-engineer: 8 eligible card(s), 8 selected</text>
+    <text x="28" y="286" fill="#B8C1CF">bullets: 8 kept, rejected 0</text>
+    <text x="28" y="308" fill="#B8C1CF">pdf: 1 page(s) (limit 2, 5 bullets/position)</text>
+    <text x="28" y="330" fill="#F4C27A">JD: 7 skill(s) with evidence, 6 gap(s): see gaps.md</text>
+    <text x="28" y="352" fill="#B8C1CF">formats: pdf, md, docx</text>
+    <text x="28" y="374" fill="#B8C1CF">output: ~/cvprism-vault/build/jd-senior-applied-ai-engineer/20261128-142953</text>
+    <text x="28" y="406" fill="#8FA2FF">$ <tspan fill="#FFFFFF">_</tspan></text>
+  </g>
+</svg>

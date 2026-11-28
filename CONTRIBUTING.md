@@ -28,6 +28,7 @@ Rules of the house:
 - **Privacy boundary.** Capture code may keep names, counts and the user's own words, never file contents, tool output, diffs or data (see `docs/SECURITY_PRIVACY.md`).
 - **Honesty gate.** Nothing may add a claim or number to a CV that the evidence doesn't support.
 - **Cross-platform.** CI runs Windows, macOS and Linux on Python 3.10 and 3.13.
+- Report security issues privately ([SECURITY.md](https://github.com/sayantanonfire/cvprism/blob/main/SECURITY.md)); see also the [code of conduct](https://github.com/sayantanonfire/cvprism/blob/main/CODE_OF_CONDUCT.md).
 - Regenerate the CLI reference when you change commands: `typer cvprism.cli utils docs --name cvprism --title "CLI reference" --output docs/guide/cli.md`.
 
 ## Commit and PR style

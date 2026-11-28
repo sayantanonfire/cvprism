@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420" role="img" aria-labelledby="t d">
+  <title id="t">cvprism</title>
+  <desc id="d">Work from several computers passes through a prism and comes out as several tailored CVs.</desc>
+  <defs>
+    <linearGradient id="beam" x1="0" x2="1">
+      <stop offset="0" stop-color="#1A2230" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#1A2230" stop-opacity="0.55"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#DDE3EC"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="420" fill="#EEF1F5"/>
+  <rect width="1280" height="6" fill="#3346C8"/>
+
+  <!-- three computers -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#5A6577" text-anchor="middle">
+    <g transform="translate(70,92)">
+      <rect width="104" height="66" rx="6" fill="#FFFFFF" stroke="#1A2230" stroke-width="2.5"/>
+      <rect x="10" y="10" width="84" height="46" rx="2" fill="#E4E9F1"/>
+      <path d="M-8 74h120l-10 10H2z" fill="#1A2230"/>
+      <text x="52" y="108">office laptop</text>
+    </g>
+    <g transform="translate(70,192)">
+      <rect width="104" height="66" rx="6" fill="#FFFFFF" stroke="#1A2230" stroke-width="2.5"/>
+      <rect x="10" y="10" width="84" height="46" rx="2" fill="#E4E9F1"/>
+      <path d="M-8 74h120l-10 10H2z" fill="#1A2230"/>
+      <text x="52" y="108">lab workstation</text>
+    </g>
+    <g transform="translate(70,292)">
+      <rect width="104" height="66" rx="6" fill="#FFFFFF" stroke="#1A2230" stroke-width="2.5"/>
+      <rect x="10" y="10" width="84" height="46" rx="2" fill="#E4E9F1"/>
+      <path d="M-8 74h120l-10 10H2z" fill="#1A2230"/>
+      <text x="52" y="108">home PC</text>
+    </g>
+  </g>
+
+  <!-- incoming beams -->
+  <path d="M190 128 L455 236 M190 228 L455 240 M190 328 L455 244" stroke="url(#beam)" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+  <!-- prism -->
+  <polygon points="520,120 600,270 440,270" fill="url(#glass)" stroke="#1A2230" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- spectrum rays -->
+  <g stroke-width="7" stroke-linecap="round" fill="none">
+    <path d="M566 214 L860 108" stroke="#3346C8"/>
+    <path d="M572 226 L860 172" stroke="#2A9D8F"/>
+    <path d="M576 238 L860 236" stroke="#E9C46A"/>
+    <path d="M572 250 L860 300" stroke="#F4A261"/>
+    <path d="M566 262 L860 364" stroke="#E5533D"/>
+  </g>
+
+  <!-- CV documents -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" fill="#1A2230">
+    <g transform="translate(872,82)">
+      <rect width="190" height="52" rx="6" fill="#FFFFFF" stroke="#3346C8" stroke-width="2.5"/>
+      <text x="16" y="32" font-size="18" font-weight="600">Academic CV</text>
+    </g>
+    <g transform="translate(872,146)">
+      <rect width="190" height="52" rx="6" fill="#FFFFFF" stroke="#2A9D8F" stroke-width="2.5"/>
+      <text x="16" y="32" font-size="18" font-weight="600">Industry CV</text>
+    </g>
+    <g transform="translate(872,210)">
+      <rect width="190" height="52" rx="6" fill="#FFFFFF" stroke="#C9A43E" stroke-width="2.5"/>
+      <text x="16" y="32" font-size="18" font-weight="600">Applied-AI CV</text>
+    </g>
+    <g transform="translate(872,274)">
+      <rect width="190" height="52" rx="6" fill="#FFFFFF" stroke="#F4A261" stroke-width="2.5"/>
+      <text x="16" y="32" font-size="18" font-weight="600">Domain CV</text>
+    </g>
+    <g transform="translate(872,338)">
+      <rect width="190" height="52" rx="6" fill="#FFFFFF" stroke="#E5533D" stroke-width="2.5"/>
+      <text x="16" y="32" font-size="18" font-weight="600">CV for this job</text>
+    </g>
+  </g>
+
+  <!-- wordmark -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" fill="#1A2230">
+    <text x="440" y="342" font-size="46" font-weight="700" letter-spacing="-1">cvprism</text>
+    <text x="440" y="376" font-size="17" fill="#5A6577">Work on many machines. Get many CVs.</text>
+    <text x="440" y="398" font-size="17" fill="#5A6577">Write none of them by hand.</text>
+  </g>
+</svg>

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://sayantanonfire.github.io/cvprism/
+    about: Guides, CLI reference and design docs
+  - name: Report a security or privacy problem
+    url: https://github.com/sayantanonfire/cvprism/security/advisories/new
+    about: Please report privately, not in a public issue

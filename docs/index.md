@@ -1,3 +1,5 @@
+![cvprism](assets/banner.svg)
+
 # cvprism
 
 **Work on many machines. Get many CVs. Write none of them by hand.**
