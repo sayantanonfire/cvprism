@@ -659,6 +659,18 @@ def verify_cmd(
     typer.echo("This proves the file was not changed. Check the proof links for the claims themselves.")
 
 
+@app.command("app")
+def app_cmd(
+    no_browser: bool = typer.Option(False, "--no-browser", help="Don't open the browser automatically."),
+    port: int = typer.Option(0, "--port", help="Fixed port (default: any free port)."),
+) -> None:
+    """Open cvprism in your browser: add evidence, import, manage projects and build CVs without a terminal."""
+    from .app.server import run
+
+    _cfg()
+    run(open_browser=not no_browser, port=port)
+
+
 @app.command("roles")
 def roles_cmd() -> None:
     """List starter roles and the roles in your vault."""
