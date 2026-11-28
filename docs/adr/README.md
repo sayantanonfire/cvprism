@@ -18,5 +18,6 @@ Each ADR records one non-obvious choice: its context, the decision, the alternat
 | [012](ADR-012-hub-epoch.md) | Hub identity and promotion via epochs | Proposed |
 | [013](ADR-013-install-and-service.md) | Venv in the user data dir; OS-native login services | Proposed |
 | [014](ADR-014-v1-scope.md) | What v1.0 deliberately leaves out | Accepted |
+| [015](ADR-015-verifiable-cv.md) | Verifiable CV through project-level visibility and computed proof levels | Accepted |
 
 Template: Context → Decision → Alternatives considered → Consequences.
