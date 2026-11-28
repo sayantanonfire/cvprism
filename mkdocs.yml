@@ -44,6 +44,7 @@ nav:
       - Getting started: guide/getting-started.md
       - Many computers: guide/multi-device.md
       - Building CVs: guide/building-cvs.md
+      - Verifiable CVs: guide/verifiable-cvs.md
       - CLI reference: guide/cli.md
   - Design:
       - Architecture: ARCHITECTURE.md

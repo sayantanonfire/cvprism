@@ -29,11 +29,14 @@ $ cvprism [OPTIONS] COMMAND [ARGS]...
 * `import-cv`: Turn an existing CV into evidence cards...
 * `import-orcid`: Fetch your public ORCID works and add new...
 * `demo`: Build sample CVs (3 roles + a job posting)...
+* `link`: Attach a public proof link to an existing...
+* `verify`: Check a CV file against its published...
 * `roles`: List starter roles and the roles in your...
 * `sync`: Push this device&#x27;s cards to every...
 * `suppress`: Hide a card from merge and compile without...
 * `purge`: Erase a card everywhere this device can...
 * `market`: Market intel: recurring phrases from job...
+* `project`: Projects: public (linked), private or local.
 * `hub`: Hub-only operations: merge, rebuild, promote.
 
 ## `cvprism init`
@@ -81,6 +84,7 @@ $ cvprism log [OPTIONS] {text}
 * `--work`: Non-code achievement (paper, talk, field work, award).
 * `--project <str>`: Project alias (mapped to a display name in profile.yaml).
 * `--raw`: Skip Claude; store your words as-is.
+* `--link <list[str]>`: Public proof URL, e.g. a DOI, PyPI page or video (repeatable).
 * `--help`: Show this message and exit.
 
 ## `cvprism status`
@@ -207,6 +211,8 @@ $ cvprism build [OPTIONS]
 * `--no-llm`: Use card text directly; no Claude call.
 * `-f, --format <str>`: Comma list: pdf,docx,md (default: role outputs).
 * `--out <path>`: Output root (default: vault/build/&lt;role&gt;/).
+* `--check-links`: Open every proof link; drop dead ones.
+* `--publish`: Publish the verify page (profile.yaml `verify:`).
 * `--help`: Show this message and exit.
 
 ## `cvprism import-linkedin`
@@ -280,6 +286,44 @@ $ cvprism demo [OPTIONS]
 * `--out <path>`: Folder for the demo vault and CVs.  [default: cvprism-demo]
 * `--llm`: Draft bullets with Claude (default: offline, card text).
 * `-f, --format <str>`: Comma list: pdf,docx,md.
+* `--help`: Show this message and exit.
+
+## `cvprism link`
+
+Attach a public proof link to an existing card (hub only).
+
+**Usage**:
+
+```console
+$ cvprism link [OPTIONS] {card_id} {url}
+```
+
+**Arguments**:
+
+* `card_id <str>`: Card ID (see `cvprism show` or evidence.md).  [required]
+* `url <str>`: Public proof URL (https).  [required]
+
+**Options**:
+
+* `--help`: Show this message and exit.
+
+## `cvprism verify`
+
+Check a CV file against its published fingerprint (proves it was not edited after cvprism built it).
+
+**Usage**:
+
+```console
+$ cvprism verify [OPTIONS] {file}
+```
+
+**Arguments**:
+
+* `file <path>`: The CV file you received (PDF, DOCX or MD).  [required]
+
+**Options**:
+
+* `--manifest <str>`: manifest.json path or URL from the verify page.  [required]
 * `--help`: Show this message and exit.
 
 ## `cvprism roles`
@@ -402,6 +446,82 @@ $ cvprism market extract [OPTIONS] {role}
 **Options**:
 
 * `--no-llm`: Keyword matching only.
+* `--help`: Show this message and exit.
+
+## `cvprism project`
+
+Projects: public (linked), private or local. Private work always keeps its skills.
+
+**Usage**:
+
+```console
+$ cvprism project [OPTIONS] COMMAND [ARGS]...
+```
+
+**Options**:
+
+* `--help`: Show this message and exit.
+
+**Commands**:
+
+* `set`: Set a project&#x27;s visibility on the hub...
+* `map`: On this computer: tag work captured inside...
+* `list`: Show projects, their visibility and folder...
+
+### `cvprism project set`
+
+Set a project&#x27;s visibility on the hub (profile.yaml). Applies to all past and future cards.
+
+**Usage**:
+
+```console
+$ cvprism project set [OPTIONS] {ctx}
+```
+
+**Arguments**:
+
+* `ctx <str>`: Project alias, e.g. flood-copilot.  [required]
+
+**Options**:
+
+* `--public`: Link proof to this project&#x27;s public repo/page.
+* `--private`: Show &#x27;(private repository)&#x27; instead of links.
+* `--local`: Local-only work: no link, no label.
+* `--url <str>`: Repository or project URL (https).
+* `--display <str>`: Public-safe name shown on CVs.
+* `--help`: Show this message and exit.
+
+### `cvprism project map`
+
+On this computer: tag work captured inside PATH with the project alias.
+
+**Usage**:
+
+```console
+$ cvprism project map [OPTIONS] {ctx} {path}
+```
+
+**Arguments**:
+
+* `ctx <str>`: Project alias.  [required]
+* `path <path>`: Folder whose work belongs to this project.  [required]
+
+**Options**:
+
+* `--help`: Show this message and exit.
+
+### `cvprism project list`
+
+Show projects, their visibility and folder mappings on this computer.
+
+**Usage**:
+
+```console
+$ cvprism project list [OPTIONS]
+```
+
+**Options**:
+
 * `--help`: Show this message and exit.
 
 ## `cvprism hub`
