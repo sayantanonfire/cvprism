@@ -42,6 +42,7 @@ nav:
   - Home: index.md
   - Guide:
       - Getting started: guide/getting-started.md
+      - The app (no terminal): guide/app.md
       - Many computers: guide/multi-device.md
       - Building CVs: guide/building-cvs.md
       - Verifiable CVs: guide/verifiable-cvs.md

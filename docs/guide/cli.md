@@ -31,6 +31,7 @@ $ cvprism [OPTIONS] COMMAND [ARGS]...
 * `demo`: Build sample CVs (3 roles + a job posting)...
 * `link`: Attach a public proof link to an existing...
 * `verify`: Check a CV file against its published...
+* `app`: Open cvprism in your browser: add...
 * `roles`: List starter roles and the roles in your...
 * `sync`: Push this device&#x27;s cards to every...
 * `suppress`: Hide a card from merge and compile without...
@@ -327,6 +328,22 @@ $ cvprism verify [OPTIONS] {file}
 * `--manifest <str>`: manifest.json path or URL from the verify page.  [required]
 * `--github <str>`: Also check the signature against this GitHub user&#x27;s published SSH keys.
 * `--keys <path>`: Also check the signature against SSH public keys in this file.
+* `--help`: Show this message and exit.
+
+## `cvprism app`
+
+Open cvprism in your browser: add evidence, import, manage projects and build CVs without a terminal.
+
+**Usage**:
+
+```console
+$ cvprism app [OPTIONS]
+```
+
+**Options**:
+
+* `--no-browser`: Don&#x27;t open the browser automatically.
+* `--port <int>`: Fixed port (default: any free port).  [default: 0]
 * `--help`: Show this message and exit.
 
 ## `cvprism roles`

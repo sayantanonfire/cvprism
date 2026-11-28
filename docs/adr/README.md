@@ -21,5 +21,6 @@ Each ADR records one non-obvious choice: its context, the decision, the alternat
 | [015](ADR-015-verifiable-cv.md) | Verifiable CV through project-level visibility and computed proof levels | Accepted |
 | [016](ADR-016-recruiter-ready.md) | Recruiter-ready output: code-enforced writing rules and an ATS read-back | Accepted |
 | [017](ADR-017-signed-builds-open-spec.md) | Signed builds with existing SSH keys, and an open manifest specification | Accepted |
+| [018](ADR-018-local-app.md) | A local, server-rendered browser app for non-developers | Accepted |
 
 Template: Context → Decision → Alternatives considered → Consequences.
