@@ -1,6 +1,8 @@
 # The cvprism app (no terminal needed)
 
-Not a developer? You don't need a terminal. Double-click **`start.bat`** (Windows) or run **`start.sh`** (macOS/Linux). The first time, a setup page opens in your browser. After that, every double-click opens the cvprism app.
+**Windows, nothing installed?** Download `cvprism-windows.zip` from the [latest release](https://github.com/sayantanonfire/cvprism/releases/latest), unzip it somewhere permanent (e.g. Documents), and double-click **Open cvprism**. Python is included.
+
+Otherwise you don't need a terminal either. Double-click **`start.bat`** (Windows) or run **`start.sh`** (macOS/Linux). The first time, a setup page opens in your browser. After that, every double-click opens the cvprism app.
 
 You can also open it any time with:
 

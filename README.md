@@ -121,7 +121,9 @@ cd cvprism
 ./start.sh                       # Windows: start.bat
 ```
 
-**Not a developer?** Just double-click `start.bat` (or run `./start.sh` with no arguments). Setup opens in your browser, and from then on every double-click opens the **cvprism app**: add evidence, upload your LinkedIn export or old CV, choose which projects are public, and build CVs, all without a terminal. [About the app](https://sayantanonfire.github.io/cvprism/guide/app/)
+**Not a developer, on Windows?** Download **`cvprism-windows.zip`** from the [latest release](https://github.com/sayantanonfire/cvprism/releases/latest), unzip it, and double-click **Open cvprism**. No Python install needed.
+
+**Already have Python?** Just double-click `start.bat` (or run `./start.sh` with no arguments). Setup opens in your browser, and from then on every double-click opens the **cvprism app**: add evidence, upload your LinkedIn export or old CV, choose which projects are public, and build CVs, all without a terminal. [About the app](https://sayantanonfire.github.io/cvprism/guide/app/)
 
 Prefer the terminal? Answer four questions (or `cvprism init --web`), then see what cvprism makes:
 

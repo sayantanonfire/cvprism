@@ -22,5 +22,6 @@ Each ADR records one non-obvious choice: its context, the decision, the alternat
 | [016](ADR-016-recruiter-ready.md) | Recruiter-ready output: code-enforced writing rules and an ATS read-back | Accepted |
 | [017](ADR-017-signed-builds-open-spec.md) | Signed builds with existing SSH keys, and an open manifest specification | Accepted |
 | [018](ADR-018-local-app.md) | A local, server-rendered browser app for non-developers | Accepted |
+| [019](ADR-019-windows-bundle.md) | A no-install Windows download built from the official embeddable Python | Accepted |
 
 Template: Context → Decision → Alternatives considered → Consequences.
