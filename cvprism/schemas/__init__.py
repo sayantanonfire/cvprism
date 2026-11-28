@@ -8,7 +8,7 @@ from typing import Any
 
 from jsonschema import Draft202012Validator, FormatChecker
 
-NAMES = ("card", "registry", "device", "profile", "role")
+NAMES = ("card", "registry", "device", "profile", "role", "manifest")
 
 
 @lru_cache(maxsize=None)
