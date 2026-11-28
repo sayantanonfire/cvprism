@@ -1109,6 +1109,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spec/evidence-linked-cv-v1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Open spec: evidence-linked CV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1708,6 +1736,7 @@
 <li><code>--out &lt;path&gt;</code>: Output root (default: vault/build/&lt;role&gt;/).</li>
 <li><code>--check-links</code>: Open every proof link; drop dead ones.</li>
 <li><code>--publish</code>: Publish the verify page (profile.yaml <code>verify:</code>).</li>
+<li><code>--sign</code>: Sign the manifest with your SSH key (profile <code>verify.signing_key</code>).</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="cvprism-import-linkedin"><code>cvprism import-linkedin</code><a class="headerlink" href="#cvprism-import-linkedin" title="Permanent link">&para;</a></h2>
@@ -1778,7 +1807,7 @@
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="cvprism-verify"><code>cvprism verify</code><a class="headerlink" href="#cvprism-verify" title="Permanent link">&para;</a></h2>
-<p>Check a CV file against its published fingerprint (proves it was not edited after cvprism built it).</p>
+<p>Check a CV file against its published fingerprint, and optionally who signed it.</p>
 <p><strong>Usage</strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="gp">$ </span>cvprism<span class="w"> </span>verify<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>file<span class="o">}</span>
 </code></pre></div>
@@ -1789,6 +1818,8 @@
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--manifest &lt;str&gt;</code>: manifest.json path or URL from the verify page.  [required]</li>
+<li><code>--github &lt;str&gt;</code>: Also check the signature against this GitHub user&#x27;s published SSH keys.</li>
+<li><code>--keys &lt;path&gt;</code>: Also check the signature against SSH public keys in this file.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="cvprism-roles"><code>cvprism roles</code><a class="headerlink" href="#cvprism-roles" title="Permanent link">&para;</a></h2>

@@ -503,6 +503,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#recruiter-ready-by-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recruiter-ready by default
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-honesty-rule" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -805,6 +816,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spec/evidence-linked-cv-v1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Open spec: evidence-linked CV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -910,6 +949,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#recruiter-ready-by-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recruiter-ready by default
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-honesty-rule" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -976,6 +1026,18 @@ cvprism<span class="w"> </span>build<span class="w"> </span>--role<span class="w
 <td>Drafted claims removed because no evidence supported them</td>
 </tr>
 <tr>
+<td><code>quality.md</code></td>
+<td>Repeated verbs varied, duplicates merged, weak openers or buzzwords to fix</td>
+</tr>
+<tr>
+<td><code>ats.md</code></td>
+<td>The CV read back like an ATS would: contacts, headings, every line, links, size; plus keyword match for job postings</td>
+</tr>
+<tr>
+<td><code>manifest.json</code></td>
+<td>Proof for every line and file fingerprints (<a href="../../spec/evidence-linked-cv-v1/">open spec</a>)</td>
+</tr>
+<tr>
 <td><code>cv.rendercv.yaml</code></td>
 <td>Editable source for one-off layout tweaks</td>
 </tr>
@@ -1003,6 +1065,12 @@ cvprism<span class="w"> </span>market<span class="w"> </span>add<span class="w">
 cvprism<span class="w"> </span>market<span class="w"> </span>extract<span class="w"> </span>applied-ai
 </code></pre></div>
 <p>Phrases that recur in at least 30% of your saved postings are added to the role's vocabulary. They influence which evidence is chosen and how it is worded, never what is claimed.</p>
+<h2 id="recruiter-ready-by-default">Recruiter-ready by default<a class="headerlink" href="#recruiter-ready-by-default" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>No repetition:</strong> two lines never start with the same verb, and lines that say the same thing are merged (the stronger proof wins).</li>
+<li><strong>No filler:</strong> weak openers ("Responsible for", "Worked on") and buzzwords ("passionate", "results-driven") are flagged in <code>quality.md</code>. With Claude drafting, they're forbidden, and lines follow challenge → action → result.</li>
+<li><strong>ATS read-back:</strong> cvprism extracts the text of its own PDF or Word file, like an applicant tracking system, and confirms your name and email are read first, the headings are standard, no line is lost, and proof links survive as text. For job postings, <code>ats.md</code> also scores keyword coverage. It separates skills you have evidence for but didn't include (opportunities) from real gaps.</li>
+</ul>
 <h2 id="the-honesty-rule">The honesty rule<a class="headerlink" href="#the-honesty-rule" title="Permanent link">&para;</a></h2>
 <p>Every bullet must cite at least one card. Every number in a bullet must appear in a cited card's result, a value derived from it (87.5% from 120 → 15 minutes), the card text, or a fact you wrote in <code>profile.yaml</code>. Vague quantities like "dozens" are rejected too. This is enforced by code (<a href="../../adr/ADR-009-honesty-gate/">ADR-009</a>).</p>
 

@@ -542,6 +542,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sign-your-cv-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sign your CV (optional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#why-this-design" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -816,6 +827,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spec/evidence-linked-cv-v1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Open spec: evidence-linked CV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -932,6 +971,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sign-your-cv-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sign your CV (optional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#why-this-design" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1033,8 +1083,21 @@ cvprism<span class="w"> </span>link<span class="w"> </span>c_9a59b3fedb34160f<sp
 <p class="admonition-title">What the fingerprint proves</p>
 <p>The fingerprint proves the file was not changed after cvprism built it. It does not prove the claims: the public links do that. The verify page says this in plain words.</p>
 </div>
+<h2 id="sign-your-cv-optional">Sign your CV (optional)<a class="headerlink" href="#sign-your-cv-optional" title="Permanent link">&para;</a></h2>
+<p>Prove a CV came from you, using the SSH key you already use for GitHub:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">verify</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git@github.com:you/you.github.io.git</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://you.github.io/cv</span>
+<span class="w">  </span><span class="nt">signing_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/.ssh/id_ed25519</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>cvprism<span class="w"> </span>build<span class="w"> </span>--role<span class="w"> </span>academic<span class="w"> </span>--sign<span class="w"> </span>--publish
+</code></pre></div>
+<p>Anyone can then check both the file and its author:</p>
+<div class="highlight"><pre><span></span><code>cvprism<span class="w"> </span>verify<span class="w"> </span>cv.pdf<span class="w"> </span>--manifest<span class="w"> </span>https://you.github.io/cv/manifest.json<span class="w"> </span>--github<span class="w"> </span>you
+</code></pre></div>
+<p>The signature only needs OpenSSH, so it can be checked without cvprism (see the <a href="../../spec/evidence-linked-cv-v1/">open specification</a>).</p>
 <h2 id="why-this-design">Why this design<a class="headerlink" href="#why-this-design" title="Permanent link">&para;</a></h2>
-<p>See <a href="../../adr/ADR-015-verifiable-cv/">ADR-015</a> and the <a href="../../superpowers/specs/2026-11-28-verifiable-cv-design/">design spec</a>.</p>
+<p>See <a href="../../adr/ADR-015-verifiable-cv/">ADR-015</a>, <a href="../../adr/ADR-017-signed-builds-open-spec/">ADR-017</a> and the <a href="../../superpowers/specs/2026-11-28-verifiable-cv-design/">design spec</a>.</p>
 
 
 
